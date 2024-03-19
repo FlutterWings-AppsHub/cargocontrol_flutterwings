@@ -114,22 +114,22 @@ class _MyAppState extends ConsumerState<MyApp> {
       minTextAdapt: true,
       splitScreenMode: true,
       //fontSizeResolver: FontSizeResolvers.height,
-      fontSizeResolver: kIsWeb?(num size, ScreenUtil instance) {
-        // Define your custom logic to adjust font size based on screen height
-        // For example, you can increase font size for larger screens
-
-        double width=MediaQuery.of(context).size.width;
-        double scaleFactor = 1.0;
-        if (width < 600) {
-          scaleFactor = 10.0; // Font size for smaller screens
-        } else if (width < 1000) {
-          scaleFactor = 11.1; // Font size for medium screens
-        } else {
-          scaleFactor = 12.2; // Font size for larger screens
-        }
-        return (MediaQuery.of(context).size.width /MediaQuery.of(context).size.height) * scaleFactor;
-      }:FontSizeResolvers.height,
-      rebuildFactor: RebuildFactors.none,
+      // fontSizeResolver: kIsWeb?(num size, ScreenUtil instance) {
+      //   // Define your custom logic to adjust font size based on screen height
+      //   // For example, you can increase font size for larger screens
+      //
+      //   double width=MediaQuery.of(context).size.width;
+      //   double scaleFactor = 1.0;
+      //   if (width < 600) {
+      //     scaleFactor = 10.0; // Font size for smaller screens
+      //   } else if (width < 1000) {
+      //     scaleFactor = 11.1; // Font size for medium screens
+      //   } else {
+      //     scaleFactor = 12.2; // Font size for larger screens
+      //   }
+      //   return (MediaQuery.of(context).size.width /MediaQuery.of(context).size.height) * scaleFactor;
+      // }:FontSizeResolvers.height,
+      // rebuildFactor: RebuildFactors.none,
       builder: (context, child) {
         return MaterialApp(
           builder: (BuildContext context,Widget? child){

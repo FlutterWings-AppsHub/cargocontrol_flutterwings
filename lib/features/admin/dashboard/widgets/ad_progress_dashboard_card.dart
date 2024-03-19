@@ -45,7 +45,7 @@ class AdProgressIndicatorCard extends StatelessWidget {
                 deficit == ''  || deficit == "0" ||  deficit == "0.0"?const SizedBox():
                 Container(
                   constraints: BoxConstraints(
-                      maxWidth: 20.w
+                      maxWidth: 50.w
                   ),
                   child:Text(
                     'Deficit: $deficit',
