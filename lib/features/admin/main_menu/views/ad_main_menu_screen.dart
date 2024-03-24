@@ -1,6 +1,7 @@
 import 'package:cargocontrol/authentication/controller/authentication_controller.dart';
 import 'package:cargocontrol/features/admin/create_industry/controllers/ad_industry_controller.dart';
 import 'package:cargocontrol/features/admin/create_vessel/controllers/ad_vessel_controller.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cargocontrol/utils/constants.dart' as constants;
@@ -71,6 +72,7 @@ class _AdMainMenuScreenState extends ConsumerState<AdMainMenuScreen> {
         onTap: (value) {
           ref.read(adMainMenuProvider).setIndex(value);
         },
+        type: BottomNavigationBarType.fixed,
         iconSize: 22,
         currentIndex:  ref.read(adMainMenuProvider).index,
         items: const <BottomNavigationBarItem>[
@@ -91,6 +93,13 @@ class _AdMainMenuScreenState extends ConsumerState<AdMainMenuScreen> {
               FontAwesomeIcons.person,
             ),
             label: 'Choferes',
+          ),
+          if(kIsWeb)
+          BottomNavigationBarItem(
+            icon: FaIcon(
+              FontAwesomeIcons.list,
+            ),
+            label: 'Reporte',
           ),
         ],
       )

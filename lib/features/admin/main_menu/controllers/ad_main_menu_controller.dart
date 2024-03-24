@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../choferes/components/choferes_screen.dart';
 import '../../choferes/views/ad_choferes_screen.dart';
 import '../../dashboard/views/ad_dashboard_screen.dart';
+import '../../ships_reports_web/views/ad_ship_report_web_screen.dart';
 import '../../viajes/views/ad_viajes_screen.dart';
 
 final adMainMenuProvider = ChangeNotifierProvider((ref) => MainMenuController());
@@ -14,12 +15,13 @@ class MainMenuController extends ChangeNotifier {
     const AdDashboardScreen(),
     const AdViajesScreen(),
     const AdChoferesScreen(),
+    const AdShipsReportsWebScreen(),
   ];
   List<Widget> get screens => _screens;
 
 
 
-  int _currentIndex = 0;
+  int _currentIndex = 3;
   int get index => _currentIndex;
   setIndex(int id) {
     _currentIndex = id;
