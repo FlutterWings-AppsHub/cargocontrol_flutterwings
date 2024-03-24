@@ -6,7 +6,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cargocontrol/utils/constants.dart' as constants;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../models/auth_models/user_model.dart';
 import '../../../auth/controllers/auth_controller.dart';
+import '../../../auth/controllers/auth_notifier_controller.dart';
 import '../controllers/ad_main_menu_controller.dart';
 
 class AdMainMenuScreen extends ConsumerStatefulWidget {
@@ -21,11 +23,20 @@ class _AdMainMenuScreenState extends ConsumerState<AdMainMenuScreen> {
   @override
   void initState() {
     super.initState();
+    updateUserModel();
     // initiallization();
   }
   initiallization()async{
     // await ref.read(adVesselProvider.notifier).uploadAllData();
     // await ref.read(adIndustryProvider.notifier).industriesUpload();
+  }
+  updateUserModel() async {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final authCtr = ref.read(authControllerProvider.notifier);
+      UserModel userModel = await authCtr.getCurrentUserInfo();
+      final authNotifierProvider = ref.read(authNotifierCtr.notifier);
+      authNotifierProvider.setUserModelData(userModel);
+    });
   }
 
   @override

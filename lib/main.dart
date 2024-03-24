@@ -21,11 +21,13 @@ import 'features/admin/main_menu/views/ad_main_menu_screen.dart';
 import 'features/auth/controllers/auth_controller.dart';
 import 'features/auth/controllers/auth_notifier_controller.dart';
 import 'features/industry/main_menu/views/in_main_menu_screen.dart';
+import 'models/auth_models/user_model.dart';
+
 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initAuth();
+  //await initAuth();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -56,9 +58,22 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
     super.initState();
+    //updateUserModel();
     initiateFirebaseMessaging();
   }
 
+  //
+  // updateUserModel() async {
+  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+  //     final authCtr = ref.read(authControllerProvider.notifier);
+  //     UserModel? userModel = await authCtr.getCurrentUserInfoStart();
+  //     if(userModel==null){
+  //       return;
+  //     }
+  //     final authNotifierProvider = ref.read(authNotifierCtr.notifier);
+  //     authNotifierProvider.setUserModelData(userModel);
+  //   });
+  // }
 
   initiateFirebaseMessaging() async {
     MessagingFirebase messagingFirebase = MessagingFirebase();
@@ -76,37 +91,72 @@ class _MyAppState extends ConsumerState<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    final authenticationState = ref.watch(authServiceProvider);
+    // final authenticationState = ref.watch(authServiceProvider);
+    //
+    // Widget getHome(){
+    //   String? uid = authenticationState.getAuth();
+    //   if(uid != '' && uid != null){
+    //     return ref.watch(fetchUserByIdProvider(uid)).when(
+    //         data: (userModel){
+    //           ref.read(authNotifierCtr.notifier).setFirstTimeModel(userModel);
+    //           switch(userModel.accountType){
+    //             case AccountTypeEnum.administrador:
+    //               return const AdMainMenuScreen();
+    //             case AccountTypeEnum.coordinator:
+    //               return const CoMainMenuScreen();
+    //             case AccountTypeEnum.industria:
+    //               return const InMainMenuScreen();
+    //             default:
+    //               return const LoadingScreen();
+    //           }
+    //         },
+    //         error: (error, st){
+    //           debugPrintStack(stackTrace: st);
+    //           debugPrint(error.toString());
+    //           return const LoadingScreen();
+    //         },
+    //         loading: (){
+    //           return const LoadingScreen();
+    //         }
+    //     );
+    //   }else{
+    //     return const LoginScreen();
+    //   }
+    // }
 
     Widget getHome(){
-      String? uid = authenticationState.getAuth();
-      if(uid != '' && uid != null){
-        return ref.watch(fetchUserByIdProvider(uid)).when(
-            data: (userModel){
-              ref.read(authNotifierCtr).setFirstTimeModel(userModel);
-              switch(userModel.accountType){
-                case AccountTypeEnum.administrador:
-                  return const AdMainMenuScreen();
-                case AccountTypeEnum.coordinator:
-                  return const CoMainMenuScreen();
-                case AccountTypeEnum.industria:
-                  return const InMainMenuScreen();
-                default:
-                  return const LoadingScreen();
-              }
-            },
-            error: (error, st){
-              debugPrintStack(stackTrace: st);
-              debugPrint(error.toString());
-              return const LoadingScreen();
-            },
-            loading: (){
-              return const LoadingScreen();
+      return ref.watch(userStateStreamProvider).when(
+          data: (user) {
+            if (user != null) {
+              return ref.watch(fetchUserByIdProvider(user.uid)).when(
+                  data: (userModel){
+                    ref.read(authNotifierCtr.notifier).setFirstTimeModel(userModel);
+                    switch(userModel.accountType){
+                      case AccountTypeEnum.administrador:
+                        return const AdMainMenuScreen();
+                      case AccountTypeEnum.coordinator:
+                        return const CoMainMenuScreen();
+                      case AccountTypeEnum.industria:
+                        return const InMainMenuScreen();
+                      default:
+                        return const LoadingScreen();
+                    }
+                  },
+                  error: (error, st){
+                    debugPrintStack(stackTrace: st);
+                    debugPrint(error.toString());
+                    return const LoadingScreen();
+                  },
+                  loading: (){
+                    return const LoadingScreen();
+                  }
+              );
+            } else {
+              return const LoginScreen();
             }
-        );
-      }else{
-        return const LoginScreen();
-      }
+          },
+          error: (error, st) => const LoginScreen(),
+          loading: () => const LoginScreen());
     }
 
     return ScreenUtilInit(
@@ -146,7 +196,7 @@ class _MyAppState extends ConsumerState<MyApp> {
           theme: lightThemeData(context),
           themeMode: ThemeMode.light,
           onGenerateRoute: AppRoutes.onGenerateRoute,
-          home: getHome(),
+          home:getHome()
         );
       },
     );

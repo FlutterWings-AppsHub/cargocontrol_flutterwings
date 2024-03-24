@@ -4,7 +4,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cargocontrol/utils/constants.dart' as constants;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../models/auth_models/user_model.dart';
 import '../../../auth/controllers/auth_controller.dart';
+import '../../../auth/controllers/auth_notifier_controller.dart';
 import '../controllers/co_main_menu_controller.dart';
 
 class CoMainMenuScreen extends ConsumerStatefulWidget {
@@ -20,6 +22,7 @@ class _CoMainMenuScreenState extends ConsumerState<CoMainMenuScreen> {
   @override
   void initState() {
     super.initState();
+    //updateUserModel();
     initiallize();
   }
 
@@ -27,7 +30,14 @@ class _CoMainMenuScreenState extends ConsumerState<CoMainMenuScreen> {
     await ref.read(truckRegistrationNotiControllerProvider).getCurrentVessel(ref: ref);
     await ref.read(truckRegistrationNotiControllerProvider).getAllIndustriesModel();
   }
-
+  // updateUserModel() async {
+  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+  //     final authCtr = ref.read(authControllerProvider.notifier);
+  //     UserModel userModel = await authCtr.getCurrentUserInfo();
+  //     final authNotifierProvider = ref.read(authNotifierCtr.notifier);
+  //     authNotifierProvider.setUserModelData(userModel);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

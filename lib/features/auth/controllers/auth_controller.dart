@@ -135,11 +135,13 @@ class AuthController extends StateNotifier<bool> {
       Navigator.pop(context);
       showSnackBar(context: context,  content: l.message);
     }, (r) async {
-      await ref.read(authServiceProvider).setAuth(r.uid);
+      //await ref.read(authServiceProvider).setAuth(r.uid);
       UserModel userModel = await getUserInfoByUidFuture(r.uid);
-      await fcmTokenUpload(userModel: userModel);
       await ref.read(authNotifierCtr).setUserModelData(userModel);
+      await fcmTokenUpload(userModel: userModel);
       Navigator.pop(context);
+      state = false;
+
       userModel.accountType.name == AccountTypeEnum.administrador.name
           ? Navigator.pushNamedAndRemoveUntil(
           context, AppRoutes.adminMainMenuScreen, (route) => false)
@@ -149,7 +151,6 @@ class AuthController extends StateNotifier<bool> {
           AppRoutes.inMainMenuScreen, (route) => false)
           : Navigator.pushNamedAndRemoveUntil(context,
           AppRoutes.coMainMenuScreen, (route) => false);
-      state = false;
     });
   }
 
@@ -194,6 +195,16 @@ class AuthController extends StateNotifier<bool> {
         UserModel.fromMap(result.data() as Map<String, dynamic>);
     return userModel;
   }
+  Future<UserModel?> getCurrentUserInfoStart() async {
+    final userId = _authApis.getCurrentUser();
+    if(userId==null){
+      return null;
+    }
+    final result = await _databaseApis.getCurrentUserInfo(uid: userId!.uid);
+    UserModel userModel =
+    UserModel.fromMap(result.data() as Map<String, dynamic>);
+    return userModel;
+  }
 
   Future<UserModel> getUserInfoByUidFuture(String uid) async {
     final result = await _databaseApis.getCurrentUserInfo(uid: uid);
@@ -214,14 +225,14 @@ class AuthController extends StateNotifier<bool> {
     state = true;
     final result = await _authApis.logout();
     result.fold((l)async {
-      await ref.read(authServiceProvider).removeToken();
+      //await ref.read(authServiceProvider).removeToken();
       Navigator.pushNamedAndRemoveUntil(
           context, AppRoutes.loginScreen, (route) => false);
       debugPrintStack(stackTrace: l.stackTrace);
       debugPrint(l.message);
       state = false;
     }, (r)async {
-      await ref.read(authServiceProvider).removeToken();
+      //await ref.read(authServiceProvider).removeToken();
       state = false;
       Navigator.pushNamedAndRemoveUntil(
           context, AppRoutes.loginScreen, (route) => false);
