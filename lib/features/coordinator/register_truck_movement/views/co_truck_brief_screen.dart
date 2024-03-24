@@ -5,6 +5,7 @@ import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/coordinator/register_truck_movement/controllers/truck_registration_controller.dart';
 import 'package:cargocontrol/features/coordinator/register_truck_movement/controllers/truck_registration_noti_controller.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
+import 'package:flutter/foundation.dart';
 import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../commons/common_widgets/custom_appbar.dart';
 import '../widgets/co_preliminary_info_widget.dart';
@@ -36,7 +37,7 @@ class _CoTruckBriefScreenState extends ConsumerState<CoTruckBriefScreen> {
               logo: true,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              padding:  kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal: 20.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -72,7 +73,8 @@ class _CoTruckBriefScreenState extends ConsumerState<CoTruckBriefScreen> {
                             builder: (BuildContext context, WidgetRef ref, Widget? child) {
                               return CustomButton(
                                 isLoading: ref.watch(truckRegistrationControllerProvider),
-                                onPressed: ()async{
+                                  buttonWidth: double.infinity,
+                                  onPressed: ()async{
                                   if(truckNotiCtr.selectedChofere!= null){
                                     String choferesName =truckNotiCtr.selectedChofere?.firstName?? '';
                                     choferesName = choferesName + " " + (truckNotiCtr.selectedChofere?.lastName?? '');

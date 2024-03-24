@@ -9,6 +9,7 @@ import 'package:cargocontrol/models/industry_models/industry_sub_model.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
 import 'package:cargocontrol/utils/thems/my_colors.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../commons/common_widgets/text_detector_view.dart';
@@ -64,7 +65,7 @@ class _CoTruckInfoScreenState extends State<CoTruckInfoScreen> {
               Form(
                 key: formKey,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  padding:  kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal: 20.w),
                   child: Consumer(
                     builder: (BuildContext context, WidgetRef ref, Widget? child) {
                       IndustrySubModel model = ref.read(truckRegistrationNotiControllerProvider).selectedIndustry!;
@@ -180,6 +181,7 @@ class _CoTruckInfoScreenState extends State<CoTruckInfoScreen> {
                           ),
                           Center(
                             child: CustomButton(
+                                buttonWidth: double.infinity,
                                 onPressed: (){
                                   if(formKey.currentState!.validate()){
 

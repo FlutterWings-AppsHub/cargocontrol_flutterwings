@@ -5,6 +5,7 @@ import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/coordinator/register_truck_movement/controllers/truck_registration_noti_controller.dart';
 import 'package:cargocontrol/models/industry_models/industry_sub_model.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../commons/common_functions/find_bodega_id_by_cargo_hold_id.dart';
@@ -43,7 +44,7 @@ class _CoTruckLeavingInformationScreenState extends State<CoTruckLeavingInformat
               description: "Indique la información del camión para su registro en la romana",
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              padding:  kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal: 20.w),
               child: Consumer(
                 builder: (BuildContext context, WidgetRef ref, Widget? child) {
                   final truckCtr = ref.watch(truckRegistrationNotiControllerProvider);
@@ -94,6 +95,7 @@ class _CoTruckLeavingInformationScreenState extends State<CoTruckLeavingInformat
                       ),
                       SizedBox(height: 25.h,),
                       CustomButton(
+                          buttonWidth: double.infinity,
                           onPressed: (){
                             if(double.parse(fullTruckWeightCtr.text)<truckCtr.matchedViajes!.entryTimeTruckWeightToPort){
                               showSnackBar(context: context, content: 'Peso bruto cannot be less than peso tara!');

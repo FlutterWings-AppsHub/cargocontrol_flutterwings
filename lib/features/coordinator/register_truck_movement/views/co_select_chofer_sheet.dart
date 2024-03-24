@@ -142,10 +142,12 @@ class _CoSelectChoferScreenState extends ConsumerState<CoSelectChoferScreen> {
 
           ),
           CustomButton(
+            buttonWidth: double.infinity,
               onPressed: (){},
               buttonText: 'AGREGAR CHOFER'
           ),
           CustomButton(
+            buttonWidth: double.infinity,
               onPressed: (){
                 Navigator.pop(context);
               },

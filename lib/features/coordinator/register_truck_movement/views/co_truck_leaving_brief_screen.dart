@@ -4,6 +4,7 @@ import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/coordinator/register_truck_movement/controllers/truck_registration_controller.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../commons/common_functions/find_bodega_id_by_cargo_hold_id.dart';
 import '../../../../commons/common_imports/common_libs.dart';
@@ -45,7 +46,7 @@ class _CoTruckLeavingBriefScreenState extends ConsumerState<CoTruckLeavingBriefS
               logo: true,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              padding:  kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal: 20.w),
               child: Consumer(
                 builder: (BuildContext context, WidgetRef ref, Widget? child) {
                   final truckCtr = ref.watch(truckRegistrationNotiControllerProvider);
@@ -77,6 +78,7 @@ class _CoTruckLeavingBriefScreenState extends ConsumerState<CoTruckLeavingBriefS
 
                       SizedBox(height: 26.h,),
                       CustomButton(
+                          buttonWidth: double.infinity,
                           onPressed: ()async{
                             await truckCtr.getCurrentVesselToUpdate(ref: ref, cargoId: truckCtr.matchedViajes!.cargoId);
                             if(truckCtr.vesselModel!= null){

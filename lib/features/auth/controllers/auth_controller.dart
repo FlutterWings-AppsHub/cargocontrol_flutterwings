@@ -136,10 +136,10 @@ class AuthController extends StateNotifier<bool> {
       showSnackBar(context: context,  content: l.message);
     }, (r) async {
       //await ref.read(authServiceProvider).setAuth(r.uid);
+      Navigator.pop(context);
       UserModel userModel = await getUserInfoByUidFuture(r.uid);
       await ref.read(authNotifierCtr).setUserModelData(userModel);
       await fcmTokenUpload(userModel: userModel);
-      Navigator.pop(context);
       state = false;
 
       userModel.accountType.name == AccountTypeEnum.administrador.name

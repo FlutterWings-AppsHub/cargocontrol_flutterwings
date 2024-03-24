@@ -24,7 +24,7 @@ class AdProgressIndicatorCard extends StatelessWidget {
       child: Container(
         decoration: constants.DecorationStyles.shadow2,
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-        width: kIsWeb?120.w:320.w,
+        width: 320.w,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,

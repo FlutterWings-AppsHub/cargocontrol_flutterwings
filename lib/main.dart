@@ -160,7 +160,7 @@ class _MyAppState extends ConsumerState<MyApp> {
     }
 
     return ScreenUtilInit(
-      designSize: const Size(AppConstants.screenWidget, AppConstants.screenHeight),
+      designSize: kIsWeb?const Size(AppConstants.screenWebWidget, AppConstants.screenWebHeight):const Size(AppConstants.screenWidget, AppConstants.screenHeight),
       minTextAdapt: true,
       splitScreenMode: true,
       //fontSizeResolver: FontSizeResolvers.height,

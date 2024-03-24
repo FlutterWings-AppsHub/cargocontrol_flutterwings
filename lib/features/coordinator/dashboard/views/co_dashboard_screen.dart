@@ -6,11 +6,13 @@ import 'package:cargocontrol/features/coordinator/register_truck_movement/contro
 import 'package:cargocontrol/routes/route_manager.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
 import 'package:cargocontrol/utils/loading.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cargocontrol/utils/constants.dart' as constants;
+import 'package:hive_flutter/adapters.dart';
 
 import '../../../../common_widgets/dashboard_top_widget.dart';
 import '../../../../models/industry_models/industry_sub_model.dart';
@@ -82,7 +84,7 @@ class CoDashboardScreen extends ConsumerWidget {
                                     return Container(
                                       constraints: BoxConstraints(
                                           minHeight:  136.h,
-                                          maxHeight: 160.h
+                                          maxHeight: kIsWeb?170.h:160.h
                                       ),
                                       child: ListView.builder(
                                         itemCount: allIndustries.length,
@@ -119,7 +121,7 @@ class CoDashboardScreen extends ConsumerWidget {
                           Consumer(
                             builder: (BuildContext context, WidgetRef ref, Widget? child) {
                               return SizedBox(
-                                height: 116.h,
+                                height: kIsWeb?140.h:116.h,
                                 child: ListView(
                                     scrollDirection: Axis.horizontal,
                                     children:  [
@@ -257,6 +259,7 @@ class CoDashboardScreen extends ConsumerWidget {
           await  initiallize(ref);
           showModalBottomSheet(
               backgroundColor: Colors.transparent,
+              constraints:kIsWeb? BoxConstraints(minWidth: 1000,maxWidth: 1.sw):null,
               elevation: 0,
               context: context,
               builder: (context) => const CoFloadtingActionSheet());

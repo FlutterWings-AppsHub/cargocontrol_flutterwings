@@ -4,6 +4,7 @@ import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/coordinator/register_truck_movement/controllers/truck_registration_noti_controller.dart';
 import 'package:cargocontrol/utils/constants/assets_manager.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -55,7 +56,7 @@ class _RegisterTruckLeavingScreenState extends State<RegisterTruckLeavingScreen>
             ),
             Spacer(flex: 1,),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 45.w),
+              padding: kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal: 45.w),
               child: TextField(
                 maxLength: 6,
                 maxLengthEnforcement:
@@ -94,42 +95,49 @@ class _RegisterTruckLeavingScreenState extends State<RegisterTruckLeavingScreen>
             Spacer(flex: 1,),
             Expanded(
               flex: 8,
-              child: NumericKeyboard(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                onKeyboardTap: (string) {
-                  setState(() {
-                    keyPadTextFieldController.text += string;
-                  });
-                },
-                rightIcon: const Icon(FontAwesomeIcons.deleteLeft),
-                rightButtonFn: () {
-                  keyPadTextFieldController.text = '';
-                },
+              child: Padding(
+                padding: kIsWeb?EdgeInsets.symmetric(horizontal: 0.32.sw):EdgeInsets.symmetric(horizontal:0),
+                child: NumericKeyboard(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  onKeyboardTap: (string) {
+                    setState(() {
+                      keyPadTextFieldController.text += string;
+                    });
+                  },
+                  rightIcon: const Icon(FontAwesomeIcons.deleteLeft),
+                  rightButtonFn: () {
+                    keyPadTextFieldController.text = '';
+                  },
+                ),
               ),
             ),
 
-            Consumer(
-              builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                return CustomButton(
-                  buttonText:  'CONTINUAR',
-                  isLoading: ref.watch(truckRegistrationNotiControllerProvider).isLoading,
-                  onPressed: ()async{
-                    if(keyPadTextFieldController.text.isNotEmpty){
-                      await ref.read(truckRegistrationNotiControllerProvider).getCurrentVessel(ref: ref);
-                      await ref.read(truckRegistrationNotiControllerProvider).
-                      getMatchedViajes(
-                        plateNumber: keyPadTextFieldController.text,
-                        vesselId: ref.read(truckRegistrationNotiControllerProvider).vesselModel?.vesselId??"",
-                        context: context,
-                        ref: ref,
-                      );
-                    }else{
-                      showSnackBar(context: context, content: 'Enter Plate Number!');
-                    }
-                  },
-                );
-              },
+            Padding(
+              padding: kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal: 45.w),
+              child: Consumer(
+                builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                  return CustomButton(
+                    buttonText:  'CONTINUAR',
+                    buttonWidth: double.infinity,
+                    isLoading: ref.watch(truckRegistrationNotiControllerProvider).isLoading,
+                    onPressed: ()async{
+                      if(keyPadTextFieldController.text.isNotEmpty){
+                        await ref.read(truckRegistrationNotiControllerProvider).getCurrentVessel(ref: ref);
+                        await ref.read(truckRegistrationNotiControllerProvider).
+                        getMatchedViajes(
+                          plateNumber: keyPadTextFieldController.text,
+                          vesselId: ref.read(truckRegistrationNotiControllerProvider).vesselModel?.vesselId??"",
+                          context: context,
+                          ref: ref,
+                        );
+                      }else{
+                        showSnackBar(context: context, content: 'Enter Plate Number!');
+                      }
+                    },
+                  );
+                },
 
+              ),
             ),
             SizedBox(height: 20.h,),
           ],

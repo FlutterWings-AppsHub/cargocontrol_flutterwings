@@ -1,4 +1,5 @@
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../commons/common_imports/common_libs.dart';
@@ -16,9 +17,10 @@ class DashBoardTopWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return    Column(
+    return Column(
       children: [
         ///Image and Bogoda Bars
+        kIsWeb?SizedBox():
         SizedBox(
           height: (0.2 * MediaQuery.of(context).size.height).h,
           width: (0.9 * MediaQuery.of(context).size.width).w,
@@ -40,7 +42,7 @@ class DashBoardTopWidget extends StatelessWidget {
                 data: (vesselModel) {
                   return Container(
                     constraints:
-                    BoxConstraints(minHeight: 136.h, maxHeight: 160.h),
+                    BoxConstraints(minHeight: 136.h, maxHeight: kIsWeb?170.h:160.h),
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(

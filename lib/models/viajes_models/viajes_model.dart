@@ -251,10 +251,10 @@ class ViajesModel{
       timeToIndustry: DateTime.fromMillisecondsSinceEpoch(map['timeToIndustry']),
       unloadingTimeInIndustry: DateTime.fromMillisecondsSinceEpoch(map['unloadingTimeInIndustry']),
       uploadingTime: DateTime.fromMillisecondsSinceEpoch(map['uploadingTime']),
-      pureCargoWeight: map['pureCargoWeight'] as double,
-      cargoUnloadWeight: map['cargoUnloadWeight'] as double,
-      cargoDeficitWeight: map['cargoDeficitWeight'] as double,
-      guideNumber: map['guideNumber'] as double,
+      pureCargoWeight: (map['pureCargoWeight'] as num).toDouble(),
+      cargoUnloadWeight: (map['cargoUnloadWeight'] as num).toDouble(),
+      cargoDeficitWeight: (map['cargoDeficitWeight'] as num).toDouble(),
+      guideNumber: (map['guideNumber'] as num).toDouble(),
       industryId: map['industryId'] as String,
       industryName: map['industryName'] as String,
       realIndustryId: map['realIndustryId'] as String,
@@ -269,8 +269,8 @@ class ViajesModel{
       viajesTypeEnum: (map['viajesTypeEnum'] as String).toViajesTypeEnum(),
       viajesStatusEnum: (map['viajesStatusEnum'] as String).toViajesStatusEnum(),
       viajesId: map['viajesId'] as String,
-      entryTimeTruckWeightToPort: map['entryTimeTruckWeightToPort'] as double,
-      exitTimeTruckWeightToPort: map['exitTimeTruckWeightToPort'] as double,
+      entryTimeTruckWeightToPort: (map['entryTimeTruckWeightToPort'] as num).toDouble(),
+      exitTimeTruckWeightToPort: (map['exitTimeTruckWeightToPort'] as num).toDouble(),
     );
   }
 

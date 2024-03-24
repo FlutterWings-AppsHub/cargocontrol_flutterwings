@@ -114,7 +114,7 @@ class TruckRegistrationController extends StateNotifier<bool> {
       exitTimeToPort: AppConstants.constantDateTime,
       exitTimeTruckWeightToPort: 0.0,
       uploadingTime: AppConstants.constantDateTime,
-      pureCargoWeight: 0.0,
+      pureCargoWeight: 0.000000001,
       cargoUnloadWeight: 0.0,
       cargoDeficitWeight: 0.0,
       timeToIndustry: AppConstants.constantDateTime,

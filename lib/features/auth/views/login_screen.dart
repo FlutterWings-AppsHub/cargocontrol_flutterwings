@@ -7,6 +7,7 @@ import 'package:cargocontrol/features/auth/controllers/auth_controller.dart';
 import 'package:cargocontrol/utils/constants.dart' as constants;
 import 'package:cargocontrol/utils/constants/assets_manager.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
@@ -40,13 +41,14 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+
             SizedBox(
               height: 160.h,
             ),
             Image.asset(AppAssets.logo, height: 78.h, width: 290.w,),
             Container(
               padding: EdgeInsets.all(20.sp),
-              margin: EdgeInsets.all(20.sp),
+              margin: kIsWeb? EdgeInsets.symmetric(vertical: 20.sp,horizontal: 0.3.sw):EdgeInsets.all(20.sp) ,
               decoration: constants.DecorationStyles.shadow1,
               child: Form(
                 key: formKey,
