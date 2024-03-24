@@ -2,6 +2,8 @@ import 'package:cargocontrol/commons/common_widgets/custom_appbar.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/admin/manage_ships/widgets/ships_lists.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import '../../../../commons/common_imports/common_libs.dart';
 
 class AdManageShipsScreen extends StatelessWidget {
@@ -19,7 +21,12 @@ class AdManageShipsScreen extends StatelessWidget {
           children: [
              Text("Registro de buques", style: getBoldStyle(color: context.textColor, fontSize: MyFonts.size28),),
              SizedBox(height: 24.h,),
-             AdShipsList(),
+             Expanded(
+               child: Padding(
+                 padding: kIsWeb?EdgeInsets.symmetric(horizontal: 0.3.sw): EdgeInsets.all(0.0),
+                 child: AdShipsList(),
+               ),
+             ),
 
           ],
         ),

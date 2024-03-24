@@ -7,6 +7,7 @@ import 'package:cargocontrol/models/viajes_models/viajes_model.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
 import 'package:cargocontrol/utils/loading.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../common_widgets/carga_widget.dart';
 import '../../../../common_widgets/datos_generales_widget.dart';
@@ -107,7 +108,7 @@ class _AdViajesDetailsScreenState extends State<AdViajesDetailsScreen> {
                     logo: true,
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    padding: kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal: 20.w),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -182,6 +183,7 @@ class _AdViajesDetailsScreenState extends State<AdViajesDetailsScreen> {
                           height: 26.h,
                         ),
                         CustomButton(
+                          buttonWidth: double.infinity,
                             onPressed: () {
                               Navigator.pop(context);
                             },

@@ -5,6 +5,7 @@ import 'package:cargocontrol/features/admin/dashboard/widgets/ad_dashboard_mini_
 import 'package:cargocontrol/features/auth/controllers/auth_notifier_controller.dart';
 import 'package:cargocontrol/models/vessel_models/vessel_cargo_model.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -74,11 +75,11 @@ class AdDashboardScreen extends ConsumerWidget {
                                     }
                                     return Container(
                                       constraints:
-                                      BoxConstraints(minHeight: 136.h, maxHeight: 160.h),
+                                      BoxConstraints(minHeight: 136.h, maxHeight: kIsWeb?170.h:160.h),
                                       child: ListView.builder(
+                                        padding: EdgeInsets.zero,
                                         itemCount: allIndustries.length,
                                         scrollDirection: Axis.horizontal,
-                                        shrinkWrap: true,
                                         itemBuilder: (BuildContext context, int index) {
                                           IndustrySubModel model = allIndustries[index];
                                           return AdProgressIndicatorCard(
@@ -234,6 +235,7 @@ class AdDashboardScreen extends ConsumerWidget {
         onPressed: () {
           showModalBottomSheet(
               backgroundColor: Colors.transparent,
+              constraints:kIsWeb? BoxConstraints(minWidth: 1000,maxWidth: 1.sw):null,
               elevation: 0,
               context: context,
               builder: (context) => const AdFloadtingActionSheet());

@@ -21,7 +21,7 @@ class ViajesCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+        padding: kIsWeb?EdgeInsets.symmetric(vertical: 10.h,horizontal: 0.35.sw):const EdgeInsets.fromLTRB(10, 0, 10, 10),
         child: Container(
           padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
           height: kIsWeb?150.h:100.h,

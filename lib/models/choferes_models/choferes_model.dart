@@ -175,7 +175,7 @@ class ChoferesModel {
           map['worstCargoDeficitPercentage'] as dynamic,
       choferesStatusEnum:
       (map['choferesStatusEnum'] as String).toChoferesStatusEnum(),
-      rating: map['rating'] as double,
+      rating:(map['rating'] as num).toDouble(),
       numberOfTrips: map['numberOfTrips'] as int,
       firstName: map['firstName'] as String,
       lastName: map['lastName'] as String,

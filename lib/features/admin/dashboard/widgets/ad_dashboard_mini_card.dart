@@ -1,6 +1,7 @@
 import 'package:cargocontrol/commons/common_imports/common_libs.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cargocontrol/utils/constants.dart' as constants;
 
@@ -21,7 +22,7 @@ class AdDashboardMiniCard extends StatelessWidget {
         constraints: BoxConstraints(
           minWidth: 147.w
         ),
-        height: 100.h,
+        height: kIsWeb?130.h:100.h,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -5,6 +5,7 @@ import 'package:cargocontrol/models/industry_models/industry_sub_model.dart';
 import 'package:cargocontrol/models/vessel_models/vessel_model.dart';
 import 'package:cargocontrol/models/viajes_models/viajes_model.dart';
 import 'package:cargocontrol/utils/thems/my_colors.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../commons/common_imports/common_libs.dart';
@@ -132,98 +133,101 @@ class _ExitPortWeightUpdateDialogState
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30.r),
-      ),
-      backgroundColor: Colors.transparent,
-      child: Container(
-        padding: EdgeInsets.all(20.h),
-        decoration: BoxDecoration(
-          color: context.scaffoldBackgroundColor.withOpacity(0.9),
+    return Padding(
+      padding: kIsWeb ?EdgeInsets.symmetric(horizontal: 0.35.sw):const EdgeInsets.all(8.0),
+      child: Dialog(
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.r),
-          boxShadow: [
-            BoxShadow(
-              color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-              // spreadRadius: 12,
-              blurRadius: 8,
-              offset: const Offset(2, 2),
-            ),
-          ],
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Image.asset(AppAssets.dialogCloseIcon,
-                      width: 38.w, height: 38.h),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 20.h,
-            ),
-            Text(
-              'Peso bruto de salida',
-              textAlign: TextAlign.left,
-              style: getRegularStyle(
-                  color: context.textColor, fontSize: MyFonts.size16),
-            ),
-            SizedBox(
-              height: 8.h,
-            ),
-            CustomTextField(
-              controller: exitPortWeightCtr,
-              hintText: "",
-              onChanged: (val) {},
-              onFieldSubmitted: (val) {},
-              obscure: false,
-              inputType: TextInputType.number,
-              onlyNumber: true,
-              label: "",
-            ),
-            Consumer(
-              builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CustomButton(
-                      buttonWidth: 112.w,
-                      buttonHeight: 42.h,
-                      backColor: context.secondaryMainColor,
-                      onPressed: () async {
-                        Navigator.pop(context);
-                      },
-                      buttonText: 'Cancel',
-                    ),
-                    SizedBox(
-                      width: 12.w,
-                    ),
-                    CustomButton(
-                      isLoading: ref.watch(viajesControllerProvider),
-                      buttonWidth: 112.w,
-                      buttonHeight: 42.h,
-                      onPressed: () async {
-                        if (exitPortWeightCtr.text.isEmpty) {
-                          return;
-                        }
-                        await update(ref: ref);
-                        Navigator.pop(context);
-                      },
-                      buttonText: 'Update',
-                    ),
-                  ],
-                );
-              },
-            ),
-          ],
+        backgroundColor: Colors.transparent,
+        child: Container(
+          padding: EdgeInsets.all(20.h),
+          decoration: BoxDecoration(
+            color: context.scaffoldBackgroundColor.withOpacity(0.9),
+            borderRadius: BorderRadius.circular(30.r),
+            boxShadow: [
+              BoxShadow(
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                // spreadRadius: 12,
+                blurRadius: 8,
+                offset: const Offset(2, 2),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Image.asset(AppAssets.dialogCloseIcon,
+                        width: 38.w, height: 38.h),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              Text(
+                'Peso bruto de salida',
+                textAlign: TextAlign.left,
+                style: getRegularStyle(
+                    color: context.textColor, fontSize: MyFonts.size16),
+              ),
+              SizedBox(
+                height: 8.h,
+              ),
+              CustomTextField(
+                controller: exitPortWeightCtr,
+                hintText: "",
+                onChanged: (val) {},
+                onFieldSubmitted: (val) {},
+                obscure: false,
+                inputType: TextInputType.number,
+                onlyNumber: true,
+                label: "",
+              ),
+              Consumer(
+                builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CustomButton(
+                        buttonWidth: 112.w,
+                        buttonHeight: 42.h,
+                        backColor: context.secondaryMainColor,
+                        onPressed: () async {
+                          Navigator.pop(context);
+                        },
+                        buttonText: 'Cancel',
+                      ),
+                      SizedBox(
+                        width: 12.w,
+                      ),
+                      CustomButton(
+                        isLoading: ref.watch(viajesControllerProvider),
+                        buttonWidth: 112.w,
+                        buttonHeight: 42.h,
+                        onPressed: () async {
+                          if (exitPortWeightCtr.text.isEmpty) {
+                            return;
+                          }
+                          await update(ref: ref);
+                          Navigator.pop(context);
+                        },
+                        buttonText: 'Update',
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

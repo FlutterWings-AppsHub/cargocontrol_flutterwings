@@ -34,7 +34,7 @@ class AdProgressIndicatorCard extends StatelessWidget {
               children: [
                 Container(
                   constraints: BoxConstraints(
-                      maxWidth:kIsWeb?80.w:220.w,
+                      maxWidth:220.w,
                   ),
                   child: Text(
                     title,

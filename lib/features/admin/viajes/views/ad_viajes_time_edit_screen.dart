@@ -8,6 +8,7 @@ import 'package:cargocontrol/routes/route_manager.dart';
 import 'package:cargocontrol/utils/constants/app_constants.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
 import 'package:cargocontrol/utils/loading.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../../../common_widgets/carga_widget.dart';
@@ -94,7 +95,7 @@ class _AdViajesTimeEditScreenState extends State<AdViajesTimeEditScreen> {
                     logo: true,
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    padding: kIsWeb ?EdgeInsets.symmetric(horizontal: 0.35.sw): EdgeInsets.symmetric(horizontal: 20.w),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -211,6 +212,7 @@ class _AdViajesTimeEditScreenState extends State<AdViajesTimeEditScreen> {
                           },
                         ),
                         CustomButton(
+                          buttonWidth: double.infinity,
                             isLoading: ref.watch(viajesControllerProvider),
                             padding: 0.h,
                             onPressed: () {
@@ -219,6 +221,7 @@ class _AdViajesTimeEditScreenState extends State<AdViajesTimeEditScreen> {
                             backColor: context.mainColor,
                             buttonText: "GUARDAR"),
                         CustomButton(
+                            buttonWidth: double.infinity,
                             onPressed: () {
                               Navigator.pop(context);
                             },
