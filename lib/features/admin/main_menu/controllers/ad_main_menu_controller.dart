@@ -21,7 +21,7 @@ class MainMenuController extends ChangeNotifier {
 
 
 
-  int _currentIndex = 3;
+  int _currentIndex = 0;
   int get index => _currentIndex;
   setIndex(int id) {
     _currentIndex = id;
