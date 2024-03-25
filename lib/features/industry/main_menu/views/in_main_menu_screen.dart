@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cargocontrol/utils/constants.dart' as constants;
@@ -12,14 +13,14 @@ class InMainMenuScreen extends ConsumerStatefulWidget {
   const InMainMenuScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _InMainMenuScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _InMainMenuScreenState();
 }
 
 class _InMainMenuScreenState extends ConsumerState<InMainMenuScreen> {
-
-@override
+  @override
   void initState() {
-   // updateUserModel();
+    // updateUserModel();
     super.initState();
   }
 
@@ -33,54 +34,61 @@ class _InMainMenuScreenState extends ConsumerState<InMainMenuScreen> {
 // }
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          TextButton(
-              onPressed: () {
-                ref.read(authControllerProvider.notifier).logout(
-                    context: context,
-                    ref: ref
-                );
-              },
-              child: const Text(
-                'Cerrar Sesión',
-                style: TextStyle(
-                  color: constants.kMainColor,
-                  fontWeight: FontWeight.bold,
+        appBar: AppBar(
+          actions: <Widget>[
+            TextButton(
+                onPressed: () {
+                  ref
+                      .read(authControllerProvider.notifier)
+                      .logout(context: context, ref: ref);
+                },
+                child: const Text(
+                  'Cerrar Sesión',
+                  style: TextStyle(
+                    color: constants.kMainColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ))
+          ],
+        ),
+        body: ref
+            .read(inMainMenuProvider)
+            .screens[ref.watch(inMainMenuProvider).index],
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: (value) {
+            ref.read(inMainMenuProvider).setIndex(value);
+          },
+          iconSize: 22,
+          type: BottomNavigationBarType.fixed,
+          currentIndex: ref.read(inMainMenuProvider).index,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: FaIcon(
+                FontAwesomeIcons.house,
+              ),
+              label: 'Dashboard',
+            ),
+            BottomNavigationBarItem(
+              icon: FaIcon(
+                FontAwesomeIcons.truck,
+              ),
+              label: 'Viajes',
+            ),
+            BottomNavigationBarItem(
+              icon: FaIcon(
+                FontAwesomeIcons.person,
+              ),
+              label: 'Choferes',
+            ),
+            if (kIsWeb)
+              BottomNavigationBarItem(
+                icon: FaIcon(
+                  FontAwesomeIcons.list,
                 ),
-              ))
-        ],
-      ),
-      body: ref.read(inMainMenuProvider).screens[ref.watch(inMainMenuProvider).index],
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (value) {
-          ref.read(inMainMenuProvider).setIndex(value);
-        },
-        iconSize: 22,
-        currentIndex:  ref.read(inMainMenuProvider).index,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: FaIcon(
-              FontAwesomeIcons.house,
-            ),
-            label: 'Dashboard',
-          ),
-          BottomNavigationBarItem(
-            icon: FaIcon(
-              FontAwesomeIcons.truck,
-            ),
-            label: 'Viajes',
-          ),
-          BottomNavigationBarItem(
-            icon: FaIcon(
-              FontAwesomeIcons.person,
-            ),
-            label: 'Choferes',
-          ),
-        ],
-      )
-    );
+                label: 'Reporte',
+              ),
+          ],
+        ));
   }
 }

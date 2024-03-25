@@ -2,6 +2,7 @@ import 'package:cargocontrol/common_widgets/title_header.dart';
 import 'package:cargocontrol/commons/common_widgets/custom_button.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
+import 'package:flutter/foundation.dart';
 import '../../../../common_widgets/carga_widget.dart';
 import '../../../../common_widgets/datos_generales_widget.dart';
 import '../../../../common_widgets/tiempo_widget.dart';
@@ -28,7 +29,7 @@ class InViajesDetailsScreen extends StatelessWidget {
               logo: true,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              padding: kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal: 20.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -48,7 +49,10 @@ class InViajesDetailsScreen extends StatelessWidget {
                   CargaWidget(viajesModel: viajesModel),
                   SizedBox(height: 26.h,),
                   Center(
+
                     child: CustomButton(
+                        buttonWidth: double.infinity,
+
                         onPressed: (){
                           Navigator.pop(context);
                         },

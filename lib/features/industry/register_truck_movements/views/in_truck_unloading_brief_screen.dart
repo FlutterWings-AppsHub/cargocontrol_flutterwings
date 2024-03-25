@@ -8,6 +8,7 @@ import 'package:cargocontrol/features/admin/create_vessel/controllers/ad_vessel_
 import 'package:cargocontrol/features/industry/register_truck_movements/controllers/in_truck_registration_controller.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
+import 'package:flutter/foundation.dart';
 import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../commons/common_widgets/custom_appbar.dart';
 import '../controllers/in_truck_registration_noti_controller.dart';
@@ -55,7 +56,7 @@ class _InTruckUnlaodingBriefScreenState extends ConsumerState<InTruckUnlaodingBr
               logo: true,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              padding:  kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal: 20.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -78,6 +79,7 @@ class _InTruckUnlaodingBriefScreenState extends ConsumerState<InTruckUnlaodingBr
                   Consumer(
                     builder: (BuildContext context, WidgetRef ref, Widget? child) {
                       return CustomButton(
+                        buttonWidth: double.infinity,
                         isLoading: ref.watch(inTruckRegistrationNotiControllerProvider).isLoading,
                         onPressed: ()async{
                             await ref.read(inTruckRegistrationNotiControllerProvider).getChoferesModel(

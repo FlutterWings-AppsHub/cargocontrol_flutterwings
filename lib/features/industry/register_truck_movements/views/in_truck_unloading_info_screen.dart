@@ -5,6 +5,7 @@ import 'package:cargocontrol/commons/common_widgets/custom_button.dart';
 import 'package:cargocontrol/commons/common_widgets/show_toast.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../commons/common_widgets/custom_appbar.dart';
@@ -43,7 +44,7 @@ class _InTruckUnlaodingInfoScreenState extends State<InTruckUnlaodingInfoScreen>
               logo: true,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              padding:  kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal: 20.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -72,6 +73,7 @@ class _InTruckUnlaodingInfoScreenState extends State<InTruckUnlaodingInfoScreen>
                     builder: (BuildContext context, WidgetRef ref, Widget? child) {
                       ViajesModel viajesModel = ref.watch(inTruckRegistrationNotiControllerProvider).matchedViajes!;
                       return CustomButton(
+                        buttonWidth: double.infinity,
                           onPressed: (){
                             if(formKey.currentState!.validate()){
                               if(double.parse(grossWeightOfArrivalCtr.text) < viajesModel.exitTimeTruckWeightToPort ){

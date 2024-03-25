@@ -7,6 +7,7 @@ import 'package:cargocontrol/features/coordinator/register_truck_movement/contro
 import 'package:cargocontrol/routes/route_manager.dart';
 import 'package:cargocontrol/utils/constants/assets_manager.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -60,7 +61,7 @@ class _InRegisterTruckArrivalScreenState extends State<InRegisterTruckArrivalScr
             Spacer(flex: 1,),
 
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 45.w),
+              padding: kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal: 45.w),
               child: TextField(
                 maxLength: 6,
                 maxLengthEnforcement:
@@ -99,45 +100,52 @@ class _InRegisterTruckArrivalScreenState extends State<InRegisterTruckArrivalScr
             Spacer(flex: 1,),
             Expanded(
               flex: 8,
-              child: NumericKeyboard(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                onKeyboardTap: (string) {
-                  setState(() {
-                    keyPadTextFieldController.text += string;
-                  });
-                },
-                rightIcon: const Icon(FontAwesomeIcons.deleteLeft),
-                rightButtonFn: () {
-                  keyPadTextFieldController.text = '';
-                },
+              child: Padding(
+                padding: kIsWeb?EdgeInsets.symmetric(horizontal: 0.32.sw):EdgeInsets.symmetric(horizontal:0),
+                child: NumericKeyboard(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  onKeyboardTap: (string) {
+                    setState(() {
+                      keyPadTextFieldController.text += string;
+                    });
+                  },
+                  rightIcon: const Icon(FontAwesomeIcons.deleteLeft),
+                  rightButtonFn: () {
+                    keyPadTextFieldController.text = '';
+                  },
+                ),
               ),
             ),
-            Consumer(
-              builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                final industryNotiCtr= ref.watch(inTruckRegistrationNotiControllerProvider);
-                return CustomButton(
-                  buttonText:  'CONTINUAR',
-                  onPressed: ()async{
-                    await industryNotiCtr.getCurrentIndustry(
-                      realIndustryId: ref.read(authNotifierCtr).userModel?.industryId?? '',
-                      ref: ref,
-                      context: context
-                    );
-                    if(ref.read(inTruckRegistrationNotiControllerProvider).currentIndustryModel!= null){
-                      await industryNotiCtr.
-                      getMatchedViajesLinkedWithIndustry(
-                          plateNumber: keyPadTextFieldController.text,
-                          viajesStatusEnum: ViajesStatusEnum.portLeft,
-                          pageName: AppRoutes.inTruckArrivalInfoScreen,
-                          context: context,
-                          ref: ref,
-                          industryId: ref.read(inTruckRegistrationNotiControllerProvider).currentIndustryModel?.industryId ?? ''
+            Padding(
+              padding: kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal: 45.w),
+              child: Consumer(
+                builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                  final industryNotiCtr= ref.watch(inTruckRegistrationNotiControllerProvider);
+                  return CustomButton(
+                    buttonWidth: double.infinity,
+                    buttonText:  'CONTINUAR',
+                    onPressed: ()async{
+                      await industryNotiCtr.getCurrentIndustry(
+                        realIndustryId: ref.read(authNotifierCtr).userModel?.industryId?? '',
+                        ref: ref,
+                        context: context
                       );
-                    }
-                  },
-                );
-              },
+                      if(ref.read(inTruckRegistrationNotiControllerProvider).currentIndustryModel!= null){
+                        await industryNotiCtr.
+                        getMatchedViajesLinkedWithIndustry(
+                            plateNumber: keyPadTextFieldController.text,
+                            viajesStatusEnum: ViajesStatusEnum.portLeft,
+                            pageName: AppRoutes.inTruckArrivalInfoScreen,
+                            context: context,
+                            ref: ref,
+                            industryId: ref.read(inTruckRegistrationNotiControllerProvider).currentIndustryModel?.industryId ?? ''
+                        );
+                      }
+                    },
+                  );
+                },
 
+              ),
             ),
             SizedBox(height: 20.h,),
           ],

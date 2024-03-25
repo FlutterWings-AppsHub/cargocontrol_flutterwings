@@ -3,6 +3,7 @@ import 'package:cargocontrol/commons/common_widgets/custom_button.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/industry/register_truck_movements/controllers/in_truck_registration_controller.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../commons/common_widgets/custom_appbar.dart';
@@ -31,7 +32,7 @@ class _InTruckArrivalInfoScreenState extends State<InTruckArrivalInfoScreen> {
               logo: true,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              padding:  kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal: 20.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -46,6 +47,7 @@ class _InTruckArrivalInfoScreenState extends State<InTruckArrivalInfoScreen> {
                     builder: (BuildContext context, WidgetRef ref, Widget? child) {
                       final truckCtr = ref.watch(inTruckRegistrationNotiControllerProvider);
                       return CustomButton(
+                        buttonWidth: double.infinity,
                           onPressed: ()async{
                             ref.read(inTruckRegistrationControllerProvider.notifier).registerTruckEnteringInIndustry(
                                 viajesModel: truckCtr.matchedViajes!,

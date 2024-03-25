@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../coordinator/choferes/views/co_choferes_screen.dart';
 import '../../choferes/views/in_choferes_screen.dart';
 import '../../dashboard/views/in_dashboard_screen.dart';
+import '../../in_ships_reports_web/views/in_ship_report_web_screen.dart';
 import '../../viajes/views/in_viajes_screen.dart';
 
 
@@ -15,6 +16,7 @@ class MainMenuController extends ChangeNotifier {
     const InDashboardScreen(),
     const InViajesScreen(),
     const InChoferesScreen(),
+    const InShipsReportsWebScreen(),
   ];
   List<Widget> get screens => _screens;
 

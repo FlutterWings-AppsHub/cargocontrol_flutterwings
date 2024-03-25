@@ -5,6 +5,7 @@ import 'package:cargocontrol/models/choferes_models/choferes_model.dart';
 import 'package:cargocontrol/models/viajes_models/viajes_model.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../common_widgets/carga_widget.dart';
 import '../../../../common_widgets/choferes_datos_generales_widget.dart';
@@ -33,7 +34,7 @@ class InChoferesDetailsScreen extends StatelessWidget {
               logo: true,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              padding:kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw): EdgeInsets.symmetric(horizontal: 20.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -65,6 +66,7 @@ class InChoferesDetailsScreen extends StatelessWidget {
                   SizedBox(height: 26.h,),
                   
                   CustomButton(
+                    buttonWidth: double.infinity,
                       onPressed: (){
                         Navigator.pop(context);
                       },

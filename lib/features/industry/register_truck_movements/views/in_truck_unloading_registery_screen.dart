@@ -4,6 +4,7 @@ import 'package:cargocontrol/features/industry/register_truck_movements/controll
 import 'package:cargocontrol/routes/route_manager.dart';
 import 'package:cargocontrol/utils/constants/assets_manager.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -58,7 +59,7 @@ class _InRegisterTruckUnlaodingScreenState extends State<InRegisterTruckUnlaodin
             Spacer(flex: 1,),
 
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 45.w),
+              padding: kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal: 45.w),
               child: TextField(
                 maxLength: 6,
                 maxLengthEnforcement:
@@ -97,60 +98,67 @@ class _InRegisterTruckUnlaodingScreenState extends State<InRegisterTruckUnlaodin
             Spacer(flex: 1,),
             Expanded(
               flex: 8,
-              child: NumericKeyboard(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                onKeyboardTap: (string) {
-                  setState(() {
-                    keyPadTextFieldController.text += string;
-                  });
-                },
-                rightIcon: const Icon(FontAwesomeIcons.deleteLeft),
-                rightButtonFn: () {
-                  keyPadTextFieldController.text = '';
-                },
+              child: Padding(
+                padding: kIsWeb?EdgeInsets.symmetric(horizontal: 0.32.sw):EdgeInsets.symmetric(horizontal:0),
+                child: NumericKeyboard(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  onKeyboardTap: (string) {
+                    setState(() {
+                      keyPadTextFieldController.text += string;
+                    });
+                  },
+                  rightIcon: const Icon(FontAwesomeIcons.deleteLeft),
+                  rightButtonFn: () {
+                    keyPadTextFieldController.text = '';
+                  },
+                ),
               ),
             ),
-            Consumer(
-              builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                final truckCtr = ref.watch(inTruckRegistrationNotiControllerProvider);
-                return CustomButton(
-                  buttonText:  'CONTINUAR',
-                  isLoading: truckCtr.isLoading,
-                  onPressed: ()async{
-                    if(truckCtr.currentIndustryModel!= null ){
-                      await ref.read(inTruckRegistrationNotiControllerProvider).
-                      getMatchedViajesLinkedWithIndustry(
-                          plateNumber: keyPadTextFieldController.text,
-                          viajesStatusEnum: ViajesStatusEnum.industryEntered,
-                          pageName: AppRoutes.inTruckUnloadingInfoScreen,
-                          context: context,
-                          ref: ref,
-                          industryId: ref.read(inTruckRegistrationNotiControllerProvider).currentIndustryModel?.industryId ?? ''
-                      );
-                      await ref.read(inTruckRegistrationNotiControllerProvider).
-                      getCurrentVessel(ref: ref);
-                    }else{
-                      await truckCtr.getCurrentIndustry(
-                          realIndustryId: ref.read(authNotifierCtr).userModel?.industryId?? '',
-                          ref: ref,
-                          context: context
-                      );
-                      await ref.read(inTruckRegistrationNotiControllerProvider).
-                      getMatchedViajesLinkedWithIndustry(
-                          plateNumber: keyPadTextFieldController.text,
-                          viajesStatusEnum: ViajesStatusEnum.industryEntered,
-                          pageName: AppRoutes.inTruckUnloadingInfoScreen,
-                          context: context,
-                          ref: ref,
-                          industryId: ref.read(inTruckRegistrationNotiControllerProvider).currentIndustryModel?.industryId ?? ''
-                      );
-                      await ref.read(inTruckRegistrationNotiControllerProvider).
-                      getCurrentVessel(ref: ref);
-                    }
+            Padding(
+              padding: kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal: 45.w),
+              child: Consumer(
+                builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                  final truckCtr = ref.watch(inTruckRegistrationNotiControllerProvider);
+                  return CustomButton(
+                    buttonWidth: double.infinity,
+                    buttonText:  'CONTINUAR',
+                    isLoading: truckCtr.isLoading,
+                    onPressed: ()async{
+                      if(truckCtr.currentIndustryModel!= null ){
+                        await ref.read(inTruckRegistrationNotiControllerProvider).
+                        getMatchedViajesLinkedWithIndustry(
+                            plateNumber: keyPadTextFieldController.text,
+                            viajesStatusEnum: ViajesStatusEnum.industryEntered,
+                            pageName: AppRoutes.inTruckUnloadingInfoScreen,
+                            context: context,
+                            ref: ref,
+                            industryId: ref.read(inTruckRegistrationNotiControllerProvider).currentIndustryModel?.industryId ?? ''
+                        );
+                        await ref.read(inTruckRegistrationNotiControllerProvider).
+                        getCurrentVessel(ref: ref);
+                      }else{
+                        await truckCtr.getCurrentIndustry(
+                            realIndustryId: ref.read(authNotifierCtr).userModel?.industryId?? '',
+                            ref: ref,
+                            context: context
+                        );
+                        await ref.read(inTruckRegistrationNotiControllerProvider).
+                        getMatchedViajesLinkedWithIndustry(
+                            plateNumber: keyPadTextFieldController.text,
+                            viajesStatusEnum: ViajesStatusEnum.industryEntered,
+                            pageName: AppRoutes.inTruckUnloadingInfoScreen,
+                            context: context,
+                            ref: ref,
+                            industryId: ref.read(inTruckRegistrationNotiControllerProvider).currentIndustryModel?.industryId ?? ''
+                        );
+                        await ref.read(inTruckRegistrationNotiControllerProvider).
+                        getCurrentVessel(ref: ref);
+                      }
 
-                  },
-                );
-              },
+                    },
+                  );
+                },
+              ),
             ),
             SizedBox(height: 20.h,),
           ],

@@ -32,6 +32,7 @@ class _ViajesTableState extends State<ViajesTable> {
     'Perdida (%)',
     'Hora de llegada',
     'Hora de descarga',
+    'Destino',
   ];
   @override
   Widget build(BuildContext context) {
@@ -157,6 +158,12 @@ class _ViajesTableState extends State<ViajesTable> {
             DataCell(Center(
                 child: Text(
               formatDateTime(widget.viajesList[index].unloadingTimeInIndustry),
+              style: getRegularStyle(
+                  color: MyColors.black, fontSize: MyFonts.size11),
+            ))),
+            DataCell(Center(
+                child: Text(
+              widget.viajesList[index].industryName,
               style: getRegularStyle(
                   color: MyColors.black, fontSize: MyFonts.size11),
             ))),

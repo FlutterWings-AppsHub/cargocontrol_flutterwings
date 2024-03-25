@@ -4,6 +4,7 @@ import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/industry/register_truck_movements/controllers/in_truck_registration_noti_controller.dart';
 import 'package:cargocontrol/models/misc_models/industry_vessel_ids_model.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -80,7 +81,7 @@ class InDashboardScreen extends ConsumerWidget {
                               .when(
                             data: (industryModel) {
                               return SizedBox(
-                                height: 150.h,
+                                height: kIsWeb?170.h:150.h,
                                 child: ListView(
                                     scrollDirection: Axis.horizontal,
                                     children: [
@@ -117,7 +118,7 @@ class InDashboardScreen extends ConsumerWidget {
                         },
                       ),
                       SizedBox(
-                        height: 116.h,
+                        height: kIsWeb ? 140.h:116.h,
                         child: Consumer(
                           builder: (BuildContext context, WidgetRef ref,
                               Widget? child) {
@@ -196,6 +197,7 @@ class InDashboardScreen extends ConsumerWidget {
           await initialize(ref);
           showModalBottomSheet(
               backgroundColor: Colors.transparent,
+              constraints:kIsWeb? BoxConstraints(minWidth: 1000,maxWidth: 1.sw):null,
               elevation: 0,
               context: context,
               builder: (context) => const InFloadtingActionSheet());
