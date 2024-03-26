@@ -4,6 +4,7 @@ import 'package:cargocontrol/commons/common_widgets/CustomTextFields.dart';
 import 'package:cargocontrol/commons/common_widgets/custom_button.dart';
 import 'package:cargocontrol/core/enums/weight_unit_enum.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../commons/common_widgets/common_datpicker.dart';
@@ -76,7 +77,7 @@ class _CreateVesselScreenState extends ConsumerState<CreateVesselScreen> {
               description: "Indique la información del buque a registrar",
             ),
              Padding(
-               padding: EdgeInsets.symmetric(horizontal: 20.w),
+               padding:  kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal: 20.w),
                child: Form(
                  key: formKey,
                  child: Column(
@@ -148,6 +149,7 @@ class _CreateVesselScreenState extends ConsumerState<CreateVesselScreen> {
                      // ),
                      SizedBox(height: 45.h,),
                      CustomButton(
+                       buttonWidth: double.infinity,
                          onPressed: (){
                            if(formKey.currentState!.validate()){
                              // if(numberOfCargos != null){

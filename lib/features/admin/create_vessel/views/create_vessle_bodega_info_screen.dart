@@ -6,6 +6,7 @@ import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/admin/create_vessel/widgets/bodega_section_widget.dart';
 import 'package:cargocontrol/models/vessel_models/vessel_cargo_model.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
+import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../commons/common_widgets/common_header.dart';
@@ -154,19 +155,22 @@ class _CreateVesselBodegaInfoScreenState extends State<CreateVesselBodegaInfoScr
               description: "Indique la información del buque a registrar",
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              padding:  kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal: 20.w),
               child: Column(
                 children: [
                   SizedBox(height: 60.h,),
                   _bodegaSections(),
                   SizedBox(height: 15.h,),
                   CustomButton(
-                      onPressed: createBodegaSection,
+                    buttonWidth: double.infinity,
+
+                    onPressed: createBodegaSection,
                       buttonText: "Generate New Section",
                     backColor: context.scaffoldBackgroundColor,
                     textColor: context.mainColor,
                   ),
                   CustomButton(
+                    buttonWidth: double.infinity,
                       onPressed: (){
                         for (var section in _bodegaInfoControllers) {
                           if(section.weightCtr.text == "" || section.productCtr.text == "" ||

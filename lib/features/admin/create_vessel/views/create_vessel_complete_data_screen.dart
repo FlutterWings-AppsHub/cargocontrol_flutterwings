@@ -7,6 +7,7 @@ import 'package:cargocontrol/features/admin/create_vessel/widgets/bodegas_for_al
 import 'package:cargocontrol/models/vessel_models/vessel_model.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
+import 'package:flutter/foundation.dart';
 import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../commons/common_widgets/custom_appbar.dart';
 import '../../../../core/enums/weight_unit_enum.dart';
@@ -43,7 +44,7 @@ class _CreateVesselCompleteDataScreenState extends ConsumerState<CreateVesselCom
               logo: true,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              padding:  kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal: 20.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -76,6 +77,7 @@ class _CreateVesselCompleteDataScreenState extends ConsumerState<CreateVesselCom
                   Consumer(
                     builder: (BuildContext context, WidgetRef ref, Widget? child) {
                       return CustomButton(
+                        buttonWidth: double.infinity,
                         isLoading: ref.watch(adVesselProvider),
                           onPressed: (){
                             ref.read(adVesselProvider.notifier).createVessel(

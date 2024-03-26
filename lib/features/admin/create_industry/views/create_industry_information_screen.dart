@@ -9,6 +9,7 @@ import 'package:cargocontrol/routes/route_manager.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
 import 'package:cargocontrol/utils/thems/my_colors.dart';
+import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../commons/common_widgets/common_header.dart';
@@ -175,7 +176,7 @@ class _CreateIndustryInformationScreenState extends ConsumerState<CreateIndustry
               description: "Indique la información de la/s industria/s a registrar",
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              padding:  kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal: 20.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -259,6 +260,7 @@ class _CreateIndustryInformationScreenState extends ConsumerState<CreateIndustry
                   SizedBox(height: 15.h,),
                   Center(
                     child: CustomButton(
+                      buttonWidth: double.infinity,
                       onPressed: (){
                         Map<VesselCargoModel, List<_IndustryControllers>> cargoSectionsMap = {};
                         totalCargoLoad = 0;
@@ -308,6 +310,7 @@ class _CreateIndustryInformationScreenState extends ConsumerState<CreateIndustry
                   ),
                   Center(
                     child: CustomButton(
+                      buttonWidth: double.infinity,
                         onPressed: (){
                           for (var section in _industryControllers) {
                             if(section.productCtr.text == "" || section.nameCtr.text == "" ||

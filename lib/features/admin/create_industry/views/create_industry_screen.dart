@@ -8,6 +8,7 @@ import 'package:cargocontrol/features/admin/create_vessel/controllers/ad_vessel_
 import 'package:cargocontrol/routes/route_manager.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
 import 'package:cargocontrol/utils/loading.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:numeric_keyboard/numeric_keyboard.dart';
@@ -71,7 +72,7 @@ class _CreateIndustryScreenState extends ConsumerState<CreateIndustryScreen> {
                 height: 70,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 45.w),
+                padding:  kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal: 45.w),
                 child: TextField(
                   maxLength: 1,
                   maxLengthEnforcement: MaxLengthEnforcement.truncateAfterCompositionEnds,
@@ -91,56 +92,63 @@ class _CreateIndustryScreenState extends ConsumerState<CreateIndustryScreen> {
                 ),
               ),
               SizedBox(height: 80.h,),
-              NumericKeyboard(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                onKeyboardTap: (string) {
-                  // RegExp digitOneToFourRegExp = RegExp(r'^[1-4]$');
-                  // if (digitOneToFourRegExp.hasMatch(string) && keyPadTextFieldController.text.length < 1) {
-                  setState(() {
-                    keyPadTextFieldController.text += string;
-                  });
-                  // } else {
-                  //   showSnackBar(context: context, content: 'You can register max 4 industries!');
-                  // }
-                },
-                rightIcon: const Icon(FontAwesomeIcons.deleteLeft),
-                rightButtonFn: () {
-                  keyPadTextFieldController.text = '';
-                },
+              Padding(
+                padding:  kIsWeb?EdgeInsets.symmetric(horizontal: 0.32.sw):EdgeInsets.symmetric(horizontal: 0.w),
+                child: NumericKeyboard(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  onKeyboardTap: (string) {
+                    // RegExp digitOneToFourRegExp = RegExp(r'^[1-4]$');
+                    // if (digitOneToFourRegExp.hasMatch(string) && keyPadTextFieldController.text.length < 1) {
+                    setState(() {
+                      keyPadTextFieldController.text += string;
+                    });
+                    // } else {
+                    //   showSnackBar(context: context, content: 'You can register max 4 industries!');
+                    // }
+                  },
+                  rightIcon: const Icon(FontAwesomeIcons.deleteLeft),
+                  rightButtonFn: () {
+                    keyPadTextFieldController.text = '';
+                  },
+                ),
               ),
-              Consumer(
-                builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                  return ref.watch(fetchgetAllIndustryNamesStream).
-                  when(
-                    data: (indsutryNames){
-                      return CustomButton(
-                        buttonText:  'CONTINUAR',
-                        onPressed: (){
-                          if(keyPadTextFieldController.text.isNotEmpty ){
-                            if(int.parse(keyPadTextFieldController.text) < indsutryNames.length){
-                              Navigator.pushNamed(context, AppRoutes.adminCreateIndustryInformationScreen,
-                                  arguments: {
-                                    'numberOfIndustries' : int.parse(keyPadTextFieldController.text[0])
-                                  }
-                              );
-                            }else{
-                              showSnackBar(context: context, content: 'You can register maximum ${indsutryNames.length} industries!');
+              Padding(
+                padding:  kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal: 0.w),
+                child: Consumer(
+                  builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                    return ref.watch(fetchgetAllIndustryNamesStream).
+                    when(
+                      data: (indsutryNames){
+                        return CustomButton(
+                          buttonWidth: double.infinity,
+                          buttonText:  'CONTINUAR',
+                          onPressed: (){
+                            if(keyPadTextFieldController.text.isNotEmpty ){
+                              if(int.parse(keyPadTextFieldController.text) < indsutryNames.length){
+                                Navigator.pushNamed(context, AppRoutes.adminCreateIndustryInformationScreen,
+                                    arguments: {
+                                      'numberOfIndustries' : int.parse(keyPadTextFieldController.text[0])
+                                    }
+                                );
+                              }else{
+                                showSnackBar(context: context, content: 'You can register maximum ${indsutryNames.length} industries!');
+                              }
                             }
-                          }
-                        },
-                      );
-                    },
-                    error: (error, st){
-                      debugPrintStack(stackTrace: st);
-                      debugPrint(error.toString());
-                      return SizedBox();
-                    },
-                    loading: (){
-                      return LoadingWidget();
-                    },
-                  );
+                          },
+                        );
+                      },
+                      error: (error, st){
+                        debugPrintStack(stackTrace: st);
+                        debugPrint(error.toString());
+                        return SizedBox();
+                      },
+                      loading: (){
+                        return LoadingWidget();
+                      },
+                    );
 
-                },
+                  },
+                ),
               ),
               SizedBox(
                 height: MediaQuery.of(context).padding.bottom,
