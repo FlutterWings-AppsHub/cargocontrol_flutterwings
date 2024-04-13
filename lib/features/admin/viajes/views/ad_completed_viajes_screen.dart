@@ -59,7 +59,7 @@ class _AdCompletedViajesSreenState extends ConsumerState<AdCompletedViajesSreen>
             viajesNotiCtr.viajesModels.isEmpty ?
             Padding(
               padding: EdgeInsets.all(32.0.h),
-              child: const Text("No Viajes!"),
+              child: const Text("No hay viajes"),
             ):
             Expanded(
               child: ListView.builder(

@@ -303,7 +303,7 @@ class _CreateIndustryInformationScreenState extends ConsumerState<CreateIndustry
                         });
                         createIndustrySection();
                       },
-                      buttonText: "Generate New Section",
+                      buttonText: "Agregas Bodega",
                       backColor: context.scaffoldBackgroundColor,
                       textColor: context.mainColor,
                     ),

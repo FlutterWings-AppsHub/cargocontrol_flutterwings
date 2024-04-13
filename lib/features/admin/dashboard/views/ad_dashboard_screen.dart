@@ -73,27 +73,40 @@ class AdDashboardScreen extends ConsumerWidget {
                                     if(allIndustries.isEmpty){
                                       return SizedBox();
                                     }
-                                    return Container(
-                                      constraints:
-                                      BoxConstraints(minHeight: 136.h, maxHeight: kIsWeb?170.h:160.h),
-                                      child: ListView.builder(
-                                        padding: EdgeInsets.zero,
-                                        itemCount: allIndustries.length,
-                                        scrollDirection: Axis.horizontal,
-                                        itemBuilder: (BuildContext context, int index) {
-                                          IndustrySubModel model = allIndustries[index];
-                                          return AdProgressIndicatorCard(
-                                            numberOfTrips: '${model.viajesIds.length}',
-                                            divideNumber2: '${model.cargoUnloaded}',
-                                            divideNumber1: '${model.cargoAssigned}',
-                                            barPercentage: double.parse(
-                                                (model.cargoUnloaded / model.cargoAssigned)
-                                                    .toStringAsFixed(2)),
-                                            title: '${model.industryName}',
-                                            deficit: model.deficit.toString(),
-                                          );
-                                        },
-                                      ),
+                                    return Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        if(kIsWeb)
+                                          Padding(
+                                            padding: EdgeInsets.only(top: 20.h,left: 15.w),
+                                            child: Text(
+                                              "Industrias",
+                                              style: getBoldStyle(color: context.textColor, fontSize: MyFonts.size14),
+                                            ),
+                                          ),
+                                        Container(
+                                          constraints:
+                                          BoxConstraints(minHeight: 136.h, maxHeight: kIsWeb?170.h:160.h),
+                                          child: ListView.builder(
+                                            padding: EdgeInsets.zero,
+                                            itemCount: allIndustries.length,
+                                            scrollDirection: Axis.horizontal,
+                                            itemBuilder: (BuildContext context, int index) {
+                                              IndustrySubModel model = allIndustries[index];
+                                              return AdProgressIndicatorCard(
+                                                numberOfTrips: '${model.viajesIds.length}',
+                                                divideNumber2: '${model.cargoUnloaded}',
+                                                divideNumber1: '${model.cargoAssigned}',
+                                                barPercentage: double.parse(
+                                                    (model.cargoUnloaded / model.cargoAssigned)
+                                                        .toStringAsFixed(2)),
+                                                title: '${model.industryName}',
+                                                deficit: model.deficit.toString(),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ],
                                     );
                                   }, error: (error, st) {
                                 debugPrintStack(stackTrace: st);

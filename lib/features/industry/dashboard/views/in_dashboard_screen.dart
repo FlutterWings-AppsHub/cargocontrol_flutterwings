@@ -80,30 +80,43 @@ class InDashboardScreen extends ConsumerWidget {
                                       vesselId: vesselModel.vesselId)))
                               .when(
                             data: (industryModel) {
-                              return SizedBox(
-                                height: kIsWeb?170.h:150.h,
-                                child: ListView(
-                                    scrollDirection: Axis.horizontal,
-                                    children: [
-                                      InProgressIndicatorCard(
-                                        numberOfTrips: industryModel
-                                            .viajesIds.length
-                                            .toString(),
-                                        divideNumber2: industryModel
-                                            .cargoUnloaded
-                                            .toString(),
-                                        divideNumber1: industryModel
-                                            .cargoAssigned
-                                            .toString(),
-                                        barPercentage: double.parse(
-                                            (industryModel.cargoUnloaded /
-                                                    industryModel.cargoAssigned)
-                                                .toStringAsFixed(2)),
-                                        title: industryModel.industryName,
-                                        deficit:
-                                            industryModel.deficit.toString(),
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  if(kIsWeb)
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 20.h,left: 15.w),
+                                      child: Text(
+                                        "Industry",
+                                        style: getBoldStyle(color: context.textColor, fontSize: MyFonts.size14),
                                       ),
-                                    ]),
+                                    ),
+                                  SizedBox(
+                                    height: kIsWeb?170.h:150.h,
+                                    child: ListView(
+                                        scrollDirection: Axis.horizontal,
+                                        children: [
+                                          InProgressIndicatorCard(
+                                            numberOfTrips: industryModel
+                                                .viajesIds.length
+                                                .toString(),
+                                            divideNumber2: industryModel
+                                                .cargoUnloaded
+                                                .toString(),
+                                            divideNumber1: industryModel
+                                                .cargoAssigned
+                                                .toString(),
+                                            barPercentage: double.parse(
+                                                (industryModel.cargoUnloaded /
+                                                        industryModel.cargoAssigned)
+                                                    .toStringAsFixed(2)),
+                                            title: industryModel.industryName,
+                                            deficit:
+                                                industryModel.deficit.toString(),
+                                          ),
+                                        ]),
+                                  ),
+                                ],
                               );
                             },
                             error: (error, st) {

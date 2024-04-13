@@ -37,7 +37,7 @@ class ChoferesDetailsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 14.h,),
-                  Text("Datos del viaje de ${choferesModel.firstName} ${choferesModel.lastName}", style: getRegularStyle(color: context.textColor, fontSize: MyFonts.size16),),
+                  Text("Perfil de ${choferesModel.firstName} ${choferesModel.lastName}", style: getRegularStyle(color: context.textColor, fontSize: MyFonts.size16),),
                   SizedBox(height: 14.h,),
                   Divider(height: 1.h,color: context.textFieldColor,),
                   SizedBox(height: 28.h,),

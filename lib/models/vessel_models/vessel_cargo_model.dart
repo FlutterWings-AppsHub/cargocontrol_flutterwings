@@ -7,6 +7,9 @@ class VesselCargoModel{
   final String cosecha;
   final dynamic pesoTotal;
   final dynamic pesoUnloaded;
+  // Bool MuitleProduct
+  // int cargoCount ; // 1,2,3
+  // Enum CargoCountProduct; // A, B
 
 //<editor-fold desc="Data Methods">
   const VesselCargoModel({

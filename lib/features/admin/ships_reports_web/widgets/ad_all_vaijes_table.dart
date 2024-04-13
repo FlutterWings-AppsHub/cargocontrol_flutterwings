@@ -1,4 +1,5 @@
 import 'package:cargocontrol/commons/common_imports/common_libs.dart';
+import 'package:cargocontrol/core/enums/viajes_status_enum.dart';
 import 'package:cargocontrol/models/viajes_models/viajes_model.dart';
 import 'package:cargocontrol/utils/constants.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
@@ -32,6 +33,7 @@ class _ViajesTableState extends State<ViajesTable> {
     'Perdida (%)',
     'Hora de llegada',
     'Hora de descarga',
+    'Destino',
   ];
   @override
   Widget build(BuildContext context) {
@@ -149,17 +151,23 @@ class _ViajesTableState extends State<ViajesTable> {
                   color: MyColors.black, fontSize: MyFonts.size11),
             ))),
             DataCell(Center(
-                child: Text(
-              formatDateTime(widget.viajesList[index].timeToIndustry),
+                child: Text( widget.viajesList[index].viajesStatusEnum==ViajesStatusEnum.industryUnloaded?
+              formatDateTime(widget.viajesList[index].timeToIndustry):"----",
+              style: getRegularStyle(
+                  color: MyColors.black, fontSize: MyFonts.size11),
+            ))),
+            DataCell(Center(
+                child: Text(widget.viajesList[index].viajesStatusEnum==ViajesStatusEnum.industryUnloaded?
+              formatDateTime(widget.viajesList[index].unloadingTimeInIndustry):"----",
               style: getRegularStyle(
                   color: MyColors.black, fontSize: MyFonts.size11),
             ))),
             DataCell(Center(
                 child: Text(
-              formatDateTime(widget.viajesList[index].unloadingTimeInIndustry),
-              style: getRegularStyle(
-                  color: MyColors.black, fontSize: MyFonts.size11),
-            ))),
+                  widget.viajesList[index].industryName,
+                  style: getRegularStyle(
+                      color: MyColors.black, fontSize: MyFonts.size11),
+                ))),
           ]),
       ],
     );
