@@ -66,7 +66,12 @@ class ChoferesController extends StateNotifier<bool> {
         lastName: hasSecondName ? firstName.split(' ').sublist(1).join() : '',
         rankingColor: 'Green',
         searchTags: choferesSearchTagsHandler(
-            name: firstName, choferNationalId: choferNationalId),
+            firstName: hasSecondName
+                ? firstName.split(' ').sublist(0, 1).join()
+                : firstName,
+            lastName:
+                hasSecondName ? firstName.split(' ').sublist(1).join() : '',
+            choferNationalId: choferNationalId),
         worstCargoDeficit: 0.0,
         createdAt: DateTime.now(),
         worstTimeDeficit: Duration(),
@@ -228,17 +233,17 @@ class ChoferesController extends StateNotifier<bool> {
             ? Duration(
                 milliseconds: totalTripTime.inMilliseconds ~/ viajesCount)
             : Duration.zero;
-print("============");
+        print("============");
         List<Duration> timeDeficitList = [];
         for (ViajesModel viaje in filteredViajesList) {
-          print("Average Trip Time: "+averageTripTime.toString());
-          print( "trip time: "+ viaje.tripTime.toString());
+          print("Average Trip Time: " + averageTripTime.toString());
+          print("trip time: " + viaje.tripTime.toString());
           Duration timeDeficit = viaje.tripTime - averageTripTime;
           timeDeficitList.add(timeDeficit);
         }
 
         // Find the worst and average time deficit
-        print("Time deficit List"+ timeDeficitList.toString());
+        print("Time deficit List" + timeDeficitList.toString());
         print("============");
         Duration worstTimeDeficit = timeDeficitList.isEmpty
             ? Duration.zero

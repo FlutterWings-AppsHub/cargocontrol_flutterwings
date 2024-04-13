@@ -1,6 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cargocontrol/features/auth/controllers/auth_notifier_controller.dart';
+import 'package:cargocontrol/models/choferes_models/choferes_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../common_widgets/loading_sheet.dart';
 import '../../../commons/common_functions/search_tags_handler.dart';
 import '../../../commons/common_widgets/show_toast.dart';
+import '../../../core/constants/firebase_constants.dart';
 import '../../../core/enums/account_type.dart';
 import '../../../core/firebase_messaging/firebase_messaging_class.dart';
 import '../../../core/services/database_service.dart';
@@ -243,5 +246,32 @@ class AuthController extends StateNotifier<bool> {
   // getSigninStatusOfUser
   Stream<User?> getSigninStatusOfUser() {
     return _authApis.getSigninStatusOfUser();
+  }
+
+
+
+  Future<void> updateSearchTags() async {
+    final CollectionReference<Map<String, dynamic>> usersCollection = FirebaseFirestore.instance.collection(FirebaseConstants.choferesCollection);
+
+    QuerySnapshot querySnapshot = await usersCollection
+        .get();
+    List<ChoferesModel> models = [];
+    querySnapshot.docs.forEach((element) {
+      models
+          .add(ChoferesModel.fromMap(element.data() as Map<String, dynamic>));
+    });
+    print(models.length);
+
+
+
+
+    for (ChoferesModel user in models) {
+      // Modify the searchTag as per your requirement
+      final searchTags = choferesSearchTagsHandler(
+          firstName:user.firstName, lastName:user.lastName,choferNationalId: user.choferNationalId);
+      ChoferesModel updatedUserModel = user.copyWith(searchTags: searchTags);
+
+      await usersCollection.doc(updatedUserModel.choferNationalId  ).update(updatedUserModel.toMap());
+    }
   }
 }
