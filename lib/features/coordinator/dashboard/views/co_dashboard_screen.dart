@@ -1,4 +1,4 @@
-import 'package:cargocontrol/common_widgets/cargo_bar_chart.dart';
+import 'package:cargocontrol/commons/common_widgets/cargo_bar_chart.dart';
 import 'package:cargocontrol/commons/common_imports/common_libs.dart';
 import 'package:cargocontrol/core/enums/viajes_status_enum.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
@@ -14,7 +14,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cargocontrol/utils/constants.dart' as constants;
 import 'package:hive_flutter/adapters.dart';
 
-import '../../../../common_widgets/dashboard_top_widget.dart';
+import '../../../../commons/common_widgets/dashboard_top_widget.dart';
 import '../../../../models/industry_models/industry_sub_model.dart';
 import '../../../../models/viajes_models/viajes_model.dart';
 import '../../../admin/create_industry/controllers/ad_industry_controller.dart';

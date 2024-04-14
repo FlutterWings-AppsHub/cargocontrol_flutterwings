@@ -3,11 +3,12 @@ import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../commons/common_imports/common_libs.dart';
-import '../features/admin/create_vessel/controllers/ad_vessel_controller.dart';
-import '../features/admin/dashboard/widgets/ad_progress_dashboard_card.dart';
-import '../models/vessel_models/vessel_cargo_model.dart';
-import '../utils/constants/font_manager.dart';
+import '../common_functions/vessel_cargo_hold_function.dart';
+import '../common_imports/common_libs.dart';
+import '../../features/admin/create_vessel/controllers/ad_vessel_controller.dart';
+import '../../features/admin/dashboard/widgets/ad_progress_dashboard_card.dart';
+import '../../models/vessel_models/vessel_cargo_model.dart';
+import '../../utils/constants/font_manager.dart';
 import 'cargo_bar_chart.dart';
 import 'package:cargocontrol/utils/constants.dart' as constants;
 
@@ -42,6 +43,8 @@ class DashBoardTopWidget extends StatelessWidget {
           builder: (BuildContext context, WidgetRef ref, Widget? child) {
             return ref.watch(fetchCurrentVesselsProvider).when(
                 data: (vesselModel) {
+                  Map<int, List<VesselCargoModel>> groupedCargo = groupCargoByCountNumber(vesselModel.cargoModels);
+                  List<VesselCargoModel> summedCargo = calculateSumPeso(groupedCargo);
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -100,11 +103,11 @@ class DashBoardTopWidget extends StatelessWidget {
                               ),
 
                               ListView.builder(
-                                itemCount: vesselModel.cargoModels.length,
+                                itemCount: summedCargo.length,
                                 scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
                                 itemBuilder: (BuildContext context, int index) {
-                                  VesselCargoModel model =  vesselModel.cargoModels[index];
+                                  VesselCargoModel model =  summedCargo[index];
                                   return    ref.watch(fetchCargoHoldViajesDeficit(model.cargoId)).
                                   when(
                                       data: (viajesDeficitModel){

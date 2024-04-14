@@ -1,4 +1,5 @@
 import 'package:cargocontrol/models/vessel_models/vessel_cargo_model.dart';
+import 'package:cargocontrol/models/vessel_models/vessel_product_model.dart';
 
 class VesselModel {
   final String vesselId;
@@ -10,12 +11,14 @@ class VesselModel {
   final dynamic totalCargoWeight;
   final int numberOfCargos;
   final List<VesselCargoModel> cargoModels;
+  final List<VesselProductModel> vesselProductModels;
   final dynamic cargoUnloadedWeight;
   final DateTime entryDate;
   final DateTime exitDate;
   final bool isFinishedUnloading;
   final Map<String, dynamic> searchTags;
 
+//<editor-fold desc="Data Methods">
   const VesselModel({
     required this.vesselId,
     required this.vesselName,
@@ -26,30 +29,13 @@ class VesselModel {
     required this.totalCargoWeight,
     required this.numberOfCargos,
     required this.cargoModels,
+    required this.vesselProductModels,
     required this.cargoUnloadedWeight,
     required this.entryDate,
-    required this.isFinishedUnloading,
     required this.exitDate,
+    required this.isFinishedUnloading,
     required this.searchTags,
   });
-
-
-  // Empty constructor with default values
-  VesselModel.empty()
-      : vesselId = '',
-        vesselName = '',
-        exitPort = '',
-        entryPort = '',
-        shipper = '',
-        unlcode = '',
-        totalCargoWeight = 0.0,
-        numberOfCargos = 0,
-        cargoModels = [],
-        cargoUnloadedWeight = 0.0,
-        entryDate = DateTime.now(),
-        exitDate = DateTime.now(),
-        isFinishedUnloading = false,
-        searchTags = {};
 
   @override
   bool operator ==(Object other) =>
@@ -62,13 +48,14 @@ class VesselModel {
           entryPort == other.entryPort &&
           shipper == other.shipper &&
           unlcode == other.unlcode &&
-          isFinishedUnloading == other.isFinishedUnloading &&
           totalCargoWeight == other.totalCargoWeight &&
           numberOfCargos == other.numberOfCargos &&
           cargoModels == other.cargoModels &&
+          vesselProductModels == other.vesselProductModels &&
           cargoUnloadedWeight == other.cargoUnloadedWeight &&
           entryDate == other.entryDate &&
           exitDate == other.exitDate &&
+          isFinishedUnloading == other.isFinishedUnloading &&
           searchTags == other.searchTags);
 
   @override
@@ -82,6 +69,7 @@ class VesselModel {
       totalCargoWeight.hashCode ^
       numberOfCargos.hashCode ^
       cargoModels.hashCode ^
+      vesselProductModels.hashCode ^
       cargoUnloadedWeight.hashCode ^
       entryDate.hashCode ^
       exitDate.hashCode ^
@@ -100,10 +88,11 @@ class VesselModel {
         ' totalCargoWeight: $totalCargoWeight,' +
         ' numberOfCargos: $numberOfCargos,' +
         ' cargoModels: $cargoModels,' +
+        ' vesselProductModels: $vesselProductModels,' +
         ' cargoUnloadedWeight: $cargoUnloadedWeight,' +
         ' entryDate: $entryDate,' +
         ' exitDate: $exitDate,' +
-        ' exitDate: $isFinishedUnloading,' +
+        ' isFinishedUnloading: $isFinishedUnloading,' +
         ' searchTags: $searchTags,' +
         '}';
   }
@@ -115,13 +104,14 @@ class VesselModel {
     String? entryPort,
     String? shipper,
     String? unlcode,
-    dynamic totalCargoWeight,
+    dynamic? totalCargoWeight,
     int? numberOfCargos,
     List<VesselCargoModel>? cargoModels,
-    dynamic cargoUnloadedWeight,
+    List<VesselProductModel>? vesselProductModels,
+    dynamic? cargoUnloadedWeight,
     DateTime? entryDate,
-    bool? isFinishedUnloading,
     DateTime? exitDate,
+    bool? isFinishedUnloading,
     Map<String, dynamic>? searchTags,
   }) {
     return VesselModel(
@@ -134,13 +124,17 @@ class VesselModel {
       totalCargoWeight: totalCargoWeight ?? this.totalCargoWeight,
       numberOfCargos: numberOfCargos ?? this.numberOfCargos,
       cargoModels: cargoModels ?? this.cargoModels,
-      isFinishedUnloading: isFinishedUnloading ?? this.isFinishedUnloading,
+      vesselProductModels: vesselProductModels ?? this.vesselProductModels,
       cargoUnloadedWeight: cargoUnloadedWeight ?? this.cargoUnloadedWeight,
       entryDate: entryDate ?? this.entryDate,
       exitDate: exitDate ?? this.exitDate,
+      isFinishedUnloading: isFinishedUnloading ?? this.isFinishedUnloading,
       searchTags: searchTags ?? this.searchTags,
     );
   }
+
+
+
 
   Map<String, dynamic> toMap() {
     return {
@@ -154,6 +148,7 @@ class VesselModel {
       'numberOfCargos': this.numberOfCargos,
       'isFinishedUnloading': this.isFinishedUnloading,
       'cargoModels': this.cargoModels.map((e) => e.toMap()).toList(),
+      'vesselProductModels': this.vesselProductModels.map((e) => e.toMap()).toList(),
       'cargoUnloadedWeight': this.cargoUnloadedWeight,
       'entryDate': this.entryDate.millisecondsSinceEpoch,
       'exitDate': this.exitDate.millisecondsSinceEpoch,
@@ -174,12 +169,18 @@ class VesselModel {
       numberOfCargos: map['numberOfCargos'] as int,
       cargoModels: (map['cargoModels'] as List<dynamic>).
       map((e) => VesselCargoModel.fromMap(e)).toList(),
+      vesselProductModels:
+      (map['vesselProductModels'] as List<dynamic>).
+      map((e) => VesselProductModel.fromMap(e)).toList(),
       cargoUnloadedWeight: map['cargoUnloadedWeight'] as dynamic,
       entryDate: DateTime.fromMillisecondsSinceEpoch(map['entryDate'] ),
       exitDate: DateTime.fromMillisecondsSinceEpoch(map['exitDate'] ),
       searchTags: map['searchTags'] as Map<String, dynamic>,
     );
   }
+
+
+
 
 //</editor-fold>
 }

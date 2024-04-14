@@ -10,6 +10,7 @@ import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../commons/common_widgets/custom_appbar.dart';
 import '../../../../models/industry_models/industry_sub_model.dart';
 import '../../../../models/vessel_models/vessel_cargo_model.dart';
+import '../../../../models/vessel_models/vessel_product_model.dart';
 import '../../../../utils/thems/my_colors.dart';
 import '../../create_vessel/controllers/ad_vessel_controller.dart';
 import '../../create_vessel/widgets/information_preliminar_widget.dart';
@@ -54,7 +55,7 @@ class _CreateIndustryCompleteDataScreenState extends ConsumerState<CreateIndustr
                   Divider(height: 1.h,color: context.textFieldColor,),
                   SizedBox(height: 28.h,),
                   IndustriesForAllData(industrySubModels: widget.industrySubModels,),
-                  SizedBox(height: 20.h,),
+                  SizedBox(height: 0.h,),
                   Divider(height: 1.h,color: context.textFieldColor,),
                   SizedBox(height: 20.h,),
 
@@ -67,22 +68,22 @@ class _CreateIndustryCompleteDataScreenState extends ConsumerState<CreateIndustr
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 ListView.builder(
-                                  itemCount: vesselModel.cargoModels.length,
+                                  itemCount: vesselModel.vesselProductModels.length,
                                   scrollDirection: Axis.vertical,
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemBuilder: (BuildContext context, int index) {
-                                    VesselCargoModel cargoModel =  vesselModel.cargoModels[index];
+                                    VesselProductModel productModel =  vesselModel.vesselProductModels[index];
                                     return Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          '${cargoModel.productName}, ${cargoModel.variety}, ${cargoModel.cosecha}, ${cargoModel.tipo}: ',
+                                          '${productModel.productName}: ',
                                           style: getBoldStyle(color:context.textColor, fontSize: MyFonts.size14),
                                         ),
                                         Text(
-                                          '${cargoModel.pesoTotal}/${widget.cargoHoldWeights[index]}',
-                                          style: getBoldStyle(color:(cargoModel.pesoTotal<widget.cargoHoldWeights[index])?context.errorColor:MyColors.kBrandColor, fontSize: MyFonts.size14),
+                                          '${productModel.pesoTotal}/${widget.cargoHoldWeights[index]}',
+                                          style: getBoldStyle(color:(productModel.pesoTotal<widget.cargoHoldWeights[index])?context.errorColor:(productModel.pesoTotal==widget.cargoHoldWeights[index])?MyColors.kBrandColor:MyColors.black, fontSize: MyFonts.size14),
                                         ),
                                       ],
                                     );
@@ -98,10 +99,11 @@ class _CreateIndustryCompleteDataScreenState extends ConsumerState<CreateIndustr
                                     ),
                                     Text(
                                       ' ${vesselModel.totalCargoWeight}/${calculateTotalWeight(widget.industrySubModels)}',
-                                      style: getBoldStyle(color:(vesselModel.totalCargoWeight<calculateTotalWeight(widget.industrySubModels))?context.errorColor:MyColors.kBrandColor, fontSize: MyFonts.size14),
+                                      style: getBoldStyle(color:(vesselModel.totalCargoWeight<calculateTotalWeight(widget.industrySubModels))?context.errorColor:(vesselModel.totalCargoWeight==calculateTotalWeight(widget.industrySubModels))?MyColors.kBrandColor:MyColors.black, fontSize: MyFonts.size14),
                                     ),
                                   ],
                                 ),
+
                               ],
                             );
                           }, error: (error, st) {

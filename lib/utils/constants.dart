@@ -188,6 +188,17 @@ class ButtonStyles {
     minimumSize: MaterialStateProperty.all<Size>(const Size.fromHeight(83)),
     backgroundColor: MaterialStateProperty.all<Color>(kMainBackroundColor),
   );
+
+  static ButtonStyle buttonStyle4 = ButtonStyle(
+    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+      RoundedRectangleBorder(
+        side: const BorderSide(color: kOutlineTextFieldColor),
+        borderRadius: BorderRadius.circular(25.0),
+      ),
+    ),
+    minimumSize: MaterialStateProperty.all<Size>(const Size.fromHeight(56)),
+    backgroundColor: MaterialStateProperty.all<Color>(kMainBackroundColor),
+  );
 }
 
 //Decoration styles

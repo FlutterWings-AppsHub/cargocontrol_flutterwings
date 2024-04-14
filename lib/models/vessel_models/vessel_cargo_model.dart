@@ -1,3 +1,7 @@
+import 'package:cargocontrol/core/enums/bogeda_count_product_enum.dart';
+
+import '../../core/enums/bogeda_count_product_enum.dart';
+
 class VesselCargoModel{
   final String cargoId;
   final String productName;
@@ -7,11 +11,12 @@ class VesselCargoModel{
   final String cosecha;
   final dynamic pesoTotal;
   final dynamic pesoUnloaded;
-  // Bool MuitleProduct
-  // int cargoCount ; // 1,2,3
-  // Enum CargoCountProduct; // A, B
+  final bool multipleProductInBodega;
+  final int cargoCountNumber;
+  final BogedaCountProductEnum bogedaCountProductEnum;
 
 //<editor-fold desc="Data Methods">
+
   const VesselCargoModel({
     required this.cargoId,
     required this.productName,
@@ -21,22 +26,29 @@ class VesselCargoModel{
     required this.cosecha,
     required this.pesoTotal,
     required this.pesoUnloaded,
+    required this.multipleProductInBodega,
+    required this.cargoCountNumber,
+    required this.bogedaCountProductEnum,
   });
 
-  @override
+// A,@override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is VesselCargoModel &&
-          runtimeType == other.runtimeType &&
-          cargoId == other.cargoId &&
-          productName == other.productName &&
-          tipo == other.tipo &&
-          origen == other.origen &&
-          variety == other.variety &&
-          cosecha == other.cosecha &&
-          pesoTotal == other.pesoTotal &&
-          pesoUnloaded == other.pesoUnloaded
-      );
+          (other is VesselCargoModel &&
+              runtimeType == other.runtimeType &&
+              cargoId == other.cargoId &&
+              productName == other.productName &&
+              tipo == other.tipo &&
+              origen == other.origen &&
+              variety == other.variety &&
+              cosecha == other.cosecha &&
+              pesoTotal == other.pesoTotal &&
+              pesoUnloaded == other.pesoUnloaded &&
+              multipleProductInBodega == other.multipleProductInBodega &&
+              cargoCountNumber == other.cargoCountNumber &&
+              bogedaCountProductEnum == other.bogedaCountProductEnum
+          );
+
 
   @override
   int get hashCode =>
@@ -47,8 +59,11 @@ class VesselCargoModel{
       variety.hashCode ^
       cosecha.hashCode ^
       pesoTotal.hashCode ^
-      pesoUnloaded.hashCode
-  ;
+      pesoUnloaded.hashCode ^
+      multipleProductInBodega.hashCode ^
+      cargoCountNumber.hashCode ^
+      bogedaCountProductEnum.hashCode;
+
 
   @override
   String toString() {
@@ -61,8 +76,12 @@ class VesselCargoModel{
         ' cosecha: $cosecha,' +
         ' pesoTotal: $pesoTotal,' +
         ' pesoUnloaded: $pesoUnloaded,' +
+        ' multipleProductInBodega: $multipleProductInBodega,' +
+        ' cargoCountNumber: $cargoCountNumber,' +
+        ' bogedaCountProductEnum: $bogedaCountProductEnum,' +
         '}';
   }
+
 
   VesselCargoModel copyWith({
     String? cargoId,
@@ -71,8 +90,11 @@ class VesselCargoModel{
     String? origen,
     String? variety,
     String? cosecha,
-    dynamic pesoTotal,
-    dynamic pesoUnloaded,
+    dynamic? pesoTotal,
+    dynamic? pesoUnloaded,
+    bool? multipleProductInBodega,
+    int? cargoCountNumber,
+    BogedaCountProductEnum? bogedaCountProductEnum,
   }) {
     return VesselCargoModel(
       cargoId: cargoId ?? this.cargoId,
@@ -83,8 +105,14 @@ class VesselCargoModel{
       cosecha: cosecha ?? this.cosecha,
       pesoTotal: pesoTotal ?? this.pesoTotal,
       pesoUnloaded: pesoUnloaded ?? this.pesoUnloaded,
+      multipleProductInBodega: multipleProductInBodega ??
+          this.multipleProductInBodega,
+      cargoCountNumber: cargoCountNumber ?? this.cargoCountNumber,
+      bogedaCountProductEnum: bogedaCountProductEnum ??
+          this.bogedaCountProductEnum,
     );
   }
+
 
   Map<String, dynamic> toMap() {
     return {
@@ -96,6 +124,9 @@ class VesselCargoModel{
       'cosecha': this.cosecha,
       'pesoTotal': this.pesoTotal,
       'pesoUnloaded': this.pesoUnloaded,
+      'multipleProductInBodega': this.multipleProductInBodega,
+      'cargoCountNumber': this.cargoCountNumber,
+      'bogedaCountProductEnum': this.bogedaCountProductEnum.type,
     };
   }
 
@@ -109,8 +140,16 @@ class VesselCargoModel{
       cosecha: map['cosecha'] as String,
       pesoTotal: map['pesoTotal'] as dynamic,
       pesoUnloaded: map['pesoUnloaded'] as dynamic,
+      multipleProductInBodega: map['multipleProductInBodega'] as bool,
+      cargoCountNumber: map['cargoCountNumber'] as int,
+      bogedaCountProductEnum: (map['bogedaCountProductEnum'] as String).toBogedaCountProductEnum(),
     );
   }
 
-//</editor-fold>
+
+  //</editor-fold>
+
+
+
+
 }

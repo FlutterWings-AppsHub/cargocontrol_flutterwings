@@ -150,92 +150,96 @@ class ViajesUpdateNotiController extends ChangeNotifier {
     });
   }
 
-  IndustrySubModel updateCurrentInustrySubModel(
-      IndustrySubModel model, ViajesModel viajesModel) {
-    IndustrySubModel updatedCurrentIndustrySubModel = model;
-    // Remove guideno from usedGuideNumbers list
-    if (updatedCurrentIndustrySubModel.usedGuideNumbers
-        .contains(viajesModel.guideNumber)) {
-      updatedCurrentIndustrySubModel.usedGuideNumbers
-          .remove(viajesModel.guideNumber);
-    }
-
-    // Remove viajesId from viajesIds list
-    if (updatedCurrentIndustrySubModel.viajesIds
-        .contains(viajesModel.viajesId)) {
-      updatedCurrentIndustrySubModel.viajesIds.remove(viajesModel.viajesId);
-    }
-
-    VesselCargoModel vesselCargoModel =
-        updatedCurrentIndustrySubModel.selectedVesselCargo;
-    vesselCargoModel = vesselCargoModel.copyWith(
-      pesoUnloaded: model.selectedVesselCargo.pesoUnloaded -
-          (viajesModel.cargoUnloadWeight -
-              viajesModel.entryTimeTruckWeightToPort),
-    );
-
-    updatedCurrentIndustrySubModel = updatedCurrentIndustrySubModel.copyWith(
-      cargoUnloaded: model.cargoUnloaded -
-          (viajesModel.cargoUnloadWeight -
-              viajesModel.entryTimeTruckWeightToPort),
-      deficit: model.deficit - viajesModel.cargoDeficitWeight,
-      selectedVesselCargo: vesselCargoModel,
-    );
-
-    return updatedCurrentIndustrySubModel;
-  }
-
-  IndustrySubModel updateOtherInustrySubModel(
-      IndustrySubModel model, ViajesModel viajesModel,double guideNo) {
-    IndustrySubModel updatedOtherIndustrySubModel = model;
-    // Add guideno from usedGuideNumbers list
-    updatedOtherIndustrySubModel.usedGuideNumbers.add(guideNo);
-
-    // add viajesId from viajesIds list
-    updatedOtherIndustrySubModel.viajesIds.add(viajesModel.viajesId);
-
-    VesselCargoModel vesselCargoModel =
-        updatedOtherIndustrySubModel.selectedVesselCargo;
-    vesselCargoModel = vesselCargoModel.copyWith(
-      pesoUnloaded: model.selectedVesselCargo.pesoUnloaded +
-          (viajesModel.cargoUnloadWeight -
-              viajesModel.entryTimeTruckWeightToPort),
-    );
-
-    updatedOtherIndustrySubModel = updatedOtherIndustrySubModel.copyWith(
-      cargoUnloaded: model.cargoUnloaded +
-          (viajesModel.cargoUnloadWeight -
-              viajesModel.entryTimeTruckWeightToPort),
-      deficit: model.deficit + viajesModel.cargoDeficitWeight,
-      selectedVesselCargo: vesselCargoModel,
-    );
-
-    return updatedOtherIndustrySubModel;
-  }
 
 
+  // Todo Industry model changes Effect: 3
 
-  IndustrySubModel updateExitWeightIndustrySubModel(
-      IndustrySubModel currentIndustrySubModel, ViajesModel currentViajesModel,double  exitTruckWeightAtPort) {
-    VesselCargoModel vesselCargoModel =
-        currentIndustrySubModel.selectedVesselCargo;
-    vesselCargoModel = vesselCargoModel.copyWith(
-      pesoUnloaded: currentIndustrySubModel.selectedVesselCargo.pesoUnloaded -
-          currentViajesModel.cargoUnloadWeight +
-          exitTruckWeightAtPort,
-    );
-
-    currentIndustrySubModel = currentIndustrySubModel.copyWith(
-      cargoUnloaded: currentIndustrySubModel.cargoUnloaded -
-          currentViajesModel.cargoUnloadWeight +
-          exitTruckWeightAtPort,
-      deficit: currentIndustrySubModel.deficit -
-          (exitTruckWeightAtPort - currentViajesModel.cargoUnloadWeight),
-      selectedVesselCargo: vesselCargoModel,
-    );
-
-    return currentIndustrySubModel;
-  }
+  // IndustrySubModel updateCurrentInustrySubModel(
+  //     IndustrySubModel model, ViajesModel viajesModel) {
+  //   IndustrySubModel updatedCurrentIndustrySubModel = model;
+  //   // Remove guideno from usedGuideNumbers list
+  //   if (updatedCurrentIndustrySubModel.usedGuideNumbers
+  //       .contains(viajesModel.guideNumber)) {
+  //     updatedCurrentIndustrySubModel.usedGuideNumbers
+  //         .remove(viajesModel.guideNumber);
+  //   }
+  //
+  //   // Remove viajesId from viajesIds list
+  //   if (updatedCurrentIndustrySubModel.viajesIds
+  //       .contains(viajesModel.viajesId)) {
+  //     updatedCurrentIndustrySubModel.viajesIds.remove(viajesModel.viajesId);
+  //   }
+  //
+  //   VesselCargoModel vesselCargoModel =
+  //       updatedCurrentIndustrySubModel.selectedVesselCargo;
+  //   vesselCargoModel = vesselCargoModel.copyWith(
+  //     pesoUnloaded: model.selectedVesselCargo.pesoUnloaded -
+  //         (viajesModel.cargoUnloadWeight -
+  //             viajesModel.entryTimeTruckWeightToPort),
+  //   );
+  //
+  //   updatedCurrentIndustrySubModel = updatedCurrentIndustrySubModel.copyWith(
+  //     cargoUnloaded: model.cargoUnloaded -
+  //         (viajesModel.cargoUnloadWeight -
+  //             viajesModel.entryTimeTruckWeightToPort),
+  //     deficit: model.deficit - viajesModel.cargoDeficitWeight,
+  //     selectedVesselCargo: vesselCargoModel,
+  //   );
+  //
+  //   return updatedCurrentIndustrySubModel;
+  // }
+  //
+  // IndustrySubModel updateOtherInustrySubModel(
+  //     IndustrySubModel model, ViajesModel viajesModel,double guideNo) {
+  //   IndustrySubModel updatedOtherIndustrySubModel = model;
+  //   // Add guideno from usedGuideNumbers list
+  //   updatedOtherIndustrySubModel.usedGuideNumbers.add(guideNo);
+  //
+  //   // add viajesId from viajesIds list
+  //   updatedOtherIndustrySubModel.viajesIds.add(viajesModel.viajesId);
+  //
+  //   VesselCargoModel vesselCargoModel =
+  //       updatedOtherIndustrySubModel.selectedVesselCargo;
+  //   vesselCargoModel = vesselCargoModel.copyWith(
+  //     pesoUnloaded: model.selectedVesselCargo.pesoUnloaded +
+  //         (viajesModel.cargoUnloadWeight -
+  //             viajesModel.entryTimeTruckWeightToPort),
+  //   );
+  //
+  //   updatedOtherIndustrySubModel = updatedOtherIndustrySubModel.copyWith(
+  //     cargoUnloaded: model.cargoUnloaded +
+  //         (viajesModel.cargoUnloadWeight -
+  //             viajesModel.entryTimeTruckWeightToPort),
+  //     deficit: model.deficit + viajesModel.cargoDeficitWeight,
+  //     selectedVesselCargo: vesselCargoModel,
+  //   );
+  //
+  //   return updatedOtherIndustrySubModel;
+  // }
+  //
+  //
+  //
+  // IndustrySubModel updateExitWeightIndustrySubModel(
+  //     IndustrySubModel currentIndustrySubModel, ViajesModel currentViajesModel,double  exitTruckWeightAtPort) {
+  //   VesselCargoModel vesselCargoModel =
+  //       currentIndustrySubModel.selectedVesselCargo;
+  //   vesselCargoModel = vesselCargoModel.copyWith(
+  //     pesoUnloaded: currentIndustrySubModel.selectedVesselCargo.pesoUnloaded -
+  //         currentViajesModel.cargoUnloadWeight +
+  //         exitTruckWeightAtPort,
+  //   );
+  //
+  //   currentIndustrySubModel = currentIndustrySubModel.copyWith(
+  //     cargoUnloaded: currentIndustrySubModel.cargoUnloaded -
+  //         currentViajesModel.cargoUnloadWeight +
+  //         exitTruckWeightAtPort,
+  //     deficit: currentIndustrySubModel.deficit -
+  //         (exitTruckWeightAtPort - currentViajesModel.cargoUnloadWeight),
+  //     selectedVesselCargo: vesselCargoModel,
+  //   );
+  //
+  //   return currentIndustrySubModel;
+  // }
 
   VesselModel addWeightInVesselCargo(
       {required VesselModel originalModel,

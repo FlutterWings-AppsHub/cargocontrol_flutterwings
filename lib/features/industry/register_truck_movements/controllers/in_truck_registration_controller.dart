@@ -96,19 +96,20 @@ class TruckRegistrationController extends StateNotifier<bool> {
         unloadingTimeInIndustry: unloadingTimeInIndustry,
         viajesTypeEnum: ViajesTypeEnum.completed,
         viajesStatusEnum: ViajesStatusEnum.industryUnloaded);
-
-    IndustrySubModel industry = industrySubModel.copyWith(
-      deficit: industrySubModel.deficit +
-          (viajesModel.exitTimeTruckWeightToPort - cargoUnloadWeight),
-      cargoUnloaded: industrySubModel.cargoUnloaded +
-          cargoUnloadWeight -
-          viajesModel.entryTimeTruckWeightToPort,
-      selectedVesselCargo: industrySubModel.selectedVesselCargo.copyWith(
-        pesoUnloaded: industrySubModel.selectedVesselCargo.pesoUnloaded +
-            cargoUnloadWeight -
-            viajesModel.entryTimeTruckWeightToPort,
-      ),
-    );
+    // Todo Industry model changes Effect: 13
+    // IndustrySubModel industry = industrySubModel.copyWith(
+    //   deficit: industrySubModel.deficit +
+    //       (viajesModel.exitTimeTruckWeightToPort - cargoUnloadWeight),
+    //   cargoUnloaded: industrySubModel.cargoUnloaded +
+    //       cargoUnloadWeight -
+    //       viajesModel.entryTimeTruckWeightToPort,
+    //   selectedVesselCargo: industrySubModel.selectedVesselCargo.copyWith(
+    //     pesoUnloaded: industrySubModel.selectedVesselCargo.pesoUnloaded +
+    //         cargoUnloadWeight -
+    //         viajesModel.entryTimeTruckWeightToPort,
+    //   ),
+    // );
+    IndustrySubModel industry = industrySubModel;
     double tripCargoDeficit =
         (viajesModel.exitTimeTruckWeightToPort - cargoUnloadWeight);
     double updatedAverageCargoDeficit = ((choferesModel.averageCargoDeficit *

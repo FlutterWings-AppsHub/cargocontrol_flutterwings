@@ -12,6 +12,7 @@ import 'package:uuid/uuid.dart';
 import '../../../../commons/common_widgets/show_toast.dart';
 import '../../../../core/enums/weight_unit_enum.dart';
 import '../../../../models/vessel_models/vessel_cargo_model.dart';
+import '../../../../models/vessel_models/vessel_product_model.dart';
 import '../data/models/deficit_viejes_model.dart';
 
 final adVesselProvider = StateNotifierProvider<AdVesselController, bool>((ref) {
@@ -51,6 +52,7 @@ class AdVesselController extends StateNotifier<bool> {
     required int numberOfWines,
     required WeightUnitEnum weightUnitEnum,
     required List<VesselCargoModel> bogedaModels,
+    required List<VesselProductModel> vesselProductModels,
     required double totalCargoWeight,
     required WidgetRef ref,
     required BuildContext context,
@@ -66,12 +68,12 @@ class AdVesselController extends StateNotifier<bool> {
         shipper: shipper,
         unlcode: unCode,
         totalCargoWeight: totalCargoWeight,
-        numberOfCargos: bogedaModels.length,
+        numberOfCargos: numberOfWines,
         cargoModels: bogedaModels,
         cargoUnloadedWeight: 0.0,
         entryDate: portDate,
         exitDate: AppConstants.constantDateTime,
-        searchTags: vesselSearchTags(unlcode: unCode, shipperName: shipper ,name: vesselName)
+        searchTags: vesselSearchTags(unlcode: unCode, shipperName: shipper ,name: vesselName), vesselProductModels: vesselProductModels
     );
     final result = await _datasource.createVessel(vesselModel: vesselModel);
 

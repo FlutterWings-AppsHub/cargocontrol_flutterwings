@@ -20,11 +20,13 @@ class BodegasForAllData extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Bodega #${index+1}", style: getBoldStyle(
+
+            Text("Bodega #${model.multipleProductInBodega?model.cargoCountNumber.toString()+model.bogedaCountProductEnum.type:model.cargoCountNumber.toString()}", style: getBoldStyle(
               color: context.textColor,
               fontSize: MyFonts.size14,
             ),),
-            SizedBox(height: 28.h,),
+            SizedBox(height: 10.h,),
+
             CustomTile(
               title: 'Producto',
               subText: model.productName,
@@ -49,6 +51,8 @@ class BodegasForAllData extends StatelessWidget {
               title: 'Carga',
               subText: model.pesoTotal.toString(),
             ),
+            SizedBox(height: 28.h,),
+
           ],
         );
       },

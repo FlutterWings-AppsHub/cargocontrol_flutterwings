@@ -48,80 +48,81 @@ class _ExitPortWeightUpdateDialogState
     super.dispose();
   }
 
-  update({required WidgetRef ref}) async {
-    try {
-      double exitTruckWeightAtPort = double.parse(exitPortWeightCtr.text);
-      if (exitTruckWeightAtPort <
-          widget.viajesModel.entryTimeTruckWeightToPort) {
-        showToast(msg: "Peso bruto cannot be less than peso tara!");
-        return;
-      }
-      if (exitTruckWeightAtPort < widget.viajesModel.cargoUnloadWeight) {
-        showToast(msg: "Peso bruto cannot be less than peso unloading!");
-        return;
-      }
-      ViajesModel currentViajesModel = widget.viajesModel;
-
-      await getIndustryModel(ref: ref);
-
-      // Step 2: get current Vesesel Model
-      VesselModel currentVesselModel =
-          ref.read(viajesUpdateNotiControllerProvider).vesselModel!;
-
-      //Step 3: get current industry model
-      IndustrySubModel currentIndustrySubModel =
-          ref.read(viajesUpdateNotiControllerProvider).currentIndustryModel!;
-
-      //Step 4: get this weight is valid.
-      IndustrySubModel checkIndustrySubModel = ref
-          .read(viajesUpdateNotiControllerProvider)
-          .updateExitWeightIndustrySubModel(currentIndustrySubModel,
-              currentViajesModel, exitTruckWeightAtPort);
-      if (checkIndustrySubModel.cargoUnloaded >
-          checkIndustrySubModel.cargoAssigned) {
-        showToast(
-            msg: "Cargo Exceed the assigned limit of Industry",
-            textColor: MyColors.red);
-        return;
-      }
-      //Step 5: update the industry deficit
-      currentIndustrySubModel = currentIndustrySubModel.copyWith(
-          deficit: currentIndustrySubModel.deficit -
-              currentViajesModel.cargoDeficitWeight +
-              (exitTruckWeightAtPort - currentViajesModel.cargoUnloadWeight));
-      //Step 6:  update vessel model
-      currentVesselModel = ref
-          .read(viajesUpdateNotiControllerProvider)
-          .updateExitWeightInVesselCargo(
-              originalModel: currentVesselModel,
-              updatedCargoModel: currentIndustrySubModel.selectedVesselCargo,
-              exitTruckWeightMinusPeroTara: exitTruckWeightAtPort -
-                  currentViajesModel.entryTimeTruckWeightToPort,
-              oldExitTruckWeightMinusPeroTara:
-                  currentViajesModel.exitTimeTruckWeightToPort -
-                      currentViajesModel.entryTimeTruckWeightToPort);
-      //Step 8 : in Viajes model update -exitPortWeight, deificit, pure cargo weight
-      currentViajesModel = currentViajesModel.copyWith(
-        exitTimeTruckWeightToPort: exitTruckWeightAtPort,
-        cargoDeficitWeight:
-            exitTruckWeightAtPort - currentViajesModel.cargoUnloadWeight,
-        pureCargoWeight: exitTruckWeightAtPort -
-            currentViajesModel.entryTimeTruckWeightToPort,
-      );
-      //Step 9: update all four models.
-      ref
-          .read(viajesControllerProvider.notifier)
-          .updateVaijesModelsForWeightUpdate(
-              viajesModel: currentViajesModel,
-              vesselModel: currentVesselModel,
-              currentIndustryModel: currentIndustrySubModel,
-              ref: ref,
-              context: context);
-    } catch (ex) {
-      print(ex);
-      return;
-    }
-  }
+  // Todo Industry model changes Effect: 4
+  // update({required WidgetRef ref}) async {
+  //   try {
+  //     double exitTruckWeightAtPort = double.parse(exitPortWeightCtr.text);
+  //     if (exitTruckWeightAtPort <
+  //         widget.viajesModel.entryTimeTruckWeightToPort) {
+  //       showToast(msg: "Peso bruto cannot be less than peso tara!");
+  //       return;
+  //     }
+  //     if (exitTruckWeightAtPort < widget.viajesModel.cargoUnloadWeight) {
+  //       showToast(msg: "Peso bruto cannot be less than peso unloading!");
+  //       return;
+  //     }
+  //     ViajesModel currentViajesModel = widget.viajesModel;
+  //
+  //     await getIndustryModel(ref: ref);
+  //
+  //     // Step 2: get current Vesesel Model
+  //     VesselModel currentVesselModel =
+  //         ref.read(viajesUpdateNotiControllerProvider).vesselModel!;
+  //
+  //     //Step 3: get current industry model
+  //     IndustrySubModel currentIndustrySubModel =
+  //         ref.read(viajesUpdateNotiControllerProvider).currentIndustryModel!;
+  //
+  //     //Step 4: get this weight is valid.
+  //     IndustrySubModel checkIndustrySubModel = ref
+  //         .read(viajesUpdateNotiControllerProvider)
+  //         .updateExitWeightIndustrySubModel(currentIndustrySubModel,
+  //             currentViajesModel, exitTruckWeightAtPort);
+  //     if (checkIndustrySubModel.cargoUnloaded >
+  //         checkIndustrySubModel.cargoAssigned) {
+  //       showToast(
+  //           msg: "Cargo Exceed the assigned limit of Industry",
+  //           textColor: MyColors.red);
+  //       return;
+  //     }
+  //     //Step 5: update the industry deficit
+  //     currentIndustrySubModel = currentIndustrySubModel.copyWith(
+  //         deficit: currentIndustrySubModel.deficit -
+  //             currentViajesModel.cargoDeficitWeight +
+  //             (exitTruckWeightAtPort - currentViajesModel.cargoUnloadWeight));
+  //     //Step 6:  update vessel model
+  //     currentVesselModel = ref
+  //         .read(viajesUpdateNotiControllerProvider)
+  //         .updateExitWeightInVesselCargo(
+  //             originalModel: currentVesselModel,
+  //             updatedCargoModel: currentIndustrySubModel.selectedVesselCargo,
+  //             exitTruckWeightMinusPeroTara: exitTruckWeightAtPort -
+  //                 currentViajesModel.entryTimeTruckWeightToPort,
+  //             oldExitTruckWeightMinusPeroTara:
+  //                 currentViajesModel.exitTimeTruckWeightToPort -
+  //                     currentViajesModel.entryTimeTruckWeightToPort);
+  //     //Step 8 : in Viajes model update -exitPortWeight, deificit, pure cargo weight
+  //     currentViajesModel = currentViajesModel.copyWith(
+  //       exitTimeTruckWeightToPort: exitTruckWeightAtPort,
+  //       cargoDeficitWeight:
+  //           exitTruckWeightAtPort - currentViajesModel.cargoUnloadWeight,
+  //       pureCargoWeight: exitTruckWeightAtPort -
+  //           currentViajesModel.entryTimeTruckWeightToPort,
+  //     );
+  //     //Step 9: update all four models.
+  //     ref
+  //         .read(viajesControllerProvider.notifier)
+  //         .updateVaijesModelsForWeightUpdate(
+  //             viajesModel: currentViajesModel,
+  //             vesselModel: currentVesselModel,
+  //             currentIndustryModel: currentIndustrySubModel,
+  //             ref: ref,
+  //             context: context);
+  //   } catch (ex) {
+  //     print(ex);
+  //     return;
+  //   }
+  // }
 
   Future<void> getIndustryModel({required WidgetRef ref}) async {
     await ref
@@ -217,7 +218,8 @@ class _ExitPortWeightUpdateDialogState
                           if (exitPortWeightCtr.text.isEmpty) {
                             return;
                           }
-                          await update(ref: ref);
+                          // Todo Industry model changes Effect: 5
+                          //await update(ref: ref);
                           Navigator.pop(context);
                         },
                         buttonText: 'Update',
