@@ -91,7 +91,9 @@ class _CreateIndustryInformationScreenState extends ConsumerState<CreateIndustry
       onTap: (){},
       hintText: "",
       label: 'Carga asignada',
-      onChanged: (val){},
+      onChanged: (val){
+        reCalculateAll();
+      },
       obscure: false,
       inputType: TextInputType.number,
       onFieldSubmitted: (val){},
@@ -162,6 +164,69 @@ class _CreateIndustryInformationScreenState extends ConsumerState<CreateIndustry
     );
   }
 
+  reCalculateAll(){
+    totalCargoLoad = 0;
+    totalIndustryLoads = 0;
+    productAssignedWeights=[
+      0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+    ];
+    Map<VesselProductModel, List<TextEditingController>> productSectionsMap = {};
+    int index=0;
+    for (var section in _industryControllers) {
+      VesselProductModel? product;
+      VesselProductModel? productB;
+
+      ref.read(adVesselNotiController).vesselModel!.vesselProductModels.forEach((model) {
+        if (section.productIdCtr.text == model.productId) {
+          product = model;
+        }
+      });
+
+      if (product != null) {
+        if (productSectionsMap.containsKey(product!)) {
+          productSectionsMap[product!]!.add(section.loadCtr);
+        } else {
+          productSectionsMap[product!] = [section.loadCtr];
+        }
+      }
+      if(_isMultipleProductInIndustry[index]){
+        ref.read(adVesselNotiController).vesselModel!.vesselProductModels.forEach((model) {
+          if (section.productBIdCtr.text == model.productId) {
+            productB = model;
+          }
+        });
+
+        if (productB != null) {
+          if (productSectionsMap.containsKey(productB!)) {
+            productSectionsMap[productB!]!.add(section.loadBCtr);
+          } else {
+            productSectionsMap[productB!] = [section.loadBCtr];
+          }
+        }
+      }
+      index++;
+    }
+
+
+
+    productSectionsMap.forEach((product, sections) {
+      double totalLoad = sections.fold(0, (sum, section) => sum + double.parse(section.text));
+      double cargoWeight = product.pesoTotal;
+
+
+      if(ref.read(adVesselNotiController).vesselModel!=null){
+        int index= findVesselProductModelIndex(ref.read(adVesselNotiController).vesselModel!.vesselProductModels,product);
+        if (index != -1) {
+          productAssignedWeights[index]=productAssignedWeights[index]+totalLoad;
+        }
+      }
+
+      totalCargoLoad = totalCargoLoad + cargoWeight;
+      totalIndustryLoads = totalIndustryLoads + totalLoad;
+    });
+  }
+
+
   List<String> names = [
     "C.A.C.S.A",
     "B.A.C.S.A",
@@ -205,7 +270,7 @@ class _CreateIndustryInformationScreenState extends ConsumerState<CreateIndustry
         child: Column(
           children: [
             const CommonHeader(
-              title: "Información de",
+              title: "Información de ",
               subtitle: "industria" ,
               description: "Indique la información de la/s industria/s a registrar",
             ),
@@ -297,68 +362,8 @@ class _CreateIndustryInformationScreenState extends ConsumerState<CreateIndustry
                     child: CustomButton(
                       buttonWidth: double.infinity,
                       onPressed: (){
-                          totalCargoLoad = 0;
-                          totalIndustryLoads = 0;
-                          productAssignedWeights=[
-                            0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-                          ];
-                          Map<VesselProductModel, List<TextEditingController>> productSectionsMap = {};
-                          int index=0;
-                          for (var section in _industryControllers) {
-                            VesselProductModel? product;
-                            VesselProductModel? productB;
-
-                            ref.read(adVesselNotiController).vesselModel!.vesselProductModels.forEach((model) {
-                              if (section.productIdCtr.text == model.productId) {
-                                product = model;
-                              }
-                            });
-
-                            if (product != null) {
-                              if (productSectionsMap.containsKey(product!)) {
-                                productSectionsMap[product!]!.add(section.loadCtr);
-                              } else {
-                                productSectionsMap[product!] = [section.loadCtr];
-                              }
-                            }
-                            if(_isMultipleProductInIndustry[index]){
-                              ref.read(adVesselNotiController).vesselModel!.vesselProductModels.forEach((model) {
-                                if (section.productBIdCtr.text == model.productId) {
-                                  productB = model;
-                                }
-                              });
-
-                              if (productB != null) {
-                                if (productSectionsMap.containsKey(productB!)) {
-                                  productSectionsMap[productB!]!.add(section.loadBCtr);
-                                } else {
-                                  productSectionsMap[productB!] = [section.loadBCtr];
-                                }
-                              }
-                            }
-                            index++;
-                          }
-
-
-
-                          productSectionsMap.forEach((product, sections) {
-                            double totalLoad = sections.fold(0, (sum, section) => sum + double.parse(section.text));
-                            double cargoWeight = product.pesoTotal;
-
-
-                            if(ref.read(adVesselNotiController).vesselModel!=null){
-                              int index= findVesselProductModelIndex(ref.read(adVesselNotiController).vesselModel!.vesselProductModels,product);
-                              if (index != -1) {
-                                productAssignedWeights[index]=productAssignedWeights[index]+totalLoad;
-                              }
-                            }
-
-                            totalCargoLoad = totalCargoLoad + cargoWeight;
-                            totalIndustryLoads = totalIndustryLoads + totalLoad;
-                          });
-
-
                         createIndustrySection();
+                        reCalculateAll();
                       },
                       buttonText: "Agregas Bodega",
                       backColor: context.scaffoldBackgroundColor,
