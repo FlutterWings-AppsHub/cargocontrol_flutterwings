@@ -83,6 +83,7 @@ class _BodegaSectionWidgetState extends ConsumerState<BodegaSectionWidget> {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,8 +142,9 @@ class _BodegaSectionWidgetState extends ConsumerState<BodegaSectionWidget> {
                       });
                       widget.onSecondProductCancel();
                     },
-                    borderColor:context.textFieldColor,
-                    textColor: context.textColor.withOpacity(0.6),
+                    borderColor:!isSecondProduct?context.mainColor:context.textFieldColor,
+                    textColor: !isSecondProduct?context.mainColor:context.textColor.withOpacity(0.6),
+
                     text: 'No',
                   ),
                 ),
@@ -155,8 +157,9 @@ class _BodegaSectionWidgetState extends ConsumerState<BodegaSectionWidget> {
                       });
                       widget.onSecondProductTap();
                     },
-                    borderColor: context.mainColor,
-                    textColor: context.mainColor,
+                    borderColor:isSecondProduct?context.mainColor:context.textFieldColor,
+                    textColor: isSecondProduct?context.mainColor:context.textColor.withOpacity(0.6),
+
                     text: 'Si',
                   ),
                 ),

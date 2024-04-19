@@ -46,10 +46,12 @@ class ChoferesController extends StateNotifier<bool> {
   Future<void> registerChofere({
     required String choferNationalId,
     required String firstName,
+    required String lastName,
     required WidgetRef ref,
     required BuildContext context,
   }) async {
     state = true;
+    bool chofersAlreadyExist= false;
     final String choferId = const Uuid().v4();
     bool hasSecondName = hasLastName(firstName);
     ChoferesModel choferesModel = ChoferesModel(
@@ -60,17 +62,23 @@ class ChoferesController extends StateNotifier<bool> {
         averageTimeDeficit: Duration(),
         rating: 5,
         numberOfTrips: 0,
-        firstName: hasSecondName
-            ? firstName.split(' ').sublist(0, 1).join()
-            : firstName,
-        lastName: hasSecondName ? firstName.split(' ').sublist(1).join() : '',
+        // firstName: hasSecondName
+        //     ? firstName.split(' ').sublist(0, 1).join()
+        //     : firstName,
+        firstName:firstName,
+        //lastName: hasSecondName ? firstName.split(' ').sublist(1).join() : '',
+        lastName: lastName,
         rankingColor: 'Green',
+        // searchTags: choferesSearchTagsHandler(
+        //     firstName: hasSecondName
+        //         ? firstName.split(' ').sublist(0, 1).join()
+        //         : firstName,
+        //     lastName:
+        //         hasSecondName ? firstName.split(' ').sublist(1).join() : '',
+        //     choferNationalId: choferNationalId),
         searchTags: choferesSearchTagsHandler(
-            firstName: hasSecondName
-                ? firstName.split(' ').sublist(0, 1).join()
-                : firstName,
-            lastName:
-                hasSecondName ? firstName.split(' ').sublist(1).join() : '',
+            firstName:firstName,
+            lastName:lastName,
             choferNationalId: choferNationalId),
         worstCargoDeficit: 0.0,
         createdAt: DateTime.now(),
@@ -79,9 +87,28 @@ class ChoferesController extends StateNotifier<bool> {
         worstCargoDeficitPercentage: 0.0);
 
     final result =
-        await _datasource.registerChofere(choferesModel: choferesModel);
+    await _datasource.isChoferesExistById(chofereNationalId: choferNationalId);
 
     result.fold((l) {
+      state = false;
+      showSnackBar(context: context, content: l.message);
+      return;
+    }, (r) {
+      if(r==true){
+        chofersAlreadyExist = true;
+      }
+    });
+
+    if(chofersAlreadyExist){
+      state = false;
+      Navigator.pop(context);
+      showSnackBar(context: context, content: 'Choferes Already Registered!');
+      return;
+    }
+    final result2 =
+        await _datasource.registerChofere(choferesModel: choferesModel);
+
+    result2.fold((l) {
       state = false;
       showSnackBar(context: context, content: l.message);
     }, (r) {

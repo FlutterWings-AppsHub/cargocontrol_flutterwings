@@ -126,8 +126,8 @@ class _IndustrySectionWidgetState extends ConsumerState<IndustrySectionWidget> {
                   });
                   widget.onSecondProductCancel();
                 },
-                borderColor:context.textFieldColor,
-                textColor: context.textColor.withOpacity(0.6),
+                borderColor:!isSecondProduct?context.mainColor:context.textFieldColor,
+                textColor: !isSecondProduct?context.mainColor:context.textColor.withOpacity(0.6),
                 text: 'No',
               ),
             ),
@@ -140,8 +140,9 @@ class _IndustrySectionWidgetState extends ConsumerState<IndustrySectionWidget> {
                   });
                   widget.onSecondProductTap();
                 },
-                borderColor: context.mainColor,
-                textColor: context.mainColor,
+                borderColor:isSecondProduct?context.mainColor:context.textFieldColor,
+                textColor: isSecondProduct?context.mainColor:context.textColor.withOpacity(0.6),
+
                 text: 'Si',
               ),
             ),

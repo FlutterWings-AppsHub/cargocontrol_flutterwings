@@ -60,7 +60,7 @@ class ConfirmDeleteDialog extends StatelessWidget {
               height: 32.h,
             ),
             Text(
-              'Estás seguro de que quieres eliminar los Choferes?',
+              'Está seguro que quiere eliminar el chofer ${choferesModel.firstName} ${choferesModel.lastName}?',
               textAlign: TextAlign.center,
               style: getRegularStyle(
                   color: context.textColor, fontSize: MyFonts.size16),
@@ -93,6 +93,7 @@ class ConfirmDeleteDialog extends StatelessWidget {
                       onPressed: () async {
                         if (choferesModel.choferesStatusEnum.type ==
                             ChoferesStatusEnum.available.type) {
+
                           await ref
                               .read(choferesControllerProvider.notifier)
                               .deleteChofere(
@@ -108,9 +109,11 @@ class ConfirmDeleteDialog extends StatelessWidget {
                                       choferesModel.choferesStatusEnum.type,
                               textColor: Colors.red,
                               isTop: true);
-                        }
 
+                        }
                         Navigator.pop(context);
+
+
                       },
                       buttonText: 'Si',
                     ),

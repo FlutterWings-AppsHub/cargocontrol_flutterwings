@@ -1,3 +1,4 @@
+import 'package:cargocontrol/commons/common_functions/format_weight.dart';
 import 'package:cargocontrol/commons/common_imports/common_libs.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
@@ -8,8 +9,8 @@ import 'package:cargocontrol/utils/constants.dart' as constants;
 class AdProgressIndicatorCard extends StatelessWidget {
   final String title;
   final double barPercentage;
-  final String divideNumber1;
-  final String divideNumber2;
+  final double divideNumber1;
+  final double divideNumber2;
   final String numberOfTrips;
   final String deficit;
 
@@ -59,7 +60,7 @@ class AdProgressIndicatorCard extends StatelessWidget {
               height: 16.h,
             ),
             Text(
-              '${divideNumber1}/${divideNumber2}',
+              '${formatWeight(divideNumber1)}/${formatWeight(divideNumber2)}',
               style: getBoldStyle(color: context.textColor, fontSize: MyFonts.size16),
             ),
             SizedBox(

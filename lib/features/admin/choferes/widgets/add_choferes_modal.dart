@@ -24,19 +24,21 @@ class AddChoferesModal extends StatefulWidget {
 }
 
 class _AddChoferesModalState extends State<AddChoferesModal> {
-
   final nameCtr = TextEditingController();
+  final lastCtr = TextEditingController();
   final identificationCtr = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-
+    nameCtr.dispose();
+    lastCtr.dispose();
+    identificationCtr.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -44,7 +46,6 @@ class _AddChoferesModalState extends State<AddChoferesModal> {
           title: 'Agregar nuevo chofer',
           subtitle: 'Registrar a nuevo chofer',
         ),
-        SizedBox(height: 20.h,),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Form(
@@ -54,40 +55,50 @@ class _AddChoferesModalState extends State<AddChoferesModal> {
                 CustomTextField(
                     controller: nameCtr,
                     hintText: '',
-                    onChanged: (val){},
-                    onFieldSubmitted: (val){},
+                    onChanged: (val) {},
+                    onFieldSubmitted: (val) {},
                     obscure: false,
                     validatorFn: sectionValidator,
-                    label: 'Nombre de chofer'
-                ),
+                    label: 'Nombre de chofer'),
                 CustomTextField(
-                    controller: identificationCtr,
+                    controller: lastCtr,
                     hintText: '',
-                    onChanged: (val){},
-                    onFieldSubmitted: (val){},
+                    onChanged: (val) {},
+                    onFieldSubmitted: (val) {},
                     obscure: false,
-                    label: 'Identificación',
+                    validatorFn: sectionValidator,
+                    label: 'Apellido'),
+                CustomTextField(
+                  controller: identificationCtr,
+                  hintText: '',
+                  onChanged: (val) {},
+                  onFieldSubmitted: (val) {},
+                  obscure: false,
+                  label: 'Identificación',
                   validatorFn: sectionValidator,
                   inputType: TextInputType.number,
                 ),
                 Consumer(
-                  builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                  builder:
+                      (BuildContext context, WidgetRef ref, Widget? child) {
                     return CustomButton(
-                      isLoading: ref.watch(choferesControllerProvider),
-                      onPressed: ()async{
-                          if(formKey.currentState!.validate()){
-                            await ref.read(choferesControllerProvider.notifier).
-                            registerChofere(
-                              firstName: nameCtr.text,
-                              choferNationalId: identificationCtr.text,
-                              context: context,
-                              ref: ref,
-                            );
+                        padding: 0.h,
+                        isLoading: ref.watch(choferesControllerProvider),
+                        onPressed: () async {
+                          if (formKey.currentState!.validate()) {
+                            await ref
+                                .read(choferesControllerProvider.notifier)
+                                .registerChofere(
+                                  firstName: nameCtr.text.trim(),
+                                  lastName: lastCtr.text.trim(),
+                                  choferNationalId: identificationCtr.text.trim(),
+                                  context: context,
+                                  ref: ref,
+                                );
                             await ref.read(choferesNotiController).firstTime();
                           }
-                      },
-                      buttonText: 'REGISTRAR'
-                    );
+                        },
+                        buttonText: 'REGISTRAR');
                   },
                 ),
                 SizedBox(
@@ -97,7 +108,6 @@ class _AddChoferesModalState extends State<AddChoferesModal> {
             ),
           ),
         )
-
       ],
     );
   }

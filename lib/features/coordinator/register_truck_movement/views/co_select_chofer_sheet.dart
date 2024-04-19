@@ -108,7 +108,7 @@ class _CoSelectChoferScreenState extends ConsumerState<CoSelectChoferScreen> {
                     const LoadingWidget(
                     ):
                     choferModels.isEmpty ?
-                    const Text("No Chores!"):
+                    const Text("No hay Choferes!"):
                     Expanded(
                       child: ListView.builder(
                           controller: _scrollController,
@@ -140,11 +140,6 @@ class _CoSelectChoferScreenState extends ConsumerState<CoSelectChoferScreen> {
               );
             },
 
-          ),
-          CustomButton(
-            buttonWidth: double.infinity,
-              onPressed: (){},
-              buttonText: 'AGREGAR CHOFER'
           ),
           CustomButton(
             buttonWidth: double.infinity,

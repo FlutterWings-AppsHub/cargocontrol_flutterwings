@@ -95,8 +95,8 @@ class AdDashboardScreen extends ConsumerWidget {
                                               IndustrySubModel model = allIndustries[index];
                                               return AdProgressIndicatorCard(
                                                 numberOfTrips: '${model.viajesIds.length}',
-                                                divideNumber2: '${model.cargoUnloaded}',
-                                                divideNumber1: '${model.cargoAssigned}',
+                                                divideNumber2: double.parse(model.cargoUnloaded.toString()),
+                                                divideNumber1: double.parse(model.cargoAssigned.toString()),
                                                 barPercentage: double.parse(
                                                     (model.cargoUnloaded / model.cargoAssigned)
                                                         .toStringAsFixed(2)),

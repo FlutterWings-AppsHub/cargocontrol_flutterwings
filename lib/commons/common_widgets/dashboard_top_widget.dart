@@ -69,8 +69,8 @@ class DashBoardTopWidget extends StatelessWidget {
                                   data: (viajesDeficitModel){
                                     return  AdProgressIndicatorCard(
                                       numberOfTrips:viajesDeficitModel.viajesCount,
-                                      divideNumber2: vesselModel.cargoUnloadedWeight.toString(),
-                                      divideNumber1: vesselModel.totalCargoWeight.toString(),
+                                      divideNumber2: vesselModel.cargoUnloadedWeight,
+                                      divideNumber1: vesselModel.totalCargoWeight,
                                       barPercentage: double.parse(
                                           (vesselModel.cargoUnloadedWeight / vesselModel.totalCargoWeight)
                                               .toStringAsFixed(2)),
@@ -81,8 +81,8 @@ class DashBoardTopWidget extends StatelessWidget {
                                   error: (error, st){
                                     return  AdProgressIndicatorCard(
                                       numberOfTrips: '0',
-                                      divideNumber2: (vesselModel.totalCargoWeight-vesselModel.cargoUnloadedWeight).toString(),
-                                      divideNumber1: vesselModel.totalCargoWeight.toString(),
+                                      divideNumber2: (vesselModel.totalCargoWeight-vesselModel.cargoUnloadedWeight),
+                                      divideNumber1: vesselModel.totalCargoWeight,
                                       barPercentage: double.parse(
                                           ((vesselModel.totalCargoWeight-vesselModel.cargoUnloadedWeight) / vesselModel.totalCargoWeight)
                                               .toStringAsFixed(2)),
@@ -92,8 +92,8 @@ class DashBoardTopWidget extends StatelessWidget {
                                   loading: (){
                                     return  AdProgressIndicatorCard(
                                       numberOfTrips: '0',
-                                      divideNumber2: (vesselModel.totalCargoWeight-vesselModel.cargoUnloadedWeight).toString(),
-                                      divideNumber1: vesselModel.totalCargoWeight.toString(),
+                                      divideNumber2: (vesselModel.totalCargoWeight-vesselModel.cargoUnloadedWeight),
+                                      divideNumber1: vesselModel.totalCargoWeight,
                                       barPercentage: double.parse(
                                           ((vesselModel.totalCargoWeight-vesselModel.cargoUnloadedWeight) / vesselModel.totalCargoWeight)
                                               .toStringAsFixed(2)),
@@ -113,8 +113,8 @@ class DashBoardTopWidget extends StatelessWidget {
                                       data: (viajesDeficitModel){
                                         return  AdProgressIndicatorCard(
                                           numberOfTrips:viajesDeficitModel.viajesCount,
-                                          divideNumber2: model.pesoUnloaded.toString(),
-                                          divideNumber1: model.pesoTotal.toString(),
+                                          divideNumber2: model.pesoUnloaded,
+                                          divideNumber1: model.pesoTotal,
                                           barPercentage: double.parse(
                                               (model.pesoUnloaded/ model.pesoTotal)
                                                   .toStringAsFixed(2)),
@@ -125,8 +125,8 @@ class DashBoardTopWidget extends StatelessWidget {
                                       error: (error, st){
                                         return  AdProgressIndicatorCard(
                                           numberOfTrips: '0',
-                                          divideNumber2: model.pesoUnloaded.toString(),
-                                          divideNumber1: model.pesoTotal.toString(),
+                                          divideNumber2: model.pesoUnloaded,
+                                          divideNumber1: model.pesoTotal,
                                           barPercentage: double.parse(
                                               (model.pesoUnloaded/ model.pesoTotal)
                                                   .toStringAsFixed(2)),
@@ -136,8 +136,8 @@ class DashBoardTopWidget extends StatelessWidget {
                                       loading: (){
                                         return  AdProgressIndicatorCard(
                                           numberOfTrips: '0',
-                                          divideNumber2: model.pesoUnloaded.toString(),
-                                          divideNumber1: model.pesoTotal.toString(),
+                                          divideNumber2: model.pesoUnloaded,
+                                          divideNumber1: model.pesoTotal,
                                           barPercentage: double.parse(
                                               (model.pesoUnloaded/ model.pesoTotal)
                                                   .toStringAsFixed(2)),
