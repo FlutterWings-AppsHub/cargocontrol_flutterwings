@@ -3,6 +3,7 @@ import 'package:cargocontrol/commons/common_widgets/show_toast.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/coordinator/register_truck_movement/controllers/truck_registration_noti_controller.dart';
 import 'package:cargocontrol/utils/constants/assets_manager.dart';
+import 'package:cargocontrol/utils/constants/error_messages.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -131,7 +132,7 @@ class _RegisterTruckLeavingScreenState extends State<RegisterTruckLeavingScreen>
                           ref: ref,
                         );
                       }else{
-                        showSnackBar(context: context, content: 'Enter Plate Number!');
+                        showSnackBar(context: context, content: Messages.enterPlateNumberError);
                       }
                     },
                   );

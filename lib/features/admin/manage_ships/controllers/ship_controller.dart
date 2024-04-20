@@ -7,6 +7,7 @@ import 'package:cargocontrol/models/industry_models/industry_sub_model.dart';
 import 'package:cargocontrol/models/vessel_models/vessel_model.dart';
 import 'package:cargocontrol/models/viajes_models/viajes_model.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
+import 'package:cargocontrol/utils/constants/error_messages.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -54,7 +55,7 @@ class ShipController extends StateNotifier<bool> {
       await _datasource.makeAllChoferesAvailable();
       await ref.read(shipNotiController).firstTime();
       state = false;
-      showToast(msg: "Buque terminado de descargar!");
+      showToast(msg: Messages.vesselFinishLoadingSuccess);
     });
     state = false;
   }
@@ -100,7 +101,7 @@ class ShipController extends StateNotifier<bool> {
         'allViajesModel': allViajesModels
       });
     } else {
-      showSnackBar(context: context, content: 'Unable to genearte report now!');
+      showSnackBar(context: context, content: Messages.reportGenerateError);
     }
   }
 
@@ -146,7 +147,7 @@ class ShipController extends StateNotifier<bool> {
         'allViajesModel': allViajesModels
       });
     } else {
-      showSnackBar(context: context, content: 'Unable to genearte report now!');
+      showSnackBar(context: context, content: Messages.reportGenerateError);
     }
   }
 }

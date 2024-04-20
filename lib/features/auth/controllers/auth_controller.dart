@@ -2,6 +2,7 @@
 
 import 'package:cargocontrol/features/auth/controllers/auth_notifier_controller.dart';
 import 'package:cargocontrol/models/choferes_models/choferes_model.dart';
+import 'package:cargocontrol/utils/constants/error_messages.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -111,7 +112,7 @@ class AuthController extends StateNotifier<bool> {
         showToast(msg: l.message);
       }, (r) async {
         state = false;
-        showToast(msg: 'Account Created Successfully!');
+        showToast(msg: Messages.accountCreatedSuccess);
       });
     });
   }

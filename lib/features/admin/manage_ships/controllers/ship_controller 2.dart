@@ -4,6 +4,7 @@ import 'package:cargocontrol/commons/common_functions/search_tags_handler.dart';
 import 'package:cargocontrol/core/enums/choferes_status_enum.dart';
 import 'package:cargocontrol/models/choferes_models/choferes_model.dart';
 import 'package:cargocontrol/models/vessel_models/vessel_model.dart';
+import 'package:cargocontrol/utils/constants/error_messages.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -49,7 +50,7 @@ class ShipController extends StateNotifier<bool> {
     }, (r) async{
       await ref.read(shipNotiController).firstTime();
       state = false;
-      showToast(msg: "Buque terminado de descargar!");
+      showToast(msg:Messages.vesselFinishLoadingSuccess);
     });
     state = false;
   }

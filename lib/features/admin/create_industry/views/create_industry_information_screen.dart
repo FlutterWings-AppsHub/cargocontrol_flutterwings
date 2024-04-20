@@ -7,6 +7,7 @@ import 'package:cargocontrol/features/admin/create_vessel/controllers/ad_vessel_
 import 'package:cargocontrol/models/industry_models/industry_sub_model.dart';
 import 'package:cargocontrol/models/vessel_models/vessel_product_model.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
+import 'package:cargocontrol/utils/constants/error_messages.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
 import 'package:cargocontrol/utils/thems/my_colors.dart';
@@ -383,7 +384,7 @@ class _CreateIndustryInformationScreenState extends ConsumerState<CreateIndustry
                                 allGood = false;
                               });
 
-                              showToast(msg:  "Fill All Fields!",);
+                              showToast(msg:  Messages.fillAllTheFieldError,);
                               break;
                             }else{
                               if(_isMultipleProductInIndustry[i]){
@@ -392,7 +393,7 @@ class _CreateIndustryInformationScreenState extends ConsumerState<CreateIndustry
                                     allGood = false;
                                   });
 
-                                  showToast(msg:  "Fill All Fields!",);
+                                  showToast(msg:   Messages.fillAllTheFieldError,);
                                 }
                               }else{
                                 setState(() {
@@ -426,7 +427,7 @@ class _CreateIndustryInformationScreenState extends ConsumerState<CreateIndustry
                                 });
                                 showSnackBar(
                                   context: context,
-                                  content: "Industry guides cannot be same, and first guide should start after the second guide! ",
+                                  content: Messages.industryGuidesError,
                                   duration: const Duration(milliseconds: 4000),
                                 );
                               }
@@ -448,8 +449,8 @@ class _CreateIndustryInformationScreenState extends ConsumerState<CreateIndustry
                                 });
                                 showSnackBar(
                                   context: context,
-                                  content: "Both products for industry #${i +
-                                      1} are same!",
+                                  content: "${Messages.sameProductError} #${i +
+                                      1}!",
                                   duration: const Duration(milliseconds: 4000),
                                 );
                                 break;
@@ -476,7 +477,7 @@ class _CreateIndustryInformationScreenState extends ConsumerState<CreateIndustry
                                 });
                                 showSnackBar(
                                   context: context,
-                                  content: "Cannot select same Industry Multiple Times!",
+                                  content: Messages.sameIndustryError,
                                   duration: const Duration(milliseconds: 4000),
                                 );
                               }
@@ -550,7 +551,7 @@ class _CreateIndustryInformationScreenState extends ConsumerState<CreateIndustry
                                 });
                                 showSnackBar(
                                   context: context,
-                                  content: "Total load exceeds Assigned Cargo weight! Limit is ${product.pesoTotal}",
+                                  content: "${Messages.totalLoadExceedError} ${product.pesoTotal}",
                                   duration: const Duration(milliseconds: 4000),
                                 );
                               }

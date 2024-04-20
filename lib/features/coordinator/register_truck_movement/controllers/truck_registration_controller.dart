@@ -10,6 +10,7 @@ import 'package:cargocontrol/models/vessel_models/vessel_model.dart';
 import 'package:cargocontrol/models/viajes_models/viajes_model.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
 import 'package:cargocontrol/utils/constants/app_constants.dart';
+import 'package:cargocontrol/utils/constants/error_messages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -158,7 +159,7 @@ class TruckRegistrationController extends StateNotifier<bool> {
       state = false;
       await Navigator.pushNamed(
           context, AppRoutes.coRegistrationSuccessFullScreen);
-      showToast(msg: 'Viajes Registered!');
+      showToast(msg: Messages.viajesRegisteredSuccess);
     });
     state = false;
   }
@@ -220,7 +221,7 @@ class TruckRegistrationController extends StateNotifier<bool> {
       await sendAdminUnLoadingNotification(viajesModel: model, ref: ref, context: context);
       Navigator.pushNamed(context, AppRoutes.coRegistrationSuccessFullScreen);
       state = false;
-      showSnackBar(context: context, content: 'Viajes Registered!');
+      showSnackBar(context: context, content: Messages.viajesRegisteredSuccess);
     });
     state = false;
   }

@@ -5,6 +5,7 @@ import 'package:cargocontrol/models/vessel_models/product_model.dart';
 import 'package:cargocontrol/models/vessel_models/vessel_model.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
 import 'package:cargocontrol/utils/constants/app_constants.dart';
+import 'package:cargocontrol/utils/constants/error_messages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -83,7 +84,7 @@ class AdVesselController extends StateNotifier<bool> {
     }, (r) {
       state = false;
       Navigator.pushNamed(context, AppRoutes.registrationSuccessFullScreen);
-      showSnackBar(context: context, content: 'Vessel Created!');
+      showSnackBar(context: context, content: Messages.vesselCreatedSuccess);
     });
     state = false;
   }

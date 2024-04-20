@@ -4,6 +4,7 @@ import 'package:cargocontrol/features/admin/manage_ships/controllers/ship_contro
 import 'package:cargocontrol/models/industry_models/industry_sub_model.dart';
 import 'package:cargocontrol/models/vessel_models/vessel_model.dart';
 import 'package:cargocontrol/models/viajes_models/viajes_model.dart';
+import 'package:cargocontrol/utils/constants/error_messages.dart';
 import 'package:cargocontrol/utils/thems/my_colors.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -51,7 +52,7 @@ class _EmptyTruckWeightWeightUpdateDialogState
     try {
       double pesoTara = double.parse(emptyTruckWeightCtr.text);
       if (pesoTara < 1) {
-        showToast(msg: "Invalid Weight");
+        showToast(msg:Messages.invalidWeightError);
         return;
       }
       ViajesModel viajesModel = widget.viajesModel;

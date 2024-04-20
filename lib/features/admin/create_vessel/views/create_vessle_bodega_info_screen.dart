@@ -7,6 +7,7 @@ import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/admin/create_vessel/widgets/bodega_section_widget.dart';
 import 'package:cargocontrol/models/vessel_models/vessel_cargo_model.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
+import 'package:cargocontrol/utils/constants/error_messages.dart';
 import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 import '../../../../commons/common_imports/common_libs.dart';
@@ -235,7 +236,7 @@ class _CreateVesselBodegaInfoScreenState
           section.cosechaCtr.text == "") {
         showSnackBar(
           context: context,
-          content: "Fill All Fields!",
+          content: Messages.fillAllTheFieldError,
           duration: const Duration(milliseconds: 2000),
         );
         return false;
@@ -250,7 +251,7 @@ class _CreateVesselBodegaInfoScreenState
             section.cosechaCtrB.text == "") {
           showSnackBar(
             context: context,
-            content: "Fill All Fields!",
+            content: Messages.fillAllTheFieldError,
             duration: const Duration(milliseconds: 2000),
           );
           return false;
@@ -263,7 +264,7 @@ class _CreateVesselBodegaInfoScreenState
             section.cosechaCtr.text == section.cosechaCtrB.text) {
           showSnackBar(
             context: context,
-            content: "Both Products for Bodega #${i + 1} are the same!",
+            content: "${Messages.bothProductForBodegaError} #${i + 1}!",
             duration: const Duration(milliseconds: 2000),
           );
           return false;

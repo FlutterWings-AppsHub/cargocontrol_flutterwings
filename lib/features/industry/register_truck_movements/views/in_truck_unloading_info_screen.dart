@@ -5,6 +5,7 @@ import 'package:cargocontrol/commons/common_widgets/custom_button.dart';
 import 'package:cargocontrol/commons/common_widgets/show_toast.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
+import 'package:cargocontrol/utils/constants/error_messages.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../commons/common_imports/common_libs.dart';
@@ -85,7 +86,7 @@ class _InTruckUnlaodingInfoScreenState extends State<InTruckUnlaodingInfoScreen>
                                     }
                                 );
                               }else{
-                                showToast(msg: 'Invalid Weight!', isTop: false, backgroundColor: context.errorColor, textColor: context.scaffoldBackgroundColor);
+                                showToast(msg: Messages.invalidWeightError, isTop: false, backgroundColor: context.errorColor, textColor: context.scaffoldBackgroundColor);
                               }
 
                             }

@@ -6,6 +6,7 @@ import 'package:cargocontrol/features/admin/choferes/controllers/choferes_noti_c
 import 'package:cargocontrol/features/admin/choferes/data/models/choferes_time_deficit_model.dart';
 import 'package:cargocontrol/models/choferes_models/choferes_model.dart';
 import 'package:cargocontrol/models/industry_models/industries_model.dart';
+import 'package:cargocontrol/utils/constants/error_messages.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -102,7 +103,7 @@ class ChoferesController extends StateNotifier<bool> {
     if(chofersAlreadyExist){
       state = false;
       Navigator.pop(context);
-      showSnackBar(context: context, content: 'Choferes Already Registered!');
+      showSnackBar(context: context, content: Messages.choferesAlreadyRegisteredError);
       return;
     }
     final result2 =
@@ -114,7 +115,7 @@ class ChoferesController extends StateNotifier<bool> {
     }, (r) {
       state = false;
       Navigator.pop(context);
-      showSnackBar(context: context, content: 'Choferes Registered!');
+      showSnackBar(context: context, content: Messages.choferesRegisteredSuccess);
     });
     state = false;
   }
@@ -135,7 +136,7 @@ class ChoferesController extends StateNotifier<bool> {
     }, (r) async {
       await ref.read(choferesNotiController).firstTime();
       state = false;
-      showSnackBar(context: context, content: 'Choferes Deleted!');
+      showSnackBar(context: context, content: Messages.choferesDeleteSuccess);
     });
     state = false;
   }
