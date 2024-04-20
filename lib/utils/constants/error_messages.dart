@@ -1,4 +1,3 @@
-import 'package:cargocontrol/utils/constants/assets_manager.dart';
 
 class Messages {
   static const String deleteChoferesError = 'You cannot delete the choferes because the chorefes is currently on viajes';
@@ -39,8 +38,5 @@ class Messages {
   static const String viajesUnlaodedSuccess  = 'Viajes Unlaoded Succesfully!';
   static const String industryCreateError =   'Created the vessel first!';
   static const String vesselHasNotFinishError =   "Vessel has not finish unloading yet!";
-
-
-
 
 }
