@@ -1,4 +1,5 @@
 import 'package:cargocontrol/features/coordinator/register_truck_movement/controllers/truck_registration_noti_controller.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cargocontrol/utils/constants.dart' as constants;
@@ -67,33 +68,41 @@ class _CoMainMenuScreenState extends ConsumerState<CoMainMenuScreen> {
         ],
       ),
       body: ref.read(coMainMenuProvider).screens[ref.watch(coMainMenuProvider).index],
-      // bottomNavigationBar: BottomNavigationBar(
-      //   onTap: (value) {
-      //     ref.read(coMainMenuProvider).setIndex(value);
-      //   },
-      //   iconSize: 22,
-      //   currentIndex:  ref.read(coMainMenuProvider).index,
-      //   items: const <BottomNavigationBarItem>[
-      //     BottomNavigationBarItem(
-      //       icon: FaIcon(
-      //         FontAwesomeIcons.house,
-      //       ),
-      //       label: 'Dashboard',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: FaIcon(
-      //         FontAwesomeIcons.truck,
-      //       ),
-      //       label: 'Viajes',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: FaIcon(
-      //         FontAwesomeIcons.person,
-      //       ),
-      //       label: 'Choferes',
-      //     ),
-      //   ],
-      // )
+
+      bottomNavigationBar:          kIsWeb?
+    BottomNavigationBar(
+        onTap: (value) {
+          ref.read(coMainMenuProvider).setIndex(value);
+        },
+        iconSize: 22,
+        currentIndex:  ref.read(coMainMenuProvider).index,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: FaIcon(
+              FontAwesomeIcons.house,
+            ),
+            label: 'Dashboard',
+          ),
+            BottomNavigationBarItem(
+              icon: FaIcon(
+                FontAwesomeIcons.list,
+              ),
+              label: 'Reporte',
+            ),
+          // BottomNavigationBarItem(
+          //   icon: FaIcon(
+          //     FontAwesomeIcons.truck,
+          //   ),
+          //   label: 'Viajes',
+          // ),
+          // BottomNavigationBarItem(
+          //   icon: FaIcon(
+          //     FontAwesomeIcons.person,
+          //   ),
+          //   label: 'Choferes',
+          // ),
+        ],
+      ) : null
     );
   }
 }

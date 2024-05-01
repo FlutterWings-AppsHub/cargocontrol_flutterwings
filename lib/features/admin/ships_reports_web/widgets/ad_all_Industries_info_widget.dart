@@ -133,6 +133,12 @@ Widget buildSingleIndustryInfo(
                         .toStringAsFixed(0) +
                         "%"),
               CustomTile(
+                  title: "Comienzo de guia",
+                  subText: industrySubModel.initialGuide.toString()),
+              CustomTile(
+                  title: "Final de guia",
+                  subText: industrySubModel.lastGuide.toString()),
+              CustomTile(
                   title: "Viajes",
                   subText: industrySubModel.viajesIds.length.toString()),
               SizedBox(

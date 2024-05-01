@@ -5,6 +5,7 @@ import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/coordinator/register_truck_movement/controllers/truck_registration_noti_controller.dart';
 import 'package:cargocontrol/models/industry_models/industry_sub_model.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
+import 'package:cargocontrol/utils/constants/error_messages.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -98,7 +99,7 @@ class _CoTruckLeavingInformationScreenState extends State<CoTruckLeavingInformat
                           buttonWidth: double.infinity,
                           onPressed: (){
                             if(double.parse(fullTruckWeightCtr.text)<truckCtr.matchedViajes!.entryTimeTruckWeightToPort){
-                              showSnackBar(context: context, content: 'Peso bruto cannot be less than peso tara!');
+                              showSnackBar(context: context, content: Messages.brutoMorethanTaraError);
                               return;
                             }
 
@@ -119,10 +120,10 @@ class _CoTruckLeavingInformationScreenState extends State<CoTruckLeavingInformat
                                     }
                                 );
                               }else{
-                                showSnackBar(context: context, content: 'Peso bruto is more then total carga! Max is can be ${(truckCtr.selectedIndustry!.cargoAssigned-truckCtr.selectedIndustry!.cargoUnloaded)}');
+                                showSnackBar(context: context, content: '${Messages.pesoExceeedError} ${(truckCtr.selectedIndustry!.cargoAssigned-truckCtr.selectedIndustry!.cargoUnloaded)}');
                               }
                             }else{
-                              showSnackBar(context: context, content: 'Enter Peso bruto!');
+                              showSnackBar(context: context, content: Messages.enterPesoBrutoError);
                             }
                           },
                           buttonText: "CONTINUAR"

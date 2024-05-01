@@ -72,7 +72,7 @@ class _CreateVesselScreenState extends ConsumerState<CreateVesselScreen> {
         child: Column(
           children: [
             const CommonHeader(
-              title: "Información del",
+              title: "Información del ",
               subtitle: "buque" ,
               description: "Indique la información del buque a registrar",
             ),
@@ -104,7 +104,7 @@ class _CreateVesselScreenState extends ConsumerState<CreateVesselScreen> {
                      CustomTextField(
                        controller: shipperCtr,
                        hintText: "",
-                       label: "Shipper ",
+                       label: "Provedor ",
                        onChanged: (val){},
                        onFieldSubmitted: (val){},
                        obscure: false,

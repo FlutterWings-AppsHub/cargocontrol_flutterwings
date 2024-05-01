@@ -71,11 +71,11 @@ class InViajesScreen extends StatelessWidget {
                           body:  const TabBarView(
                             children: [
                               Center(
-                                child: Text("No Viajes!"),
+                                child: Text("No hay viajes"),
                               ),    Center(
-                                child: Text("No Viajes!"),
+                                child: Text("No hay viajes"),
                               ),    Center(
-                                child: Text("No Viajes!"),
+                                child: Text("No hay viajes"),
                               ),
                             ],
                           )),
@@ -107,11 +107,11 @@ class InViajesScreen extends StatelessWidget {
                   body:  TabBarView(
                     children: [
                       Center(
-                        child: const Text("No Viajes!"),
+                        child: const Text("No hay viajes"),
                       ),    Center(
-                        child: const Text("No Viajes!"),
+                        child: const Text("No hay viajes"),
                       ),    Center(
-                        child: const Text("No Viajes!"),
+                        child: const Text("No hay viajes"),
                       ),
                     ],
                   )),

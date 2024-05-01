@@ -5,9 +5,11 @@ import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/admin/create_vessel/controllers/ad_vessel_controller.dart';
 import 'package:cargocontrol/features/admin/create_vessel/widgets/bodegas_for_all_data_widget.dart';
 import 'package:cargocontrol/models/vessel_models/vessel_model.dart';
+import 'package:cargocontrol/models/vessel_models/vessel_product_model.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
 import 'package:flutter/foundation.dart';
+import 'package:uuid/uuid.dart';
 import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../commons/common_widgets/custom_appbar.dart';
 import '../../../../core/enums/weight_unit_enum.dart';
@@ -30,7 +32,6 @@ class CreateVesselCompleteDataScreen extends ConsumerStatefulWidget {
 }
 
 class _CreateVesselCompleteDataScreenState extends ConsumerState<CreateVesselCompleteDataScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +67,7 @@ class _CreateVesselCompleteDataScreenState extends ConsumerState<CreateVesselCom
                   BodegasForAllData(
                     carogModels: widget.bogedaModels,
                   ),
-                  SizedBox(height: 20.h,),
+                  SizedBox(height: 0.h,),
                   Divider(height: 1.h,color: context.textFieldColor,),
                   SizedBox(height: 20.h,),
                   Text("Peso total : ${calculateTotalWeight(widget.bogedaModels)}", style: getBoldStyle(
@@ -80,6 +81,8 @@ class _CreateVesselCompleteDataScreenState extends ConsumerState<CreateVesselCom
                         buttonWidth: double.infinity,
                         isLoading: ref.watch(adVesselProvider),
                           onPressed: (){
+                            List<VesselProductModel> vesselProductModels= groupCargoByProduct(widget.bogedaModels);
+
                             ref.read(adVesselProvider.notifier).createVessel(
                               vesselName: widget.vesselName,
                               shipper: widget.shipper,
@@ -91,7 +94,7 @@ class _CreateVesselCompleteDataScreenState extends ConsumerState<CreateVesselCom
                               weightUnitEnum: widget.weightUnitEnum,
                               totalCargoWeight: calculateTotalWeight(widget.bogedaModels),
                               ref: ref,
-                              context: context,
+                              context: context, vesselProductModels: vesselProductModels,
                             );
                           },
                           buttonText: "CONTINUAR"
@@ -113,6 +116,41 @@ class _CreateVesselCompleteDataScreenState extends ConsumerState<CreateVesselCom
       totalWeight = totalWeight + cargo.pesoTotal;
     });
     return totalWeight;
+  }
+
+  List<VesselProductModel> groupCargoByProduct(List<VesselCargoModel> cargoList) {
+    Map<String, List<VesselCargoModel>> groupedProducts = {};
+
+    // Group VesselCargoModel objects by product name, tipo, origen, variety, and cosecha
+    cargoList.forEach((cargo) {
+      String productKey =
+          '${cargo.productName}-${cargo.tipo}-${cargo.origen}-${cargo.variety}-${cargo.cosecha}';
+      groupedProducts.putIfAbsent(productKey, () => []).add(cargo);
+    });
+
+    // Convert grouped cargo to list of VesselProductModel objects
+    List<VesselProductModel> productModels = groupedProducts.entries.map((entry) {
+      String productKey = entry.key;
+      List<VesselCargoModel> cargoList = entry.value;
+
+      // Calculate total peso for the product
+      num totalPesoTotal = cargoList.fold<num>(0, (sum, cargo) => sum + (cargo.pesoTotal ?? 0));
+      num totalPesoUnloaded = cargoList.fold<num>(0, (sum, cargo) => sum + (cargo.pesoUnloaded ?? 0));
+
+      // Taking the first cargo in the list to get productId and productName,
+      // assuming they are the same for all cargos of the same product
+      String productId =Uuid().v4();
+      String productName = "${cargoList[0].productName}, ${cargoList[0].variety}, ${cargoList[0].cosecha}, ${cargoList[0].tipo}, ${cargoList[0].origen}";
+
+      return VesselProductModel(
+        productId: productId,
+        productName: productName,
+        pesoTotal: totalPesoTotal,
+        pesoUnloaded: totalPesoUnloaded,
+      );
+    }).toList();
+
+    return productModels;
   }
 
 }

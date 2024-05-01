@@ -1,4 +1,4 @@
-import 'package:cargocontrol/common_widgets/cargo_bar_chart.dart';
+import 'package:cargocontrol/commons/common_widgets/cargo_bar_chart.dart';
 import 'package:cargocontrol/commons/common_imports/common_libs.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/industry/register_truck_movements/controllers/in_truck_registration_noti_controller.dart';
@@ -11,7 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cargocontrol/utils/constants.dart' as constants;
 
-import '../../../../common_widgets/dashboard_top_widget.dart';
+import '../../../../commons/common_widgets/dashboard_top_widget.dart';
 import '../../../../utils/loading.dart';
 import '../../../admin/create_vessel/controllers/ad_vessel_controller.dart';
 import '../../../auth/controllers/auth_notifier_controller.dart';
@@ -80,30 +80,43 @@ class InDashboardScreen extends ConsumerWidget {
                                       vesselId: vesselModel.vesselId)))
                               .when(
                             data: (industryModel) {
-                              return SizedBox(
-                                height: kIsWeb?170.h:150.h,
-                                child: ListView(
-                                    scrollDirection: Axis.horizontal,
-                                    children: [
-                                      InProgressIndicatorCard(
-                                        numberOfTrips: industryModel
-                                            .viajesIds.length
-                                            .toString(),
-                                        divideNumber2: industryModel
-                                            .cargoUnloaded
-                                            .toString(),
-                                        divideNumber1: industryModel
-                                            .cargoAssigned
-                                            .toString(),
-                                        barPercentage: double.parse(
-                                            (industryModel.cargoUnloaded /
-                                                    industryModel.cargoAssigned)
-                                                .toStringAsFixed(2)),
-                                        title: industryModel.industryName,
-                                        deficit:
-                                            industryModel.deficit.toString(),
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  if(kIsWeb)
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 20.h,left: 15.w),
+                                      child: Text(
+                                        "Industry",
+                                        style: getBoldStyle(color: context.textColor, fontSize: MyFonts.size14),
                                       ),
-                                    ]),
+                                    ),
+                                  SizedBox(
+                                    height: kIsWeb?170.h:150.h,
+                                    child: ListView(
+                                        scrollDirection: Axis.horizontal,
+                                        children: [
+                                          InProgressIndicatorCard(
+                                            numberOfTrips: industryModel
+                                                .viajesIds.length
+                                                .toString(),
+                                            divideNumber2: industryModel
+                                                .cargoUnloaded
+                                                .toString(),
+                                            divideNumber1: industryModel
+                                                .cargoAssigned
+                                                .toString(),
+                                            barPercentage: double.parse(
+                                                (industryModel.cargoUnloaded /
+                                                        industryModel.cargoAssigned)
+                                                    .toStringAsFixed(2)),
+                                            title: industryModel.industryName,
+                                            deficit:
+                                                industryModel.deficit.toString(),
+                                          ),
+                                        ]),
+                                  ),
+                                ],
                               );
                             },
                             error: (error, st) {

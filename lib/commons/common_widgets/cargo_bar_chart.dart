@@ -5,9 +5,11 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:cargocontrol/utils/constants.dart' as constants;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../features/admin/create_vessel/controllers/ad_vessel_controller.dart';
-import '../models/vessel_models/vessel_cargo_model.dart';
-import '../utils/constants/font_manager.dart';
+import '../common_functions/vessel_cargo_hold_function.dart';
+import '../../core/enums/bogeda_count_product_enum.dart';
+import '../../features/admin/create_vessel/controllers/ad_vessel_controller.dart';
+import '../../models/vessel_models/vessel_cargo_model.dart';
+import '../../utils/constants/font_manager.dart';
 
 class CargoBarChart extends StatelessWidget {
   const CargoBarChart({super.key});
@@ -21,12 +23,14 @@ class CargoBarChart extends StatelessWidget {
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
           return ref.watch(fetchCurrentVesselsProvider).when(
               data: (vesselModel) {
+                Map<int, List<VesselCargoModel>> groupedCargo = groupCargoByCountNumber(vesselModel.cargoModels);
+                List<VesselCargoModel> summedCargo = calculateSumPeso(groupedCargo);
                 return ListView.builder(
-                  itemCount: vesselModel.cargoModels.length,
+                  itemCount: summedCargo.length,
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
-                    VesselCargoModel model =  vesselModel.cargoModels[index];
+                    VesselCargoModel model =  summedCargo[index];
                   return VerticalPercentageBar(percentage:
                   (1.0-(model.pesoUnloaded/ model.pesoTotal)),index: index+1,);
 
@@ -43,13 +47,12 @@ class CargoBarChart extends StatelessWidget {
       ),
 
 
-      // Row(
-      //   children: [
-      //  VerticalPercentageBar(percentage: 0.7,index: 1,),
-      //   ],
-      // ),
     );
   }
+
+
+
+
 }
 
 class VerticalPercentageBar extends StatelessWidget {

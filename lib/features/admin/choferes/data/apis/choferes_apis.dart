@@ -15,13 +15,20 @@ final choferesApisProvider = Provider<ChoferesApisImplements>((ref) {
 
 abstract class ChoferesApisImplements {
   FutureEitherVoid registerChofere({required ChoferesModel choferesModel});
+
   FutureEitherVoid deleteChofere({required String chofereId});
+
   Future<QuerySnapshot> getAllChoferes(
       {int limit = 10, DocumentSnapshot? snapshot});
+
   Future<QuerySnapshot> getAllChoferesList();
-  FutureEither<List<ViajesModel>>  getAllCompletedViajesList(
+
+  FutureEither<List<ViajesModel>> getAllCompletedViajesList(
       {required String realIndustryId});
+
   FutureEither<List<IndustriesModel>> getAllIndustries();
+
+  FutureEither<bool> isChoferesExistById({required String chofereNationalId});
 }
 
 class ChoferesApis implements ChoferesApisImplements {
@@ -60,6 +67,8 @@ class ChoferesApis implements ChoferesApisImplements {
       return Left(Failure(e.toString(), stackTrace));
     }
   }
+
+
 
   @override
   Future<QuerySnapshot> getAllChoferes(
@@ -109,6 +118,29 @@ class ChoferesApis implements ChoferesApisImplements {
     }
   }
 
+  @override
+  FutureEither<bool> isChoferesExistById(
+      {required String chofereNationalId}) async {
+
+    try {
+      var querySnapshot =
+      await _firestore.collection(FirebaseConstants.choferesCollection)
+          .where("choferNationalId", isEqualTo: chofereNationalId)
+          .get();
+
+      List<ChoferesModel> models = [];
+      for (var document in querySnapshot.docs) {
+        var model = ChoferesModel.fromMap(document.data());
+        models.add(model);
+      }
+
+      return Right(models.isNotEmpty);
+    } on FirebaseAuthException catch (e, stackTrace) {
+      return Left(Failure(e.message ?? 'Firebase Error Occurred', stackTrace));
+    } catch (e, stackTrace) {
+      return Left(Failure(e.toString(), stackTrace));
+    }
+  }
 
   @override
   FutureEither<List<IndustriesModel>> getAllIndustries() async {

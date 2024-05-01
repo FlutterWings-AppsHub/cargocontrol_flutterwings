@@ -1,4 +1,4 @@
-import 'package:cargocontrol/common_widgets/cargo_bar_chart.dart';
+import 'package:cargocontrol/commons/common_widgets/cargo_bar_chart.dart';
 import 'package:cargocontrol/commons/common_imports/common_libs.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/admin/dashboard/widgets/ad_dashboard_mini_card.dart';
@@ -12,7 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cargocontrol/utils/constants.dart' as constants;
 
-import '../../../../common_widgets/dashboard_top_widget.dart';
+import '../../../../commons/common_widgets/dashboard_top_widget.dart';
 import '../../../../core/enums/viajes_status_enum.dart';
 import '../../../../models/industry_models/industry_sub_model.dart';
 import '../../../../models/viajes_models/viajes_model.dart';
@@ -73,27 +73,40 @@ class AdDashboardScreen extends ConsumerWidget {
                                     if(allIndustries.isEmpty){
                                       return SizedBox();
                                     }
-                                    return Container(
-                                      constraints:
-                                      BoxConstraints(minHeight: 136.h, maxHeight: kIsWeb?170.h:160.h),
-                                      child: ListView.builder(
-                                        padding: EdgeInsets.zero,
-                                        itemCount: allIndustries.length,
-                                        scrollDirection: Axis.horizontal,
-                                        itemBuilder: (BuildContext context, int index) {
-                                          IndustrySubModel model = allIndustries[index];
-                                          return AdProgressIndicatorCard(
-                                            numberOfTrips: '${model.viajesIds.length}',
-                                            divideNumber2: '${model.cargoUnloaded}',
-                                            divideNumber1: '${model.cargoAssigned}',
-                                            barPercentage: double.parse(
-                                                (model.cargoUnloaded / model.cargoAssigned)
-                                                    .toStringAsFixed(2)),
-                                            title: '${model.industryName}',
-                                            deficit: model.deficit.toString(),
-                                          );
-                                        },
-                                      ),
+                                    return Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        if(kIsWeb)
+                                          Padding(
+                                            padding: EdgeInsets.only(top: 20.h,left: 15.w),
+                                            child: Text(
+                                              "Industrias",
+                                              style: getBoldStyle(color: context.textColor, fontSize: MyFonts.size14),
+                                            ),
+                                          ),
+                                        Container(
+                                          constraints:
+                                          BoxConstraints(minHeight: 136.h, maxHeight: kIsWeb?170.h:160.h),
+                                          child: ListView.builder(
+                                            padding: EdgeInsets.zero,
+                                            itemCount: allIndustries.length,
+                                            scrollDirection: Axis.horizontal,
+                                            itemBuilder: (BuildContext context, int index) {
+                                              IndustrySubModel model = allIndustries[index];
+                                              return AdProgressIndicatorCard(
+                                                numberOfTrips: '${model.viajesIds.length}',
+                                                divideNumber2: double.parse(model.cargoUnloaded.toString()),
+                                                divideNumber1: double.parse(model.cargoAssigned.toString()),
+                                                barPercentage: double.parse(
+                                                    (model.cargoUnloaded / model.cargoAssigned)
+                                                        .toStringAsFixed(2)),
+                                                title: '${model.industryName}',
+                                                deficit: model.deficit.toString(),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ],
                                     );
                                   }, error: (error, st) {
                                 debugPrintStack(stackTrace: st);

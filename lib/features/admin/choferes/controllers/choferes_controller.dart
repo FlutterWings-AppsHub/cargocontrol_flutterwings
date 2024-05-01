@@ -6,6 +6,7 @@ import 'package:cargocontrol/features/admin/choferes/controllers/choferes_noti_c
 import 'package:cargocontrol/features/admin/choferes/data/models/choferes_time_deficit_model.dart';
 import 'package:cargocontrol/models/choferes_models/choferes_model.dart';
 import 'package:cargocontrol/models/industry_models/industries_model.dart';
+import 'package:cargocontrol/utils/constants/error_messages.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,10 +47,12 @@ class ChoferesController extends StateNotifier<bool> {
   Future<void> registerChofere({
     required String choferNationalId,
     required String firstName,
+    required String lastName,
     required WidgetRef ref,
     required BuildContext context,
   }) async {
     state = true;
+    bool chofersAlreadyExist= false;
     final String choferId = const Uuid().v4();
     bool hasSecondName = hasLastName(firstName);
     ChoferesModel choferesModel = ChoferesModel(
@@ -60,13 +63,24 @@ class ChoferesController extends StateNotifier<bool> {
         averageTimeDeficit: Duration(),
         rating: 5,
         numberOfTrips: 0,
-        firstName: hasSecondName
-            ? firstName.split(' ').sublist(0, 1).join()
-            : firstName,
-        lastName: hasSecondName ? firstName.split(' ').sublist(1).join() : '',
+        // firstName: hasSecondName
+        //     ? firstName.split(' ').sublist(0, 1).join()
+        //     : firstName,
+        firstName:firstName,
+        //lastName: hasSecondName ? firstName.split(' ').sublist(1).join() : '',
+        lastName: lastName,
         rankingColor: 'Green',
+        // searchTags: choferesSearchTagsHandler(
+        //     firstName: hasSecondName
+        //         ? firstName.split(' ').sublist(0, 1).join()
+        //         : firstName,
+        //     lastName:
+        //         hasSecondName ? firstName.split(' ').sublist(1).join() : '',
+        //     choferNationalId: choferNationalId),
         searchTags: choferesSearchTagsHandler(
-            name: firstName, choferNationalId: choferNationalId),
+            firstName:firstName,
+            lastName:lastName,
+            choferNationalId: choferNationalId),
         worstCargoDeficit: 0.0,
         createdAt: DateTime.now(),
         worstTimeDeficit: Duration(),
@@ -74,15 +88,34 @@ class ChoferesController extends StateNotifier<bool> {
         worstCargoDeficitPercentage: 0.0);
 
     final result =
-        await _datasource.registerChofere(choferesModel: choferesModel);
+    await _datasource.isChoferesExistById(chofereNationalId: choferNationalId);
 
     result.fold((l) {
+      state = false;
+      showSnackBar(context: context, content: l.message);
+      return;
+    }, (r) {
+      if(r==true){
+        chofersAlreadyExist = true;
+      }
+    });
+
+    if(chofersAlreadyExist){
+      state = false;
+      Navigator.pop(context);
+      showSnackBar(context: context, content: Messages.choferesAlreadyRegisteredError);
+      return;
+    }
+    final result2 =
+        await _datasource.registerChofere(choferesModel: choferesModel);
+
+    result2.fold((l) {
       state = false;
       showSnackBar(context: context, content: l.message);
     }, (r) {
       state = false;
       Navigator.pop(context);
-      showSnackBar(context: context, content: 'Choferes Registered!');
+      showSnackBar(context: context, content: Messages.choferesRegisteredSuccess);
     });
     state = false;
   }
@@ -103,7 +136,7 @@ class ChoferesController extends StateNotifier<bool> {
     }, (r) async {
       await ref.read(choferesNotiController).firstTime();
       state = false;
-      showSnackBar(context: context, content: 'Choferes Deleted!');
+      showSnackBar(context: context, content: Messages.choferesDeleteSuccess);
     });
     state = false;
   }
@@ -228,17 +261,17 @@ class ChoferesController extends StateNotifier<bool> {
             ? Duration(
                 milliseconds: totalTripTime.inMilliseconds ~/ viajesCount)
             : Duration.zero;
-print("============");
+        print("============");
         List<Duration> timeDeficitList = [];
         for (ViajesModel viaje in filteredViajesList) {
-          print("Average Trip Time: "+averageTripTime.toString());
-          print( "trip time: "+ viaje.tripTime.toString());
+          print("Average Trip Time: " + averageTripTime.toString());
+          print("trip time: " + viaje.tripTime.toString());
           Duration timeDeficit = viaje.tripTime - averageTripTime;
           timeDeficitList.add(timeDeficit);
         }
 
         // Find the worst and average time deficit
-        print("Time deficit List"+ timeDeficitList.toString());
+        print("Time deficit List" + timeDeficitList.toString());
         print("============");
         Duration worstTimeDeficit = timeDeficitList.isEmpty
             ? Duration.zero

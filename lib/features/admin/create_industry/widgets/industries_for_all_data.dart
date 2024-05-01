@@ -24,7 +24,8 @@ class IndustriesForAllData extends StatelessWidget {
               color: context.textColor,
               fontSize: MyFonts.size14,
             ),),
-            SizedBox(height: 28.h,),
+            SizedBox(height: 10.h,),
+
             CustomTile(
               title: 'Nombre',
               subText: model.industryName,
@@ -37,14 +38,25 @@ class IndustriesForAllData extends StatelessWidget {
               title: 'Final de guia',
               subText: model.lastGuide.toString(),
             ),
-            CustomTile(
-              title: 'Producto (Variedad)',
-              subText: '${model.selectedVesselCargo.productName }, ${model.selectedVesselCargo.variety }, ${model.selectedVesselCargo.cosecha }, ${model.selectedVesselCargo.tipo } '
-            ),
-            CustomTile(
-              title: 'Carga',
-              subText: model.cargoAssigned.toString(),
-            ),
+            // Todo Industry model changes Effect: 2
+            ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: model.vesselProductModels.length,
+                itemBuilder: (context,index){
+              return Column(
+                children: [
+                  CustomTile(
+                    title: 'Producto (Variedad)',
+                    subText: model.vesselProductModels[index].productName),
+                  CustomTile(
+                    title: 'Carga',
+                    subText: model.vesselProductModels[index].pesoTotal.toString()
+                  ),
+                ],
+              );
+            }),
+            SizedBox(height: 20.h,),
           ],
         );
       },

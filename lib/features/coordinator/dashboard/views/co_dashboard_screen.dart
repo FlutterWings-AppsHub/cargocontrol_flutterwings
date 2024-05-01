@@ -1,4 +1,4 @@
-import 'package:cargocontrol/common_widgets/cargo_bar_chart.dart';
+import 'package:cargocontrol/commons/common_widgets/cargo_bar_chart.dart';
 import 'package:cargocontrol/commons/common_imports/common_libs.dart';
 import 'package:cargocontrol/core/enums/viajes_status_enum.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
@@ -14,7 +14,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cargocontrol/utils/constants.dart' as constants;
 import 'package:hive_flutter/adapters.dart';
 
-import '../../../../common_widgets/dashboard_top_widget.dart';
+import '../../../../commons/common_widgets/dashboard_top_widget.dart';
 import '../../../../models/industry_models/industry_sub_model.dart';
 import '../../../../models/viajes_models/viajes_model.dart';
 import '../../../admin/create_industry/controllers/ad_industry_controller.dart';
@@ -81,29 +81,42 @@ class CoDashboardScreen extends ConsumerWidget {
                                     if(allIndustries.isEmpty){
                                       return SizedBox();
                                     }
-                                    return Container(
-                                      constraints: BoxConstraints(
-                                          minHeight:  136.h,
-                                          maxHeight: kIsWeb?170.h:160.h
-                                      ),
-                                      child: ListView.builder(
-                                        itemCount: allIndustries.length,
-                                        scrollDirection: Axis.horizontal,
-                                        itemBuilder: (BuildContext context, int index) {
-                                          IndustrySubModel model = allIndustries[index];
-                                          return CoProgressIndicatorCard(
-                                            numberOfTrips: model.viajesIds.length.toString(),
-                                            divideNumber2: '${model.cargoUnloaded}',
-                                            divideNumber1: '${model.cargoAssigned}',
-                                            barPercentage: model.cargoUnloaded!= 0? (model.cargoUnloaded/model.cargoAssigned): 0,
-                                            title: '${model.industryName}',
-                                            deficit: model.deficit.toString(),
+                                    return Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        if(kIsWeb)
+                                          Padding(
+                                            padding: EdgeInsets.only(top: 20.h,left: 15.w),
+                                            child: Text(
+                                              "Industrias",
+                                              style: getBoldStyle(color: context.textColor, fontSize: MyFonts.size14),
+                                            ),
+                                          ),
+                                        Container(
+                                          constraints: BoxConstraints(
+                                              minHeight:  136.h,
+                                              maxHeight: kIsWeb?170.h:160.h
+                                          ),
+                                          child: ListView.builder(
+                                            itemCount: allIndustries.length,
+                                            scrollDirection: Axis.horizontal,
+                                            itemBuilder: (BuildContext context, int index) {
+                                              IndustrySubModel model = allIndustries[index];
+                                              return CoProgressIndicatorCard(
+                                                numberOfTrips: model.viajesIds.length.toString(),
+                                                divideNumber2: '${model.cargoUnloaded}',
+                                                divideNumber1: '${model.cargoAssigned}',
+                                                barPercentage: model.cargoUnloaded!= 0? (model.cargoUnloaded/model.cargoAssigned): 0,
+                                                title: '${model.industryName}',
+                                                deficit: model.deficit.toString(),
 
 
-                                          );
-                                        },
+                                              );
+                                            },
 
-                                      ),
+                                          ),
+                                        ),
+                                      ],
                                     );
                                   },
                                   error: (error, st){

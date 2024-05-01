@@ -104,7 +104,7 @@ class ConfirmIndustryDialog extends StatelessWidget {
                           Navigator.pop(context);
                           onTap();
                         },
-                        buttonText: 'Yes',
+                        buttonText: 'Si',
                       ),
 
                     ],

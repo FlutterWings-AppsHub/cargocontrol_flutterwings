@@ -50,22 +50,23 @@ class CargaWidget extends StatelessWidget {
               data: (industryModel) {
                 return Column(
                   children: [
-                    CustomTile(
-                      title: "Tipo",
-                      subText: industryModel.selectedVesselCargo.tipo,
-                    ),
-                    CustomTile(
-                      title: "Origen",
-                      subText: industryModel.selectedVesselCargo.origen,
-                    ),
-                    CustomTile(
-                      title: "Variedad",
-                      subText: industryModel.selectedVesselCargo.variety,
-                    ),
-                    CustomTile(
-                      title: "Cosecha",
-                      subText: industryModel.selectedVesselCargo.cosecha,
-                    ),
+                    // Todo Industry model changes Effect: 1
+                    // CustomTile(
+                    //   title: "Tipo",
+                    //   subText: industryModel.selectedVesselCargo.tipo,
+                    // ),
+                    // CustomTile(
+                    //   title: "Origen",
+                    //   subText: industryModel.selectedVesselCargo.origen,
+                    // ),
+                    // CustomTile(
+                    //   title: "Variedad",
+                    //   subText: industryModel.selectedVesselCargo.variety,
+                    // ),
+                    // CustomTile(
+                    //   title: "Cosecha",
+                    //   subText: industryModel.selectedVesselCargo.cosecha,
+                    // ),
                   ],
                 );
               },

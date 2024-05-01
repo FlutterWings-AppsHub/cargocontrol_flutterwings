@@ -4,6 +4,7 @@ import 'package:cargocontrol/commons/common_widgets/show_toast.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/coordinator/register_truck_movement/controllers/truck_registration_noti_controller.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
+import 'package:cargocontrol/utils/constants/error_messages.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -107,7 +108,7 @@ class _RegisterTruckEnteringScreenState extends ConsumerState<RegisterTruckEnter
                               'guideNumber': double.parse(keyPadTextFieldController.text)
                             });
                           }else{
-                            showToast(msg: 'No Industry Found!');
+                            showToast(msg: Messages.noIndustryFoundError);
                             // showSnackBar(context: context, content: 'No Industry Found!');
                           }
                         });

@@ -49,11 +49,12 @@ class _AdMainMenuScreenState extends ConsumerState<AdMainMenuScreen> {
           Consumer(
             builder: (BuildContext context, WidgetRef ref, Widget? child) {
               return TextButton(
-                  onPressed: () {
+                  onPressed: () async {
                     ref.read(authControllerProvider.notifier).logout(
                       context: context,
                       ref: ref
                     );
+
                   },
                   child: const Text(
                     'Cerrar Sesión',

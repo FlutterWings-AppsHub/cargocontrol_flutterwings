@@ -13,15 +13,15 @@ class ViajesModel{
   final double cargoDeficitWeight;
   final DateTime timeToIndustry;
   final DateTime unloadingTimeInIndustry;
-  final double guideNumber;
+  final double guideNumber; //search
   final String industryId;
   final String industryName;
   final String realIndustryId;
   final String vesselId;
   final String vesselName;
-  final String chofereId;
+  final String chofereId; //search
   final int cargoHoldCount;
-  final String chofereName;
+  final String chofereName; //search
   final String productName;
   final String licensePlate;
   final String cargoId;

@@ -4,6 +4,7 @@ import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/admin/manage_ships/controllers/ship_controller.dart';
 import 'package:cargocontrol/models/choferes_models/choferes_model.dart';
 import 'package:cargocontrol/models/vessel_models/vessel_model.dart';
+import 'package:cargocontrol/utils/constants/error_messages.dart';
 
 import '../../../../commons/common_imports/apis_commons.dart';
 import '../../../../commons/common_imports/common_libs.dart';
@@ -60,7 +61,7 @@ class ConfirmDeleteDialog extends StatelessWidget {
               height: 32.h,
             ),
             Text(
-              'Estás seguro de que quieres eliminar los Choferes?',
+              'Está seguro que quiere eliminar el chofer ${choferesModel.firstName} ${choferesModel.lastName}?',
               textAlign: TextAlign.center,
               style: getRegularStyle(
                   color: context.textColor, fontSize: MyFonts.size16),
@@ -93,6 +94,7 @@ class ConfirmDeleteDialog extends StatelessWidget {
                       onPressed: () async {
                         if (choferesModel.choferesStatusEnum.type ==
                             ChoferesStatusEnum.available.type) {
+
                           await ref
                               .read(choferesControllerProvider.notifier)
                               .deleteChofere(
@@ -103,16 +105,16 @@ class ConfirmDeleteDialog extends StatelessWidget {
                               );
                         } else {
                           showToast(
-                              msg:
-                                  "You cannot delete the choferes because the chorefes has status of  " +
-                                      choferesModel.choferesStatusEnum.type,
+                              msg: Messages.deleteChoferesError,
                               textColor: Colors.red,
                               isTop: true);
-                        }
 
+                        }
                         Navigator.pop(context);
+
+
                       },
-                      buttonText: 'Yes',
+                      buttonText: 'Si',
                     ),
                   ],
                 );

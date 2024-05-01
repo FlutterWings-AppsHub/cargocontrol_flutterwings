@@ -46,76 +46,81 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 160.h,
             ),
             Image.asset(AppAssets.logo, height: 78.h, width: 290.w,),
-            Container(
-              padding: EdgeInsets.all(20.sp),
-              margin: kIsWeb? EdgeInsets.symmetric(vertical: 20.sp,horizontal: 0.3.sw):EdgeInsets.all(20.sp) ,
-              decoration: constants.DecorationStyles.shadow1,
-              child: Form(
-                key: formKey,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            'Bienvenido',
-                            style:getRegularStyle(color: context.text3Color, fontSize: MyFonts.size24),
-                          ),
-                          SizedBox(
-                            width: 20.w,
-                          ),
-                          Expanded(
-                            child: Divider(
-                              thickness: 4.h,
-                              color: constants.kBrandColor,
+            Center(
+              child: Container(
+                padding: EdgeInsets.all(20.sp),
+                width: 370.w,
+                margin: EdgeInsets.all(20.sp) ,
+                decoration: constants.DecorationStyles.shadow1,
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              'Bienvenido',
+                              style:getRegularStyle(color: context.text3Color, fontSize: MyFonts.size24),
                             ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 40.h,
-                      ),
-                      CustomTextField(
-                          controller: emailCtr,
-                          hintText: '',
-                          onChanged: (val){},
-                          onFieldSubmitted: (val){},
-                          obscure: false,
-                          validatorFn: emailValidator,
-                          label: 'Correo electrónico'
-                      ),
-                      CustomTextField(
-                          controller: passCtr,
-                          hintText: '',
-                          validatorFn: passValidator,
-                          onChanged: (val){},
-                          onFieldSubmitted: (val){},
-                          obscure: true,
-                          label: 'Contraseña'
-                      ),
-                      TextButton(
-                        child: Text(
-                          'Se me olvidó la contraseña',
-                          style: getBoldStyle(color: context.mainColor, fontSize: MyFonts.size12),
+                            SizedBox(
+                              width: 20.w,
+                            ),
+                            Expanded(
+                              child: Divider(
+                                thickness: 4.h,
+                                color: constants.kBrandColor,
+                              ),
+                            )
+                          ],
                         ),
-                        onPressed: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) =>
-                          //           const ForgotPasswordScreen()),
-                          // );
-                        },
-                      ),
-                      const SizedBox(
-                        height: 70,
-                      )
-                    ]),
+                        SizedBox(
+                          height: 40.h,
+                        ),
+                        CustomTextField(
+                            controller: emailCtr,
+                            hintText: '',
+                            onChanged: (val){},
+                            onFieldSubmitted: (val){},
+                            obscure: false,
+                            validatorFn: emailValidator,
+                            label: 'Correo electrónico'
+                        ),
+                        CustomTextField(
+                            controller: passCtr,
+                            hintText: '',
+                            validatorFn: passValidator,
+                            onChanged: (val){},
+                            onFieldSubmitted: (val){},
+                            obscure: true,
+                            label: 'Contraseña'
+                        ),
+                        TextButton(
+                          child: Text(
+                            'Se me olvidó la contraseña',
+                            style: getBoldStyle(color: context.mainColor, fontSize: MyFonts.size12),
+                          ),
+                          onPressed: () {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //       builder: (context) =>
+                            //           const ForgotPasswordScreen()),
+                            // );
+                          },
+                        ),
+                        const SizedBox(
+                          height: 70,
+                        )
+                      ]),
+                ),
               ),
             ),
             Consumer(
               builder: (BuildContext context, WidgetRef ref, Widget? child) {
                 return CustomButton(
+                  buttonWidth: 360.w,
                     onPressed: ()async{
                       if(formKey.currentState!.validate()){
                         await ref.read(authControllerProvider.notifier).loginWithEmailAndPassword(

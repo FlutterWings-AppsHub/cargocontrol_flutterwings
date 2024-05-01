@@ -108,7 +108,7 @@ class _RegisterUserScreenState extends ConsumerState<RegisterUserScreen> {
                         ctr: accountTypeCtr,
                         list: const [
                           "administrador",
-                          "coordinator",
+                          "coordinador",
                           "industria",
                         ],
                         labelText: "Tipo de usuario",

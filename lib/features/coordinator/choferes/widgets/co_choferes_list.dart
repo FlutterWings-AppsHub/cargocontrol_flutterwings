@@ -81,7 +81,7 @@ class _CoChoferesListState extends ConsumerState<CoChoferesList> {
               choferesNotiCtr.isLoading ?
               const LoadingWidget():
               choferesNotiCtr.choferesModels.isEmpty ?
-              const Text("No Chores!"):
+              const Text("No hay Choferes!"):
               Expanded(
                 child: ListView.builder(
                     controller: _scrollController,

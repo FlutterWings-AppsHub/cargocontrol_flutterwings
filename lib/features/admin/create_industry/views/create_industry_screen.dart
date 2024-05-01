@@ -64,7 +64,7 @@ class _CreateIndustryScreenState extends ConsumerState<CreateIndustryScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const CommonHeader(
-                title: "Información del",
+                title: "Información del ",
                 subtitle: "buque" ,
                 description: "Indique la información del buque a registrar",
               ),

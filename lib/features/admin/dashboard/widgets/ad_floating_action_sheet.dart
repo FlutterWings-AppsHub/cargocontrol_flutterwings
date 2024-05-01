@@ -1,6 +1,7 @@
 import 'package:cargocontrol/commons/common_imports/common_libs.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
 import 'package:cargocontrol/features/dashboard/components/dashboard_modal_button.dart';
+import 'package:cargocontrol/utils/constants/error_messages.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,6 +32,7 @@ class AdFloadtingActionSheet extends ConsumerWidget {
                     isDisable: true,
                     title2: 'nuevo buque',
                     subtitle: 'Registro de buque a puerto',
+                    msgOnTap: Messages.vesselHasNotFinishError,
                     onTap: () {
                       Navigator.pop(context);
                       Navigator.pushNamed(context, AppRoutes.adminCreateVesselScreen);
@@ -80,6 +82,7 @@ class AdFloadtingActionSheet extends ConsumerWidget {
                       title1: 'Registro de',
                       title2: 'industria ',
                       isDisable: true,
+                      msgOnTap: Messages.industryCreateError,
                       subtitle: 'Registro de guia de industria',
                       onTap: () {
                         Navigator.pop(context);

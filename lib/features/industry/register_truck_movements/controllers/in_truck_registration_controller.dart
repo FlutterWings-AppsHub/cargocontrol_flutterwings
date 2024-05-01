@@ -10,6 +10,7 @@ import 'package:cargocontrol/models/vessel_models/vessel_model.dart';
 import 'package:cargocontrol/models/viajes_models/viajes_model.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
 import 'package:cargocontrol/utils/constants/app_constants.dart';
+import 'package:cargocontrol/utils/constants/error_messages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -71,7 +72,7 @@ class TruckRegistrationController extends StateNotifier<bool> {
     }, (r) async {
       state = false;
       Navigator.pushNamed(context, AppRoutes.inRegistrationSuccessFullScreen);
-      showSnackBar(context: context, content: 'Viajes Registered!');
+      showSnackBar(context: context, content: Messages.viajesRegisteredSuccess);
     });
     state = false;
   }
@@ -96,19 +97,20 @@ class TruckRegistrationController extends StateNotifier<bool> {
         unloadingTimeInIndustry: unloadingTimeInIndustry,
         viajesTypeEnum: ViajesTypeEnum.completed,
         viajesStatusEnum: ViajesStatusEnum.industryUnloaded);
-
-    IndustrySubModel industry = industrySubModel.copyWith(
-      deficit: industrySubModel.deficit +
-          (viajesModel.exitTimeTruckWeightToPort - cargoUnloadWeight),
-      cargoUnloaded: industrySubModel.cargoUnloaded +
-          cargoUnloadWeight -
-          viajesModel.entryTimeTruckWeightToPort,
-      selectedVesselCargo: industrySubModel.selectedVesselCargo.copyWith(
-        pesoUnloaded: industrySubModel.selectedVesselCargo.pesoUnloaded +
-            cargoUnloadWeight -
-            viajesModel.entryTimeTruckWeightToPort,
-      ),
-    );
+    // Todo Industry model changes Effect: 13
+    // IndustrySubModel industry = industrySubModel.copyWith(
+    //   deficit: industrySubModel.deficit +
+    //       (viajesModel.exitTimeTruckWeightToPort - cargoUnloadWeight),
+    //   cargoUnloaded: industrySubModel.cargoUnloaded +
+    //       cargoUnloadWeight -
+    //       viajesModel.entryTimeTruckWeightToPort,
+    //   selectedVesselCargo: industrySubModel.selectedVesselCargo.copyWith(
+    //     pesoUnloaded: industrySubModel.selectedVesselCargo.pesoUnloaded +
+    //         cargoUnloadWeight -
+    //         viajesModel.entryTimeTruckWeightToPort,
+    //   ),
+    // );
+    IndustrySubModel industry = industrySubModel;
     double tripCargoDeficit =
         (viajesModel.exitTimeTruckWeightToPort - cargoUnloadWeight);
     double updatedAverageCargoDeficit = ((choferesModel.averageCargoDeficit *
@@ -182,7 +184,7 @@ class TruckRegistrationController extends StateNotifier<bool> {
       }
       state = false;
       Navigator.pushNamed(context, AppRoutes.inRegistrationSuccessFullScreen);
-      showSnackBar(context: context, content: 'Viajes Unlaoded!');
+      showSnackBar(context: context, content: Messages.viajesUnlaodedSuccess);
     });
     state = false;
   }

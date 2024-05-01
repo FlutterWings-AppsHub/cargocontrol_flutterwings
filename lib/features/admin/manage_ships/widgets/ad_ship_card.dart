@@ -8,6 +8,7 @@ import 'package:cargocontrol/utils/constants/app_constants.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
 import 'package:cargocontrol/utils/constants.dart' as constants;
 import 'package:cargocontrol/utils/loading.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
@@ -88,6 +89,7 @@ class AdShipCard extends StatelessWidget {
                     style: getRegularStyle(
                         color: context.textColor, fontSize: MyFonts.size12),
                   ),
+                  if(!kIsWeb)
                   Consumer(builder: (context, ref, child) {
                     return ref.watch(shipControllerProvider)
                         ? LoadingWidget(

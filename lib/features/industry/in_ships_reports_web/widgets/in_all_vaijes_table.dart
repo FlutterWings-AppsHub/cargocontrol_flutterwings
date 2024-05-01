@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../commons/common_functions/date_time_methods.dart';
+import '../../../../core/enums/viajes_status_enum.dart';
 
 class ViajesTable extends StatefulWidget {
   final List<ViajesModel> viajesList;
@@ -32,7 +33,6 @@ class _ViajesTableState extends State<ViajesTable> {
     'Perdida (%)',
     'Hora de llegada',
     'Hora de descarga',
-    'Destino',
   ];
   @override
   Widget build(BuildContext context) {
@@ -150,23 +150,18 @@ class _ViajesTableState extends State<ViajesTable> {
                   color: MyColors.black, fontSize: MyFonts.size11),
             ))),
             DataCell(Center(
-                child: Text(
-              formatDateTime(widget.viajesList[index].timeToIndustry),
-              style: getRegularStyle(
-                  color: MyColors.black, fontSize: MyFonts.size11),
-            ))),
+                child: Text( widget.viajesList[index].viajesStatusEnum==ViajesStatusEnum.industryUnloaded?
+                formatDateTime(widget.viajesList[index].timeToIndustry):"----",
+                  style: getRegularStyle(
+                      color: MyColors.black, fontSize: MyFonts.size11),
+                ))),
             DataCell(Center(
-                child: Text(
-              formatDateTime(widget.viajesList[index].unloadingTimeInIndustry),
-              style: getRegularStyle(
-                  color: MyColors.black, fontSize: MyFonts.size11),
-            ))),
-            DataCell(Center(
-                child: Text(
-              widget.viajesList[index].industryName,
-              style: getRegularStyle(
-                  color: MyColors.black, fontSize: MyFonts.size11),
-            ))),
+                child: Text(widget.viajesList[index].viajesStatusEnum==ViajesStatusEnum.industryUnloaded?
+                formatDateTime(widget.viajesList[index].unloadingTimeInIndustry):"----",
+                  style: getRegularStyle(
+                      color: MyColors.black, fontSize: MyFonts.size11),
+                ))),
+
           ]),
       ],
     );

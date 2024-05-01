@@ -25,7 +25,7 @@ void showToast(
     Color? textColor,
     Color? backgroundColor,
     bool isTop = false,
-    bool long = false}) {
+    bool long = true}) {
   Fluttertoast.showToast(
     msg: msg,
     toastLength: long ? Toast.LENGTH_LONG : Toast.LENGTH_LONG,

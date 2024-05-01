@@ -2,6 +2,7 @@ import 'package:cargocontrol/models/industry_models/industries_model.dart';
 import 'package:cargocontrol/models/industry_models/industry_guide_model.dart';
 import 'package:cargocontrol/models/industry_models/industry_sub_model.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
+import 'package:cargocontrol/utils/constants/error_messages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -45,7 +46,7 @@ class AdIndustryController extends StateNotifier<bool> {
     }, (r) {
       state = false;
       Navigator.pushNamed(context, AppRoutes.registrationSuccessFullScreen);
-      showSnackBar(context: context, content: 'Industry Created!');
+      showSnackBar(context: context, content: Messages.industryCreatedSuccess);
     });
 
     state = false;

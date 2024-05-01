@@ -89,11 +89,15 @@ class _CoTruckBriefScreenState extends ConsumerState<CoTruckBriefScreen> {
                                         vesselName: truckNotiCtr.selectedIndustry?.vesselName ?? '',
                                         industryName: truckNotiCtr.selectedIndustry?.industryName ?? '',
                                         industryId: truckNotiCtr.selectedIndustry?.industryId ?? '',
-                                        productName: truckNotiCtr.selectedIndustry?.selectedVesselCargo.productName ?? '',
+                                        // Todo Industry model changes Effect: 10
+                                        //productName: truckNotiCtr.selectedIndustry?.selectedVesselCargo.productName ?? '',
+                                        productName: '',
                                         choferesname: choferesName,
                                         choferesId: truckNotiCtr.selectedChofere?.choferNationalId?? '',
                                         industrySubModel: truckNotiCtr.selectedIndustry!,
-                                        cargoId: truckNotiCtr.selectedIndustry?.selectedVesselCargo.cargoId ?? '',
+                                        // Todo Industry model changes Effect: 11
+                                        //cargoId: truckNotiCtr.selectedIndustry?.selectedVesselCargo.cargoId ?? '',
+                                        cargoId: '',
                                         ref: ref,
                                         context: context
                                     );
