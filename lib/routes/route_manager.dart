@@ -106,7 +106,6 @@ class AppRoutes {
   static const String dashboardScreen = '/dashboardScreen';
   static const String reportScreen = '/reportScreen';
 
-
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       // Admin Screens
@@ -157,7 +156,8 @@ class AppRoutes {
         final args = settings.arguments as Map<String, dynamic>;
         return _buildRoute(
           CreateIndustryCompleteDataScreen(
-            industrySubModels: args['industrySubModels'], cargoHoldWeights: args['cargoHoldWeights'],
+            industrySubModels: args['industrySubModels'],
+            cargoHoldWeights: args['cargoHoldWeights'],
           ),
         );
 
@@ -195,7 +195,6 @@ class AppRoutes {
           CoTruckBriefScreen(
             guideNumber: args['guideNumber'],
             plateNumber: args['plateNumber'],
-            marchamo: args['marchamo'],
             emptyTruckWeight: args['emptyTruckWeight'],
           ),
         );
@@ -204,6 +203,11 @@ class AppRoutes {
         return _buildRoute(CoTruckLeavingBriefScreen(
           fullTruckWeight: args['fullTruckWeight'],
           pureCargoWeight: args['pureCargoWeight'],
+          marchamo1: args['marchamo1'],
+          vesselCargoModel: args['vesselCargoModel'],
+          marchamo2: args['marchamo2'],
+          productId: args['productId'],
+          productName: args['productName'],
         ));
       case coRegistrationSuccessFullScreen:
         return _buildRoute(const CoRegistrationSuccessFullScreen());
@@ -249,7 +253,9 @@ class AppRoutes {
       case reportScreen:
         final args = settings.arguments as Map<String, dynamic>;
         return _buildRoute(ReportScreen(
-          vesselModel: args['vesselModel'], allIndustriesModels: args['allIndustriesModels'], allViajesModel: args['allViajesModel'],
+          vesselModel: args['vesselModel'],
+          allIndustriesModels: args['allIndustriesModels'],
+          allViajesModel: args['allViajesModel'],
         ));
 
       case choferesDetailsScreen:

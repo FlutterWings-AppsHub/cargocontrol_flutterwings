@@ -114,7 +114,7 @@ class _IndustrySectionWidgetState extends ConsumerState<IndustrySectionWidget> {
           height: 16.h,
         ),
         widget.loadWidget,
-        Text('La bodega tiene más de un producto?',style: getRegularStyle(color: context.textColor,fontSize: MyFonts.size14),),
+        Text('La Industria tiene más de un producto?',style: getRegularStyle(color: context.textColor,fontSize: MyFonts.size14),),
         SizedBox(height: 10.h,),
         Row(
           children: [

@@ -1,3 +1,4 @@
+import 'package:cargocontrol/core/enums/weight_unit_enum.dart';
 import 'package:cargocontrol/models/vessel_models/vessel_cargo_model.dart';
 import 'package:cargocontrol/models/vessel_models/vessel_product_model.dart';
 
@@ -8,14 +9,16 @@ class VesselModel {
   final String entryPort;
   final String shipper;
   final String unlcode;
-  final dynamic totalCargoWeight;
+  final double totalCargoWeight;
   final int numberOfCargos;
   final List<VesselCargoModel> cargoModels;
   final List<VesselProductModel> vesselProductModels;
-  final dynamic cargoUnloadedWeight;
+  final double cargoUnloadedWeight;
   final DateTime entryDate;
   final DateTime exitDate;
+  final DateTime createdDate;
   final bool isFinishedUnloading;
+  final WeightUnitEnum weightUnitEnum;
   final Map<String, dynamic> searchTags;
 
 //<editor-fold desc="Data Methods">
@@ -33,7 +36,9 @@ class VesselModel {
     required this.cargoUnloadedWeight,
     required this.entryDate,
     required this.exitDate,
+    required this.createdDate,
     required this.isFinishedUnloading,
+    required this.weightUnitEnum,
     required this.searchTags,
   });
 
@@ -55,7 +60,9 @@ class VesselModel {
           cargoUnloadedWeight == other.cargoUnloadedWeight &&
           entryDate == other.entryDate &&
           exitDate == other.exitDate &&
+          createdDate == other.createdDate &&
           isFinishedUnloading == other.isFinishedUnloading &&
+          weightUnitEnum == other.weightUnitEnum &&
           searchTags == other.searchTags);
 
   @override
@@ -73,7 +80,9 @@ class VesselModel {
       cargoUnloadedWeight.hashCode ^
       entryDate.hashCode ^
       exitDate.hashCode ^
+      createdDate.hashCode ^
       isFinishedUnloading.hashCode ^
+      weightUnitEnum.hashCode ^
       searchTags.hashCode;
 
   @override
@@ -92,7 +101,9 @@ class VesselModel {
         ' cargoUnloadedWeight: $cargoUnloadedWeight,' +
         ' entryDate: $entryDate,' +
         ' exitDate: $exitDate,' +
+        ' createdDate: $createdDate,' +
         ' isFinishedUnloading: $isFinishedUnloading,' +
+        ' weightUnitEnum: $weightUnitEnum,' +
         ' searchTags: $searchTags,' +
         '}';
   }
@@ -104,14 +115,16 @@ class VesselModel {
     String? entryPort,
     String? shipper,
     String? unlcode,
-    dynamic? totalCargoWeight,
+    double? totalCargoWeight,
     int? numberOfCargos,
     List<VesselCargoModel>? cargoModels,
     List<VesselProductModel>? vesselProductModels,
-    dynamic? cargoUnloadedWeight,
+    double? cargoUnloadedWeight,
     DateTime? entryDate,
     DateTime? exitDate,
+    DateTime? createdDate,
     bool? isFinishedUnloading,
+    WeightUnitEnum? weightUnitEnum,
     Map<String, dynamic>? searchTags,
   }) {
     return VesselModel(
@@ -128,7 +141,9 @@ class VesselModel {
       cargoUnloadedWeight: cargoUnloadedWeight ?? this.cargoUnloadedWeight,
       entryDate: entryDate ?? this.entryDate,
       exitDate: exitDate ?? this.exitDate,
+      createdDate: createdDate ?? this.createdDate,
       isFinishedUnloading: isFinishedUnloading ?? this.isFinishedUnloading,
+      weightUnitEnum: weightUnitEnum ?? this.weightUnitEnum,
       searchTags: searchTags ?? this.searchTags,
     );
   }
@@ -152,7 +167,10 @@ class VesselModel {
       'cargoUnloadedWeight': this.cargoUnloadedWeight,
       'entryDate': this.entryDate.millisecondsSinceEpoch,
       'exitDate': this.exitDate.millisecondsSinceEpoch,
+      'createdDate': this.createdDate.millisecondsSinceEpoch,
       'searchTags': this.searchTags,
+      'weightUnitEnum': this.weightUnitEnum.type,
+
     };
   }
 
@@ -165,22 +183,21 @@ class VesselModel {
       shipper: map['shipper'] as String,
       unlcode: map['unlcode'] as String,
       isFinishedUnloading: map['isFinishedUnloading'] as bool,
-      totalCargoWeight: map['totalCargoWeight'] as dynamic,
+      totalCargoWeight: (map['totalCargoWeight'] as num).toDouble(),
       numberOfCargos: map['numberOfCargos'] as int,
       cargoModels: (map['cargoModels'] as List<dynamic>).
       map((e) => VesselCargoModel.fromMap(e)).toList(),
       vesselProductModels:
       (map['vesselProductModels'] as List<dynamic>).
       map((e) => VesselProductModel.fromMap(e)).toList(),
-      cargoUnloadedWeight: map['cargoUnloadedWeight'] as dynamic,
+      cargoUnloadedWeight: (map['cargoUnloadedWeight'] as num).toDouble(),
       entryDate: DateTime.fromMillisecondsSinceEpoch(map['entryDate'] ),
       exitDate: DateTime.fromMillisecondsSinceEpoch(map['exitDate'] ),
       searchTags: map['searchTags'] as Map<String, dynamic>,
+      createdDate: DateTime.fromMillisecondsSinceEpoch(map['createdDate'] ),
+      weightUnitEnum: (map['weightUnitEnum'] as String).toWeightUnitEnum(),
     );
   }
-
-
-
 
 //</editor-fold>
 }

@@ -338,8 +338,9 @@ class _CreateVesselBodegaInfoScreenState
                             );
                             bogedaModels.add(model);
                             if(_isMultipleProductInBodega[i]){
+                              final cargoIdB = Uuid().v4();
                               VesselCargoModel modelB = VesselCargoModel(
-                                cargoId: cargoId,
+                                cargoId: cargoIdB,
                                 cosecha: section.cosechaCtrB.text,
                                 origen: section.originCtrB.text,
                                 pesoTotal: double.parse(section.weightCtrB.text),

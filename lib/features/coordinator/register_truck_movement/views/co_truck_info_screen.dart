@@ -21,25 +21,22 @@ import '../../../../utils/constants/assets_manager.dart';
 
 class CoTruckInfoScreen extends StatefulWidget {
   final double guideNumber;
-  const CoTruckInfoScreen({Key? key, required this.guideNumber}) : super(key: key);
+  const CoTruckInfoScreen({Key? key, required this.guideNumber})
+      : super(key: key);
 
   @override
   State<CoTruckInfoScreen> createState() => _CoTruckInfoScreenState();
 }
 
 class _CoTruckInfoScreenState extends State<CoTruckInfoScreen> {
-
   final scanCtr = TextEditingController();
-  final labelCtr = TextEditingController();
   final driverNameCtr = TextEditingController();
   final emptyTruckWeightCtr = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-
   @override
   void dispose() {
     scanCtr.dispose();
-    labelCtr.dispose();
     driverNameCtr.dispose();
     emptyTruckWeightCtr.dispose();
     super.dispose();
@@ -47,173 +44,168 @@ class _CoTruckInfoScreenState extends State<CoTruckInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return
-      Scaffold(
-        appBar: CustomAppBar(),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const CommonHeader(
-                title: "Información del ",
-                subtitle: "camión" ,
-                description: "Indique la información del camión para su registro en la romana",
-              ),
-              SizedBox(
-                height: 28.h,
-              ),
-              Form(
-                key: formKey,
-                child: Padding(
-                  padding:  kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal: 20.w),
-                  child: Consumer(
-                    builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                      IndustrySubModel model = ref.read(truckRegistrationNotiControllerProvider).selectedIndustry!;
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Información preliminar", style: getBoldStyle(color: context.textColor, fontSize: MyFonts.size14),),
-                          SizedBox(
-                            height: 24.h,
+    return Scaffold(
+      appBar: CustomAppBar(),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const CommonHeader(
+              title: "Información del ",
+              subtitle: "camión",
+              description:
+                  "Indique la información del camión para su registro en la romana",
+            ),
+            SizedBox(
+              height: 28.h,
+            ),
+            Form(
+              key: formKey,
+              child: Padding(
+                padding: kIsWeb
+                    ? EdgeInsets.symmetric(horizontal: 0.35.sw)
+                    : EdgeInsets.symmetric(horizontal: 20.w),
+                child: Consumer(
+                  builder:
+                      (BuildContext context, WidgetRef ref, Widget? child) {
+                    IndustrySubModel model = ref
+                        .read(truckRegistrationNotiControllerProvider)
+                        .selectedIndustry!;
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Información preliminar",
+                          style: getBoldStyle(
+                              color: context.textColor,
+                              fontSize: MyFonts.size14),
+                        ),
+                        SizedBox(
+                          height: 24.h,
+                        ),
+                        CustomTile(
+                            title: 'Número de guía',
+                            subText: widget.guideNumber.toStringAsFixed(0)),
+                        CustomTile(
+                            title: 'Nombre de buque',
+                            subText: model.vesselName),
+                        CustomTile(
+                            title: 'Industria', subText: model.industryName),
+                        SizedBox(
+                          height: 24.h,
+                        ),
+                        Divider(
+                          height: 1.h,
+                          color: context.textFieldColor,
+                        ),
+                        SizedBox(
+                          height: 24.h,
+                        ),
+                        CustomTextField(
+                          controller: scanCtr,
+                          hintText: '',
+                          onChanged: (val) {},
+                          onFieldSubmitted: (val) {},
+                          obscure: false,
+                          label: 'Placa',
+                          maxLength: 6,
+                          inputType: TextInputType.number,
+                          onlyNumber: true,
+                          validatorFn: sectionValidator,
+                          tailingIcon: InkWell(
+                              onTap: () async {
+                                final result = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const TextDetectorScreen()),
+                                );
+                                setState(() {
+                                  scanCtr.text = result;
+                                });
+                              },
+                              splashColor: MyColors.transparentColor,
+                              focusColor: MyColors.transparentColor,
+                              highlightColor: MyColors.transparentColor,
+                              child: Image.asset(
+                                AppAssets.scanIcon,
+                                scale: 2.2,
+                              )),
+                        ),
+                        CustomTextField(
+                          controller: driverNameCtr,
+                          hintText: '',
+                          onChanged: (val) {},
+                          onFieldSubmitted: (val) {},
+                          obscure: false,
+                          label: 'Nombre de chofer (buscar por ID)',
+                          validatorFn: sectionValidator,
+                          tailingIcon: Image.asset(
+                            AppAssets.searchIcon,
+                            scale: 2.2,
                           ),
-                          CustomTile(
-                              title: 'Número de guía',
-                              subText: widget.guideNumber.toStringAsFixed(0)
-                          ),
-                          CustomTile(
-                              title: 'Nombre de buque',
-                              subText: model.vesselName
-                          ),
-                          CustomTile(
-                              title: 'Industria',
-                              subText: model.industryName
-                          ),
-                          SizedBox(
-                            height: 24.h,
-                          ),
-                          Divider(
-                            height: 1.h,
-                            color: context.textFieldColor,
-                          ),
-                          SizedBox(
-                            height: 24.h,
-                          ),
-                          CustomTextField(
-                            controller: scanCtr,
-                            hintText: '',
-                            onChanged: (val){},
-                            onFieldSubmitted: (val){},
-                            obscure: false,
-                            label: 'Placa',
-                            maxLength: 6,
-                            inputType: TextInputType.number,
-                            onlyNumber: true,
-                            validatorFn: sectionValidator,
-                            tailingIcon: InkWell(
-                                onTap: ()async{
-                                  final result = await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                        const TextDetectorScreen()),
-                                  );
+                          readOnly: true,
+                          onTap: () {
+                            bottomSheetComponent(
+                              context,
+                              adjustSizeOnOpenKeyboard: true,
+                              height: 750.h,
+                              CoSelectChoferScreen(
+                                selectChofer: (String name) {
                                   setState(() {
-                                    scanCtr.text = result;
+                                    driverNameCtr.text = name;
                                   });
                                 },
-                                splashColor: MyColors.transparentColor,
-                                focusColor:  MyColors.transparentColor,
-                                highlightColor:  MyColors.transparentColor,
-                                child: Image.asset(AppAssets.scanIcon, scale: 2.2,)),
-                          ),
-
-                          CustomTextField(
-                              controller: labelCtr,
-                              hintText: '',
-                              onChanged: (val){},
-                              onFieldSubmitted: (val){},
-                              obscure: false,
-                              label: 'Marchamo',
-                            inputType: TextInputType.number,
-                            validatorFn: sectionValidator,
-                          ),
-
-                          CustomTextField(
-                            controller: driverNameCtr,
+                              ),
+                              isDismissible: true,
+                            );
+                          },
+                        ),
+                        CustomTextField(
+                            controller: emptyTruckWeightCtr,
                             hintText: '',
-                            onChanged: (val){},
-                            onFieldSubmitted: (val){},
-                            obscure: false,
-                            label: 'Nombre de chofer (buscar por ID)',
-                            validatorFn: sectionValidator,
-                            tailingIcon: Image.asset(AppAssets.searchIcon, scale: 2.2,),
-                            readOnly: true,
-                            onTap: (){
-                              bottomSheetComponent(
-                                context,
-                                adjustSizeOnOpenKeyboard: true,
-                                height: 750.h,
-                                CoSelectChoferScreen(
-                                  selectChofer: (String name){
-                                    setState(() {
-                                      driverNameCtr.text = name;
-                                    });
-                                  },
-                                ),
-                                isDismissible: true,
-                              );
+                            onChanged: (val) {
+                              if (formKey.currentState!.validate()) {}
                             },
-                          ),
-
-                          CustomTextField(
-                              controller: emptyTruckWeightCtr,
-                              hintText: '',
-                              onChanged: (val){},
-                              onFieldSubmitted: (val){},
-                              obscure: false,
-                              inputType: TextInputType.number,
-                              onlyNumber: true,
-                              validatorFn: sectionValidator,
-                              label: 'Peso tara'
-                          ),
-                          SizedBox(
-                            height: 63.h,
-                          ),
-                          Center(
-                            child: CustomButton(
-                                buttonWidth: double.infinity,
-                                onPressed: (){
-                                  if(formKey.currentState!.validate()){
-
-                                    Navigator.pushNamed(
-                                        context,
-                                        AppRoutes.coTruckBriefScreen,
-                                        arguments: {
-                                          'guideNumber': widget.guideNumber,
-                                          'plateNumber': scanCtr.text,
-                                          'marchamo': double.parse(labelCtr.text),
-                                          'emptyTruckWeight': double.parse(emptyTruckWeightCtr.text),
-                                        }
-                                    );
-                                  }
-                                },
-                                buttonText: 'CONTINUAR'
-                            ),
-                          ),
-                          SizedBox(
-                            height: 50.h,
-                          ),
-                        ],
-                      );
-                    },
-
-                  ),
+                            onFieldSubmitted: (val) {},
+                            obscure: false,
+                            inputType: TextInputType.number,
+                            onlyNumber: true,
+                            validatorFn: pesoTaraValidator,
+                            label: 'Peso tara'),
+                        SizedBox(
+                          height: 63.h,
+                        ),
+                        Center(
+                          child: CustomButton(
+                              buttonWidth: double.infinity,
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  Navigator.pushNamed(
+                                      context, AppRoutes.coTruckBriefScreen,
+                                      arguments: {
+                                        'guideNumber': widget.guideNumber,
+                                        'plateNumber': scanCtr.text.trim(),
+                                        'marchamo': '',
+                                        'emptyTruckWeight': double.parse(
+                                            emptyTruckWeightCtr.text.trim()),
+                                      });
+                                }
+                              },
+                              buttonText: 'CONTINUAR'),
+                        ),
+                        SizedBox(
+                          height: 50.h,
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
-
-            ],
-          ),
+            ),
+          ],
         ),
-      );
+      ),
+    );
   }
 }

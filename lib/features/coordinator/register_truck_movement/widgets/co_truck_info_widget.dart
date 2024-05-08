@@ -1,3 +1,5 @@
+import 'package:cargocontrol/commons/common_functions/format_weight.dart';
+import 'package:cargocontrol/core/enums/weight_unit_enum.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/admin/create_vessel/widgets/preliminatr_tile.dart';
 
@@ -6,10 +8,10 @@ import '../../../../utils/constants/font_manager.dart';
 
 class CoTruckInfoWidget extends StatelessWidget {
   final String plateNumber;
-  final double marchamo;
   final String choferName;
   final double emptyTruckWeight;
-  const CoTruckInfoWidget({Key? key, required this.plateNumber, required this.marchamo, required this.choferName, required this.emptyTruckWeight}) : super(key: key);
+  final WeightUnitEnum weightUnitEnum;
+  const CoTruckInfoWidget({Key? key, required this.plateNumber,  required this.choferName, required this.emptyTruckWeight, required this.weightUnitEnum}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +28,12 @@ class CoTruckInfoWidget extends StatelessWidget {
             subText: plateNumber
         ),
         CustomTile(
-            title: 'Marchamo',
-            subText:marchamo.toStringAsFixed(0)
-        ),
-        CustomTile(
             title: 'Nombre de chofer',
             subText: choferName
         ),
         CustomTile(
             title: 'Peso tara',
-            subText:emptyTruckWeight.toStringAsFixed(0)
+            subText:formatWeight(emptyTruckWeight) + " "+weightUnitEnum.type
         ),
       ],
     );

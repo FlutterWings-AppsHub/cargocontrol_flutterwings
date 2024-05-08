@@ -9,8 +9,7 @@ class CoPreliminarLeavingInfoWidget extends StatelessWidget {
   final String plateNumber;
   final String chofereName;
   final String truckWeight;
-  final String bodegaId;
-  const CoPreliminarLeavingInfoWidget({Key? key, required this.guideNumber, required this.plateNumber, required this.chofereName, required this.truckWeight, required this.bodegaId}) : super(key: key);
+  const CoPreliminarLeavingInfoWidget({Key? key, required this.guideNumber, required this.plateNumber, required this.chofereName, required this.truckWeight}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +37,7 @@ class CoPreliminarLeavingInfoWidget extends StatelessWidget {
             title: "Peso tara",
             subText: truckWeight
         ),
-        CustomTile(
-            title: "Bogeda ID",
-            subText: bodegaId
-        ),
+
       ],
     );
   }

@@ -43,8 +43,8 @@ class DashBoardTopWidget extends StatelessWidget {
           builder: (BuildContext context, WidgetRef ref, Widget? child) {
             return ref.watch(fetchCurrentVesselsProvider).when(
                 data: (vesselModel) {
-                  Map<int, List<VesselCargoModel>> groupedCargo = groupCargoByCountNumber(vesselModel.cargoModels);
-                  List<VesselCargoModel> summedCargo = calculateSumPeso(groupedCargo);
+                  //Map<int, List<VesselCargoModel>> groupedCargo = groupCargoByCountNumber(vesselModel.cargoModels);
+                  //List<VesselCargoModel> summedCargo = calculateSumPeso(groupedCargo);
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -103,11 +103,11 @@ class DashBoardTopWidget extends StatelessWidget {
                               ),
 
                               ListView.builder(
-                                itemCount: summedCargo.length,
+                                itemCount: vesselModel.cargoModels.length,
                                 scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
                                 itemBuilder: (BuildContext context, int index) {
-                                  VesselCargoModel model =  summedCargo[index];
+                                  VesselCargoModel model =  vesselModel.cargoModels[index];
                                   return    ref.watch(fetchCargoHoldViajesDeficit(model.cargoId)).
                                   when(
                                       data: (viajesDeficitModel){
@@ -118,7 +118,8 @@ class DashBoardTopWidget extends StatelessWidget {
                                           barPercentage: double.parse(
                                               (model.pesoUnloaded/ model.pesoTotal)
                                                   .toStringAsFixed(2)),
-                                          title: 'Bodega # ${index+1}',
+                                          title: 'Bodega # ${model.multipleProductInBodega? model.cargoCountNumber.toInt().toString() +
+                                              model.bogedaCountProductEnum.type:model.cargoCountNumber.toInt().toString()}',
                                           deficit: viajesDeficitModel.totalDeficit,
                                         );
                                       },

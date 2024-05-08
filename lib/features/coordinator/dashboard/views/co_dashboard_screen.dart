@@ -1,3 +1,4 @@
+import 'package:cargocontrol/commons/common_functions/format_weight.dart';
 import 'package:cargocontrol/commons/common_widgets/cargo_bar_chart.dart';
 import 'package:cargocontrol/commons/common_imports/common_libs.dart';
 import 'package:cargocontrol/core/enums/viajes_status_enum.dart';
@@ -104,11 +105,11 @@ class CoDashboardScreen extends ConsumerWidget {
                                               IndustrySubModel model = allIndustries[index];
                                               return CoProgressIndicatorCard(
                                                 numberOfTrips: model.viajesIds.length.toString(),
-                                                divideNumber2: '${model.cargoUnloaded}',
-                                                divideNumber1: '${model.cargoAssigned}',
+                                                divideNumber2: formatWeight(model.cargoUnloaded),
+                                                divideNumber1: formatWeight(model.cargoAssigned),
                                                 barPercentage: model.cargoUnloaded!= 0? (model.cargoUnloaded/model.cargoAssigned): 0,
                                                 title: '${model.industryName}',
-                                                deficit: model.deficit.toString(),
+                                                deficit: formatWeight(model.deficit),
 
 
                                               );

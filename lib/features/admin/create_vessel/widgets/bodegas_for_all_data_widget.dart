@@ -1,3 +1,5 @@
+import 'package:cargocontrol/commons/common_functions/format_weight.dart';
+import 'package:cargocontrol/core/enums/weight_unit_enum.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/admin/create_vessel/widgets/preliminatr_tile.dart';
 
@@ -7,7 +9,8 @@ import '../../../../utils/constants/font_manager.dart';
 
 class BodegasForAllData extends StatelessWidget {
   final List<VesselCargoModel> carogModels;
-  const BodegasForAllData({Key? key, required this.carogModels}) : super(key: key);
+  final WeightUnitEnum weightUnitEnum;
+  const BodegasForAllData({Key? key, required this.carogModels, required this.weightUnitEnum}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +52,7 @@ class BodegasForAllData extends StatelessWidget {
             ),
             CustomTile(
               title: 'Carga',
-              subText: model.pesoTotal.toString(),
+              subText: "${formatWeight(model.pesoTotal)} ${weightUnitEnum.type}",
             ),
             SizedBox(height: 28.h,),
 

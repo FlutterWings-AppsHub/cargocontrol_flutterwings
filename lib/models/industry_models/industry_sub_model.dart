@@ -13,9 +13,9 @@ class IndustrySubModel{
   final bool finishedUnloading;
   final List<dynamic> usedGuideNumbers;
   final List<dynamic> viajesIds;
-  final dynamic cargoAssigned;
-  final dynamic cargoUnloaded;
-  final dynamic deficit;
+  final double cargoAssigned;
+  final double cargoUnloaded;
+  final double deficit;
   final dynamic initialGuide;
   final dynamic lastGuide;
 
@@ -175,9 +175,9 @@ class IndustrySubModel{
       finishedUnloading: map['finishedUnloading'] as bool,
       usedGuideNumbers: map['usedGuideNumbers'] as List<dynamic>,
       viajesIds: map['viajesIds'] as List<dynamic>,
-      cargoAssigned: map['cargoAssigned'] as dynamic,
-      cargoUnloaded: map['cargoUnloaded'] as dynamic,
-      deficit: map['deficit'] as dynamic,
+      cargoAssigned: (map['cargoAssigned'] as num).toDouble(),
+      cargoUnloaded: (map['cargoUnloaded'] as num).toDouble(),
+      deficit: (map['deficit'] as num).toDouble(),
       initialGuide: map['initialGuide'] as dynamic,
       lastGuide: map['lastGuide'] as dynamic,
     );
