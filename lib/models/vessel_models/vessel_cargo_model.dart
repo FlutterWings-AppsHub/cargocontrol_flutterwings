@@ -9,8 +9,8 @@ class VesselCargoModel{
   final String origen;
   final String variety;
   final String cosecha;
-  final dynamic pesoTotal;
-  final dynamic pesoUnloaded;
+  final double pesoTotal;
+  final double pesoUnloaded;
   final bool multipleProductInBodega;
   final int cargoCountNumber;
   final BogedaCountProductEnum bogedaCountProductEnum;
@@ -138,8 +138,8 @@ class VesselCargoModel{
       origen: map['origen'] as String,
       variety: map['variety'] as String,
       cosecha: map['cosecha'] as String,
-      pesoTotal: map['pesoTotal'] as dynamic,
-      pesoUnloaded: map['pesoUnloaded'] as dynamic,
+      pesoTotal: (map['pesoTotal'] as num).toDouble(),
+      pesoUnloaded: (map['pesoUnloaded'] as num).toDouble(),
       multipleProductInBodega: map['multipleProductInBodega'] as bool,
       cargoCountNumber: map['cargoCountNumber'] as int,
       bogedaCountProductEnum: (map['bogedaCountProductEnum'] as String).toBogedaCountProductEnum(),

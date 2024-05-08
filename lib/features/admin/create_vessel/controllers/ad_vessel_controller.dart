@@ -74,7 +74,7 @@ class AdVesselController extends StateNotifier<bool> {
         cargoUnloadedWeight: 0.0,
         entryDate: portDate,
         exitDate: AppConstants.constantDateTime,
-        searchTags: vesselSearchTags(unlcode: unCode, shipperName: shipper ,name: vesselName), vesselProductModels: vesselProductModels
+        searchTags: vesselSearchTags(unlcode: unCode, shipperName: shipper ,name: vesselName), vesselProductModels: vesselProductModels, createdDate: DateTime.now(), weightUnitEnum:weightUnitEnum,
     );
     final result = await _datasource.createVessel(vesselModel: vesselModel);
 

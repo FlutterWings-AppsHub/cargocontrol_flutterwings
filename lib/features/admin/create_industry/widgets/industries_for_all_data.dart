@@ -1,13 +1,17 @@
+import 'package:cargocontrol/core/enums/weight_unit_enum.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/admin/create_vessel/widgets/preliminatr_tile.dart';
 
+import '../../../../commons/common_functions/format_weight.dart';
 import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../models/industry_models/industry_sub_model.dart';
+import '../../../../models/vessel_models/vessel_model.dart';
 import '../../../../utils/constants/font_manager.dart';
 
 class IndustriesForAllData extends StatelessWidget {
   final List<IndustrySubModel> industrySubModels;
-  const IndustriesForAllData({Key? key, required this.industrySubModels}) : super(key: key);
+  final WeightUnitEnum weightUnitEnum;
+  const IndustriesForAllData({Key? key, required this.industrySubModels, required this.weightUnitEnum}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +42,6 @@ class IndustriesForAllData extends StatelessWidget {
               title: 'Final de guia',
               subText: model.lastGuide.toString(),
             ),
-            // Todo Industry model changes Effect: 2
             ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -51,7 +54,7 @@ class IndustriesForAllData extends StatelessWidget {
                     subText: model.vesselProductModels[index].productName),
                   CustomTile(
                     title: 'Carga',
-                    subText: model.vesselProductModels[index].pesoTotal.toString()
+                    subText: "${formatWeight(model.vesselProductModels[index].pesoTotal)} ${weightUnitEnum.type}"
                   ),
                 ],
               );

@@ -57,7 +57,7 @@ class _RegisterTruckEnteringScreenState extends ConsumerState<RegisterTruckEnter
             Padding(
               padding: kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal: 45.w),
               child: TextField(
-                maxLength: 6,
+                //maxLength: 6,
                 maxLengthEnforcement:
                 MaxLengthEnforcement.truncateAfterCompositionEnds,
                 style: getBoldStyle(color: context.textColor, fontSize: MyFonts.size24),
@@ -66,9 +66,9 @@ class _RegisterTruckEnteringScreenState extends ConsumerState<RegisterTruckEnter
                 enableSuggestions: false,
                 readOnly: true,
                 controller: keyPadTextFieldController,
-                decoration: const InputDecoration(
-                  prefixText: 'C - ',
-                ),
+                // decoration: const InputDecoration(
+                //   prefixText: 'C - ',
+                // ),
               ),
             ),
             Spacer(flex: 1,),

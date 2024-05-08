@@ -1,7 +1,9 @@
 import 'package:cargocontrol/core/enums/viajes_status_enum.dart';
 import 'package:cargocontrol/core/enums/viajes_type.dart';
 
-class ViajesModel{
+import '../../core/enums/bogeda_count_product_enum.dart';
+
+class ViajesModel {
   final String viajesId;
   final DateTime entryTimeToPort;
   final double entryTimeTruckWeightToPort;
@@ -21,10 +23,14 @@ class ViajesModel{
   final String vesselName;
   final String chofereId; //search
   final int cargoHoldCount;
+  final BogedaCountProductEnum bogedaCountProductEnum;
   final String chofereName; //search
-  final String productName;
   final String licensePlate;
+  final String marchamo1;
+  final String marchamo2;
   final String cargoId;
+  final String productId;
+  final String productName;
   final ViajesTypeEnum viajesTypeEnum;
   final ViajesStatusEnum viajesStatusEnum;
 
@@ -56,10 +62,14 @@ class ViajesModel{
     required this.vesselName,
     required this.chofereId,
     required this.cargoHoldCount,
+    required this.bogedaCountProductEnum,
     required this.chofereName,
-    required this.productName,
     required this.licensePlate,
+    required this.marchamo1,
+    required this.marchamo2,
     required this.cargoId,
+    required this.productId,
+    required this.productName,
     required this.viajesTypeEnum,
     required this.viajesStatusEnum,
   });
@@ -88,10 +98,14 @@ class ViajesModel{
           vesselName == other.vesselName &&
           chofereId == other.chofereId &&
           cargoHoldCount == other.cargoHoldCount &&
+          bogedaCountProductEnum == other.bogedaCountProductEnum &&
           chofereName == other.chofereName &&
-          productName == other.productName &&
           licensePlate == other.licensePlate &&
+          marchamo1 == other.marchamo1 &&
+          marchamo2 == other.marchamo2 &&
           cargoId == other.cargoId &&
+          productId == other.productId &&
+          productName == other.productName &&
           viajesTypeEnum == other.viajesTypeEnum &&
           viajesStatusEnum == other.viajesStatusEnum);
 
@@ -116,10 +130,14 @@ class ViajesModel{
       vesselName.hashCode ^
       chofereId.hashCode ^
       cargoHoldCount.hashCode ^
+      bogedaCountProductEnum.hashCode ^
       chofereName.hashCode ^
-      productName.hashCode ^
       licensePlate.hashCode ^
+      marchamo1.hashCode ^
+      marchamo2.hashCode ^
       cargoId.hashCode ^
+      productId.hashCode ^
+      productName.hashCode ^
       viajesTypeEnum.hashCode ^
       viajesStatusEnum.hashCode;
 
@@ -145,10 +163,14 @@ class ViajesModel{
         ' vesselName: $vesselName,' +
         ' chofereId: $chofereId,' +
         ' cargoHoldCount: $cargoHoldCount,' +
+        ' bogedaCountProductEnum: $bogedaCountProductEnum,' +
         ' chofereName: $chofereName,' +
-        ' productName: $productName,' +
         ' licensePlate: $licensePlate,' +
+        ' marchamo1: $marchamo1,' +
+        ' marchamo2: $marchamo2,' +
         ' cargoId: $cargoId,' +
+        ' productId: $productId,' +
+        ' productName: $productName,' +
         ' viajesTypeEnum: $viajesTypeEnum,' +
         ' viajesStatusEnum: $viajesStatusEnum,' +
         '}';
@@ -174,10 +196,14 @@ class ViajesModel{
     String? vesselName,
     String? chofereId,
     int? cargoHoldCount,
+    BogedaCountProductEnum? bogedaCountProductEnum,
     String? chofereName,
-    String? productName,
     String? licensePlate,
+    String? marchamo1,
+    String? marchamo2,
     String? cargoId,
+    String? productId,
+    String? productName,
     ViajesTypeEnum? viajesTypeEnum,
     ViajesStatusEnum? viajesStatusEnum,
   }) {
@@ -204,14 +230,103 @@ class ViajesModel{
       vesselName: vesselName ?? this.vesselName,
       chofereId: chofereId ?? this.chofereId,
       cargoHoldCount: cargoHoldCount ?? this.cargoHoldCount,
+      bogedaCountProductEnum:
+          bogedaCountProductEnum ?? this.bogedaCountProductEnum,
       chofereName: chofereName ?? this.chofereName,
-      productName: productName ?? this.productName,
       licensePlate: licensePlate ?? this.licensePlate,
+      marchamo1: marchamo1 ?? this.marchamo1,
+      marchamo2: marchamo2 ?? this.marchamo2,
       cargoId: cargoId ?? this.cargoId,
+      productId: productId ?? this.productId,
+      productName: productName ?? this.productName,
       viajesTypeEnum: viajesTypeEnum ?? this.viajesTypeEnum,
       viajesStatusEnum: viajesStatusEnum ?? this.viajesStatusEnum,
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'viajesId': this.viajesId,
+      'entryTimeToPort': this.entryTimeToPort.millisecondsSinceEpoch,
+      'entryTimeTruckWeightToPort': this.entryTimeTruckWeightToPort,
+      'exitTimeToPort': this.exitTimeToPort.millisecondsSinceEpoch,
+      'exitTimeTruckWeightToPort': this.exitTimeTruckWeightToPort,
+      'uploadingTime': this.uploadingTime.millisecondsSinceEpoch,
+      'pureCargoWeight': this.pureCargoWeight,
+      'cargoUnloadWeight': this.cargoUnloadWeight,
+      'cargoDeficitWeight': this.cargoDeficitWeight,
+      'timeToIndustry': this.timeToIndustry.millisecondsSinceEpoch,
+      'unloadingTimeInIndustry':
+          this.unloadingTimeInIndustry.millisecondsSinceEpoch,
+      'guideNumber': this.guideNumber,
+      'industryId': this.industryId,
+      'industryName': this.industryName,
+      'realIndustryId': this.realIndustryId,
+      'vesselId': this.vesselId,
+      'vesselName': this.vesselName,
+      'chofereId': this.chofereId,
+      'cargoHoldCount': this.cargoHoldCount,
+      'chofereName': this.chofereName,
+      'productName': this.productName,
+      'licensePlate': this.licensePlate,
+      'cargoId': this.cargoId,
+      'bogedaCountProductEnum': this.bogedaCountProductEnum.type,
+      'marchamo1': this.marchamo1,
+      'marchamo2': this.marchamo2,
+      'productId': this.productId,
+      'viajesTypeEnum': this.viajesTypeEnum.type,
+      'viajesStatusEnum': this.viajesStatusEnum.type,
+
+    };
+  }
+
+  factory ViajesModel.fromMap(Map<String, dynamic> map) {
+    return ViajesModel(
+      entryTimeToPort:
+          DateTime.fromMillisecondsSinceEpoch(map['entryTimeToPort']),
+      exitTimeToPort:
+          DateTime.fromMillisecondsSinceEpoch(map['exitTimeToPort']),
+      timeToIndustry:
+          DateTime.fromMillisecondsSinceEpoch(map['timeToIndustry']),
+      unloadingTimeInIndustry:
+          DateTime.fromMillisecondsSinceEpoch(map['unloadingTimeInIndustry']),
+      uploadingTime: DateTime.fromMillisecondsSinceEpoch(map['uploadingTime']),
+      pureCargoWeight: (map['pureCargoWeight'] as num).toDouble(),
+      cargoUnloadWeight: (map['cargoUnloadWeight'] as num).toDouble(),
+      cargoDeficitWeight: (map['cargoDeficitWeight'] as num).toDouble(),
+      guideNumber: (map['guideNumber'] as num).toDouble(),
+      industryId: map['industryId'] as String,
+      industryName: map['industryName'] as String,
+      realIndustryId: map['realIndustryId'] as String,
+      vesselId: map['vesselId'] as String,
+      vesselName: map['vesselName'] as String,
+      chofereId: map['chofereId'] as String,
+      cargoHoldCount: map['cargoHoldCount'] as int,
+      chofereName: map['chofereName'] as String,
+      productName: map['productName'] as String,
+      licensePlate: map['licensePlate'] as String,
+      cargoId: map['cargoId'] as String,
+      viajesTypeEnum: (map['viajesTypeEnum'] as String).toViajesTypeEnum(),
+      viajesStatusEnum:
+          (map['viajesStatusEnum'] as String).toViajesStatusEnum(),
+      viajesId: map['viajesId'] as String,
+      entryTimeTruckWeightToPort:
+          (map['entryTimeTruckWeightToPort'] as num).toDouble(),
+      exitTimeTruckWeightToPort:
+          (map['exitTimeTruckWeightToPort'] as num).toDouble(),
+      bogedaCountProductEnum:  (map['bogedaCountProductEnum'] as String).toBogedaCountProductEnum(),
+      marchamo1: map['marchamo1'] as String,
+      marchamo2: map['marchamo2'] as String,
+      productId: map['productId'] as String,
+    );
+  }
+
+
+
+//</editor-fold>
+}
+
+/*
 
 
   Map<String, dynamic> toMap() {
@@ -273,70 +388,4 @@ class ViajesModel{
       exitTimeTruckWeightToPort: (map['exitTimeTruckWeightToPort'] as num).toDouble(),
     );
   }
-
-
-
-//</editor-fold>
-}
-
-/*
-
-  Map<String, dynamic> toMap() {
-    return {
-      'viajesId': this.viajesId,
-      'entryTimeToPort': this.entryTimeToPort.millisecondsSinceEpoch,
-      'entryTimeTruckWeightToPort': this.entryTimeTruckWeightToPort,
-      'exitTimeToPort': this.exitTimeToPort.millisecondsSinceEpoch,
-      'exitTimeTruckWeightToPort': this.exitTimeTruckWeightToPort,
-      'uploadingTime': this.uploadingTime.millisecondsSinceEpoch,
-      'pureCargoWeight': this.pureCargoWeight,
-      'cargoUnloadWeight': this.cargoUnloadWeight,
-      'cargoDeficitWeight': this.cargoDeficitWeight,
-      'timeToIndustry': this.timeToIndustry.millisecondsSinceEpoch,
-      'unloadingTimeInIndustry': this.unloadingTimeInIndustry.millisecondsSinceEpoch,
-      'guideNumber': this.guideNumber,
-      'industryId': this.industryId,
-      'industryName': this.industryName,
-      'vesselId': this.vesselId,
-      'vesselName': this.vesselName,
-      'chofereId': this.chofereId,
-      'cargoHoldCount': this.cargoHoldCount,
-      'chofereName': this.chofereName,
-      'productName': this.productName,
-      'licensePlate': this.licensePlate,
-      'cargoId': this.cargoId,
-      'viajesTypeEnum': this.viajesTypeEnum.type,
-      'viajesStatusEnum': this.viajesStatusEnum.type,
-    };
-  }
-
-  factory ViajesModel.fromMap(Map<String, dynamic> map) {
-    return ViajesModel(
-      entryTimeToPort: DateTime.fromMillisecondsSinceEpoch(map['entryTimeToPort']),
-      exitTimeToPort: DateTime.fromMillisecondsSinceEpoch(map['exitTimeToPort']),
-      timeToIndustry: DateTime.fromMillisecondsSinceEpoch(map['timeToIndustry']),
-      unloadingTimeInIndustry: DateTime.fromMillisecondsSinceEpoch(map['unloadingTimeInIndustry']),
-      uploadingTime: DateTime.fromMillisecondsSinceEpoch(map['uploadingTime']),
-      pureCargoWeight: map['pureCargoWeight'] as double,
-      cargoUnloadWeight: map['cargoUnloadWeight'] as double,
-      cargoDeficitWeight: map['cargoDeficitWeight'] as double,
-      guideNumber: map['guideNumber'] as double,
-      industryId: map['industryId'] as String,
-      industryName: map['industryName'] as String,
-      vesselId: map['vesselId'] as String,
-      vesselName: map['vesselName'] as String,
-      chofereId: map['chofereId'] as String,
-      cargoHoldCount: map['cargoHoldCount'] as int,
-      chofereName: map['chofereName'] as String,
-      productName: map['productName'] as String,
-      licensePlate: map['licensePlate'] as String,
-      cargoId: map['cargoId'] as String,
-      viajesTypeEnum: (map['viajesTypeEnum'] as String).toViajesTypeEnum(),
-      viajesStatusEnum: (map['viajesStatusEnum'] as String).toViajesStatusEnum(),
-      viajesId: map['viajesId'] as String,
-      entryTimeTruckWeightToPort: map['entryTimeTruckWeightToPort'] as double,
-      exitTimeTruckWeightToPort: map['exitTimeTruckWeightToPort'] as double,
-    );
-  }
-
 */

@@ -104,7 +104,7 @@ class _CreateVesselScreenState extends ConsumerState<CreateVesselScreen> {
                      CustomTextField(
                        controller: shipperCtr,
                        hintText: "",
-                       label: "Provedor ",
+                       label: "Proveedor ",
                        onChanged: (val){},
                        onFieldSubmitted: (val){},
                        obscure: false,

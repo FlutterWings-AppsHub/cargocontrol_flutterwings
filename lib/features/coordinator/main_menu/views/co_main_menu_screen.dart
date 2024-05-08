@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cargocontrol/utils/constants.dart' as constants;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../models/auth_models/user_model.dart';
 import '../../../auth/controllers/auth_controller.dart';

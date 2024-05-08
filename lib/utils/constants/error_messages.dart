@@ -39,4 +39,10 @@ class Messages {
   static const String industryCreateError =   'Created the vessel first!';
   static const String vesselHasNotFinishError =   "Vessel has not finish unloading yet!";
 
+  static const String selectTheProductError=   'Select the product!';
+  static const String selectTheBodegaError =   'Select the Bodega!';
+  static const String pesoNetLessThanBodegaError = "Peso neto is less than available product in bodega";
+  static const String pesoNetLessThanProductError = "Peso neto is less than available product in vessel";
+
+
 }

@@ -23,20 +23,33 @@ class CargoBarChart extends StatelessWidget {
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
           return ref.watch(fetchCurrentVesselsProvider).when(
               data: (vesselModel) {
-                Map<int, List<VesselCargoModel>> groupedCargo = groupCargoByCountNumber(vesselModel.cargoModels);
-                List<VesselCargoModel> summedCargo = calculateSumPeso(groupedCargo);
-                return ListView.builder(
-                  itemCount: summedCargo.length,
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemBuilder: (BuildContext context, int index) {
-                    VesselCargoModel model =  summedCargo[index];
-                  return VerticalPercentageBar(percentage:
-                  (1.0-(model.pesoUnloaded/ model.pesoTotal)),index: index+1,);
-
-                  },
+            return ListView.builder(
+              itemCount: vesselModel.cargoModels.length,
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              itemBuilder: (BuildContext context, int index) {
+                VesselCargoModel model = vesselModel.cargoModels[index];
+                return VerticalPercentageBar(
+                  percentage: (1.0 - (model.pesoUnloaded / model.pesoTotal)),
+                  cargoHoldId:model.multipleProductInBodega? model.cargoCountNumber.toInt().toString() +
+                      model.bogedaCountProductEnum.type:model.cargoCountNumber.toInt().toString(),
                 );
-              }, error: (error, st) {
+              },
+            );
+            //Map<int, List<VesselCargoModel>> groupedCargo = groupCargoByCountNumber(vesselModel.cargoModels);
+            //List<VesselCargoModel> summedCargo = calculateSumPeso(groupedCargo);
+            // return ListView.builder(
+            //   itemCount: summedCargo.length,
+            //   scrollDirection: Axis.horizontal,
+            //   shrinkWrap: true,
+            //   itemBuilder: (BuildContext context, int index) {
+            //     VesselCargoModel model =  summedCargo[index];
+            //   return VerticalPercentageBar(percentage:
+            //   (1.0-(model.pesoUnloaded/ model.pesoTotal)),index: index+1,);
+            //
+            //   },
+            // );
+          }, error: (error, st) {
             //debugPrintStack(stackTrace: st);
             //debugPrint(error.toString());
             return const SizedBox();
@@ -45,26 +58,21 @@ class CargoBarChart extends StatelessWidget {
           });
         },
       ),
-
-
     );
   }
-
-
-
-
 }
 
 class VerticalPercentageBar extends StatelessWidget {
   final double percentage;
-  final int index;
+  final String cargoHoldId;
 
-  const VerticalPercentageBar({super.key, required this.percentage, required this.index});
+  const VerticalPercentageBar(
+      {super.key, required this.percentage, required this.cargoHoldId});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.only(right: 10.w),
+      padding: EdgeInsets.only(right: 10.w),
       child: Stack(
         children: [
           Container(
@@ -72,10 +80,12 @@ class VerticalPercentageBar extends StatelessWidget {
             width: 60.w, // Adjust the width of the bar as needed
             decoration: BoxDecoration(
               border: Border.all(
-                color: constants.kMainColor, // Adjust the border color as needed
+                color:
+                    constants.kMainColor, // Adjust the border color as needed
                 width: 1.0, // Adjust the border width as needed
               ),
-              borderRadius: BorderRadius.zero, // Radius is set to zero for the outer container
+              borderRadius: BorderRadius
+                  .zero, // Radius is set to zero for the outer container
             ),
             child: FractionallySizedBox(
               heightFactor: percentage,
@@ -90,25 +100,31 @@ class VerticalPercentageBar extends StatelessWidget {
           Positioned.fill(
             top: 5.h,
             left: 5.h,
-            child:
-          Center(
-            child: Text(
-              "${(percentage*100).toStringAsFixed(0)}%",
-              style: getBoldStyle(color:percentage<0.3? context.mainColor:context.textFieldColor, fontSize: MyFonts.size14),
+            child: Center(
+              child: Text(
+                "${(percentage * 100).toStringAsFixed(0)}%",
+                style: getBoldStyle(
+                    color: percentage < 0.3
+                        ? context.mainColor
+                        : context.textFieldColor,
+                    fontSize: MyFonts.size14),
+              ),
             ),
-          ),),
+          ),
           Positioned(
             top: 1.h,
             right: 5.w,
-            child:
-          Text(
-            "#$index",
-            style: getBoldStyle(color:percentage<0.8? context.mainColor:context.textFieldColor, fontSize: MyFonts.size10),
-          ),),
-
+            child: Text(
+              "#$cargoHoldId",
+              style: getBoldStyle(
+                  color: percentage < 0.8
+                      ? context.mainColor
+                      : context.textFieldColor,
+                  fontSize: MyFonts.size10),
+            ),
+          ),
         ],
       ),
     );
   }
 }
-

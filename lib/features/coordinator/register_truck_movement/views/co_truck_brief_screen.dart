@@ -14,9 +14,8 @@ import '../widgets/co_truck_info_widget.dart';
 class CoTruckBriefScreen extends ConsumerStatefulWidget {
   final double guideNumber;
   final String plateNumber;
-  final double marchamo;
   final double emptyTruckWeight;
-  const CoTruckBriefScreen({Key? key, required this.guideNumber, required this.plateNumber, required this.marchamo, required this.emptyTruckWeight}) : super(key: key);
+  const CoTruckBriefScreen({Key? key, required this.guideNumber, required this.plateNumber, required this.emptyTruckWeight}) : super(key: key);
 
   @override
   ConsumerState<CoTruckBriefScreen> createState() => _CoTruckBriefScreenState();
@@ -60,10 +59,10 @@ class _CoTruckBriefScreenState extends ConsumerState<CoTruckBriefScreen> {
                           Divider(height: 1.h,color: context.textFieldColor,),
                           SizedBox(height: 28.h,),
                           CoTruckInfoWidget(
-                            choferName: '${truckNotiCtr.selectedChofere?.firstName}',
+                            choferName: '${truckNotiCtr.selectedChofere?.firstName} ${truckNotiCtr.selectedChofere?.lastName}',
                             emptyTruckWeight: widget.emptyTruckWeight,
-                            marchamo: widget.marchamo,
                             plateNumber: widget.plateNumber,
+                            weightUnitEnum: truckNotiCtr.vesselModel!.weightUnitEnum,
                           ),
                           SizedBox(height: 20.h,),
                           Divider(height: 1.h,color: context.textFieldColor,),
@@ -77,26 +76,21 @@ class _CoTruckBriefScreenState extends ConsumerState<CoTruckBriefScreen> {
                                   onPressed: ()async{
                                   if(truckNotiCtr.selectedChofere!= null){
                                     String choferesName =truckNotiCtr.selectedChofere?.firstName?? '';
-                                    choferesName = choferesName + " " + (truckNotiCtr.selectedChofere?.lastName?? '');
+                                    choferesName = "$choferesName ${truckNotiCtr.selectedChofere?.lastName?? ''}";
                                     await ref.watch(truckRegistrationControllerProvider.notifier).registerTruckEnteringToPort(
                                         choferesModel: truckNotiCtr.selectedChofere!,
                                         guideNumber: widget.guideNumber,
                                         plateNumber: widget.plateNumber,
-                                        marchamo: widget.marchamo,
                                         emptyTruckWeight: widget.emptyTruckWeight,
-                                        vesselCargoHoldCount:truckNotiCtr.vesselModel?.numberOfCargos ?? 0 ,
+                                        vesselCargoHoldCount: 0 ,
                                         vesselId:truckNotiCtr.selectedIndustry?.vesselId ?? '' ,
                                         vesselName: truckNotiCtr.selectedIndustry?.vesselName ?? '',
                                         industryName: truckNotiCtr.selectedIndustry?.industryName ?? '',
                                         industryId: truckNotiCtr.selectedIndustry?.industryId ?? '',
-                                        // Todo Industry model changes Effect: 10
-                                        //productName: truckNotiCtr.selectedIndustry?.selectedVesselCargo.productName ?? '',
                                         productName: '',
                                         choferesname: choferesName,
                                         choferesId: truckNotiCtr.selectedChofere?.choferNationalId?? '',
                                         industrySubModel: truckNotiCtr.selectedIndustry!,
-                                        // Todo Industry model changes Effect: 11
-                                        //cargoId: truckNotiCtr.selectedIndustry?.selectedVesselCargo.cargoId ?? '',
                                         cargoId: '',
                                         ref: ref,
                                         context: context

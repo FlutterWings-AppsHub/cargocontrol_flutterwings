@@ -45,6 +45,37 @@ String? sectionValidator(String? value) {
   }
   return null;
 }
+String? pesoTaraValidator(String? value) {
+  if (value!.isEmpty) {
+    return 'Can\'t be empty';
+  }
+  double pesoTara = 0.0;
+  try{
+    pesoTara= double.parse(value.trim());
+  }catch(e){
+    return "Peso Tara should be number";
+  }
+  if(pesoTara<10000 || pesoTara > 20000){
+    return "Peso Tara should be between 10,000 to 20,000";
+  }
+  return null;
+}
+
+String? pesoBrutoValidator(String? value) {
+  if (value!.isEmpty) {
+    return 'Can\'t be empty';
+  }
+  double pesoTara = 0.0;
+  try{
+    pesoTara= double.parse(value.trim());
+  }catch(e){
+    return "Peso burto should be number";
+  }
+  if(pesoTara<30000 || pesoTara > 60000){
+    return "Peso bruto should be between 30,000 to 50,000";
+  }
+  return null;
+}
 
 String? cityValidator(String? value) {
   if (value!.isEmpty) {

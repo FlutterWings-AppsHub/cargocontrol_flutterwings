@@ -1,56 +1,67 @@
-
 Map<String, dynamic> userSearchTagsHandler({
   required String name,
   required String email,
-
 }) {
   Map<String, dynamic>? searchTags = <String, bool>{};
-  if(name != ''){
+  if (name != '') {
     name.trim().split(' ').forEach((val) {
       searchTags[val.toLowerCase()] = true;
     });
   }
 
-  if(email != ""){
+  if (email != "") {
     email.trim().split(' ').forEach((val) {
       searchTags[val.toLowerCase()] = true;
     });
   }
 
-
   return searchTags;
 }
-
 
 Map<String, dynamic> vesselSearchTags({
   required String name,
   required String shipperName,
   required String unlcode,
-
 }) {
-  Map<String, dynamic>? searchTags = <String, bool>{};
-  if(name != ''){
+  Map<String, dynamic> searchTags = {};
+
+  // Function to generate all permutations of a string
+  List<String> generatePermutations(String str) {
+    List<String> permutations = [];
+    for (int i = 0; i < str.length; i++) {
+      for (int j = i + 1; j <= str.length; j++) {
+        permutations.add(str.substring(i, j).toLowerCase());
+      }
+    }
+    return permutations;
+  }
+
+  if (name.isNotEmpty) {
     name.trim().split(' ').forEach((val) {
-      searchTags[val.toLowerCase()] = true;
+      generatePermutations(val).forEach((perm) {
+        searchTags[perm] = true;
+      });
     });
   }
 
-  if(shipperName != ""){
+  if (shipperName.isNotEmpty) {
     shipperName.trim().split(' ').forEach((val) {
-      searchTags[val.toLowerCase()] = true;
+      generatePermutations(val).forEach((perm) {
+        searchTags[perm] = true;
+      });
     });
   }
 
-  if(unlcode != ""){
+  if (unlcode.isNotEmpty) {
     unlcode.trim().split(' ').forEach((val) {
-      searchTags[val.toLowerCase()] = true;
+      generatePermutations(val).forEach((perm) {
+        searchTags[perm] = true;
+      });
     });
   }
-
 
   return searchTags;
 }
-
 
 //
 // Map<String, dynamic> choferesSearchTagsHandler({
@@ -123,9 +134,3 @@ Map<String, dynamic> choferesSearchTagsHandler({
 
   return searchTags;
 }
-
-
-
-
-
-

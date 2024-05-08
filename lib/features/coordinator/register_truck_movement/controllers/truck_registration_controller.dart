@@ -7,6 +7,7 @@ import 'package:cargocontrol/features/coordinator/register_truck_movement/contro
 import 'package:cargocontrol/models/choferes_models/choferes_model.dart';
 import 'package:cargocontrol/models/industry_models/industry_sub_model.dart';
 import 'package:cargocontrol/models/vessel_models/vessel_model.dart';
+import 'package:cargocontrol/models/vessel_models/vessel_product_model.dart';
 import 'package:cargocontrol/models/viajes_models/viajes_model.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
 import 'package:cargocontrol/utils/constants/app_constants.dart';
@@ -16,6 +17,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../commons/common_widgets/show_toast.dart';
+import '../../../../core/enums/bogeda_count_product_enum.dart';
 import '../../../../core/firebase_messaging/firebase_messaging_class.dart';
 import '../../../../models/misc_models/industry_vessel_ids_model.dart';
 import '../../../../models/vessel_models/vessel_cargo_model.dart';
@@ -89,7 +91,6 @@ class TruckRegistrationController extends StateNotifier<bool> {
   Future<void> registerTruckEnteringToPort({
     required double guideNumber,
     required String plateNumber,
-    required double marchamo,
     required double emptyTruckWeight,
     required String vesselName,
     required String vesselId,
@@ -115,7 +116,7 @@ class TruckRegistrationController extends StateNotifier<bool> {
       exitTimeToPort: AppConstants.constantDateTime,
       exitTimeTruckWeightToPort: 0.0,
       uploadingTime: AppConstants.constantDateTime,
-      pureCargoWeight: 0.000000001,
+      pureCargoWeight: 0.0,
       cargoUnloadWeight: 0.0,
       cargoDeficitWeight: 0.0,
       timeToIndustry: AppConstants.constantDateTime,
@@ -134,7 +135,11 @@ class TruckRegistrationController extends StateNotifier<bool> {
       industryName: industryName,
       vesselId: vesselId,
       vesselName: vesselName,
+
+      ///change them
       cargoHoldCount: vesselCargoHoldCount,
+      bogedaCountProductEnum: BogedaCountProductEnum.A, marchamo1: '',
+      marchamo2: '', productId: '',
     );
     ChoferesModel choferes = choferesModel.copyWith(
       choferesStatusEnum: ChoferesStatusEnum.portEntered,
@@ -166,19 +171,32 @@ class TruckRegistrationController extends StateNotifier<bool> {
 
   VesselModel updateCargoModel(
       {required VesselModel originalModel,
-      required VesselCargoModel updatedCargoModel}) {
+      required String cargoModelId,required String productModelId, required double pureCargoWeight}) {
     int cargoModelIndex = originalModel.cargoModels.indexWhere(
-        (cargoModel) => cargoModel.cargoId == updatedCargoModel.cargoId);
+        (cargoModel) => cargoModel.cargoId == cargoModelId);
+    int productModelIndex = originalModel.vesselProductModels.indexWhere(
+            (prodModel) => prodModel.productId == productModelId);
     if (cargoModelIndex != -1) {
+      VesselCargoModel updatedCargoModel= originalModel.cargoModels[cargoModelIndex];
       List<VesselCargoModel> updatedCargoModels =
           List.from(originalModel.cargoModels);
       updatedCargoModels[cargoModelIndex] = updatedCargoModel.copyWith(
           pesoUnloaded: updatedCargoModels[cargoModelIndex].pesoUnloaded +
-              updatedCargoModel.pesoUnloaded);
-      return originalModel.copyWith(cargoModels: updatedCargoModels);
-    } else {
-      return originalModel;
+              pureCargoWeight);
+      originalModel = originalModel.copyWith(cargoModels: updatedCargoModels);
     }
+    if (productModelIndex != -1) {
+      VesselProductModel productModel= originalModel.vesselProductModels[productModelIndex];
+      List<VesselProductModel> updatedProdModels =
+      List.from(originalModel.vesselProductModels);
+      updatedProdModels[cargoModelIndex] = productModel.copyWith(
+          pesoUnloaded: updatedProdModels[productModelIndex].pesoUnloaded +
+              pureCargoWeight);
+
+      originalModel = originalModel.copyWith(vesselProductModels: updatedProdModels);
+    }
+
+    return originalModel;
   }
 
   Future<void> registerTruckLeavingFromPort({
@@ -187,6 +205,10 @@ class TruckRegistrationController extends StateNotifier<bool> {
     required ViajesModel viajesModel,
     required VesselModel vesselModel,
     required VesselCargoModel newCargoModel,
+    required String productId,
+    required String productName,
+    required String marchamo1,
+    required String marchamo2,
     required WidgetRef ref,
     required BuildContext context,
   }) async {
@@ -197,13 +219,16 @@ class TruckRegistrationController extends StateNotifier<bool> {
         exitTimeToPort: exitTimeFromPort,
         exitTimeTruckWeightToPort: totalWeight,
         pureCargoWeight: pureCargoWeight,
-        cargoHoldCount: vesselModel.numberOfCargos,
+        cargoHoldCount: newCargoModel.cargoCountNumber,
+        bogedaCountProductEnum: newCargoModel.bogedaCountProductEnum,
+        marchamo1: marchamo1,
+        marchamo2: marchamo2,
+        productId: productId,
+        productName: productName,
         viajesStatusEnum: ViajesStatusEnum.portLeft);
-    VesselCargoModel vesselCargo =
-        newCargoModel.copyWith(pesoUnloaded: pureCargoWeight);
 
     VesselModel vessel = updateCargoModel(
-        originalModel: vesselModel, updatedCargoModel: vesselCargo);
+        originalModel: vesselModel, cargoModelId: newCargoModel.cargoId,productModelId: productId,pureCargoWeight: pureCargoWeight);
     VesselModel vesselUpdate = vessel.copyWith(
         cargoUnloadedWeight: vessel.cargoUnloadedWeight + pureCargoWeight);
 
@@ -218,7 +243,8 @@ class TruckRegistrationController extends StateNotifier<bool> {
     }, (r) async {
       await sendIndustryNotification(
           viajesModel: model, ref: ref, context: context);
-      await sendAdminUnLoadingNotification(viajesModel: model, ref: ref, context: context);
+      await sendAdminUnLoadingNotification(
+          viajesModel: model, ref: ref, context: context);
       Navigator.pushNamed(context, AppRoutes.coRegistrationSuccessFullScreen);
       state = false;
       showSnackBar(context: context, content: Messages.viajesRegisteredSuccess);
@@ -280,11 +306,10 @@ class TruckRegistrationController extends StateNotifier<bool> {
     }
   }
 
-
   Future<void> sendAdminUnLoadingNotification(
       {required ViajesModel viajesModel,
-        required WidgetRef ref,
-        required BuildContext context}) async {
+      required WidgetRef ref,
+      required BuildContext context}) async {
     MessagingFirebase messagingFirebase = MessagingFirebase();
     List<String> adminsFCMTokens = [];
     final result = await _datasource.getAllAdmins();
@@ -310,13 +335,14 @@ class TruckRegistrationController extends StateNotifier<bool> {
 
     for (int i = 0; i < totalDevices; i += batchSize) {
       final int endIndex =
-      (i + batchSize <= totalDevices) ? (i + batchSize) : totalDevices;
+          (i + batchSize <= totalDevices) ? (i + batchSize) : totalDevices;
       final List<String> batchIds = adminsFCMTokens.sublist(i, endIndex);
 
       NotificationModel notificationModel = NotificationModel(
           title: "Camión salió del puerto",
           notificationId: "",
-          description: "El camión No de Guia ${viajesModel.guideNumber} ha salido del puerto con una carga de ${viajesModel.exitTimeTruckWeightToPort}",
+          description:
+              "El camión No de Guia ${viajesModel.guideNumber} ha salido del puerto con una carga de ${viajesModel.exitTimeTruckWeightToPort}",
           createdAt: AppConstants.constantDateTime,
           screenName: "");
 
