@@ -45,6 +45,7 @@ class InProgressIndicatorCard extends StatelessWidget {
                   child: Text(
                     'Deficit: $deficit',
                     style: getRegularStyle(color: context.textColor, fontSize: MyFonts.size12),
+                    textAlign: TextAlign.right,
                   ),
                 ),
               ],

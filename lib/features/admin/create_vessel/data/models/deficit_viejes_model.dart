@@ -1,6 +1,6 @@
 class DeficitViajesModel{
   final String viajesCount;
-  final String totalDeficit;
+  final double totalDeficit;
 
 //<editor-fold desc="Data Methods">
   const DeficitViajesModel({
@@ -29,7 +29,7 @@ class DeficitViajesModel{
 
   DeficitViajesModel copyWith({
     String? viajesCount,
-    String? totalDeficit,
+    double? totalDeficit,
   }) {
     return DeficitViajesModel(
       viajesCount: viajesCount ?? this.viajesCount,
@@ -47,7 +47,7 @@ class DeficitViajesModel{
   factory DeficitViajesModel.fromMap(Map<String, dynamic> map) {
     return DeficitViajesModel(
       viajesCount: map['viajesCount'] as String,
-      totalDeficit: map['totalDeficit'] as String,
+      totalDeficit: map['totalDeficit'] as double,
     );
   }
 

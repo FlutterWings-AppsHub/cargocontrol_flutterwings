@@ -2,6 +2,7 @@ import 'package:cargocontrol/commons/common_imports/apis_commons.dart';
 import 'package:cargocontrol/core/enums/choferes_status_enum.dart';
 import 'package:cargocontrol/core/enums/viajes_status_enum.dart';
 import 'package:cargocontrol/core/enums/viajes_type.dart';
+import 'package:cargocontrol/core/enums/weight_unit_enum.dart';
 import 'package:cargocontrol/core/firebase_messaging/models/notification_model.dart';
 import 'package:cargocontrol/features/coordinator/register_truck_movement/controllers/truck_registration_noti_controller.dart';
 import 'package:cargocontrol/models/choferes_models/choferes_model.dart';
@@ -135,11 +136,9 @@ class TruckRegistrationController extends StateNotifier<bool> {
       industryName: industryName,
       vesselId: vesselId,
       vesselName: vesselName,
-
-      ///change them
       cargoHoldCount: vesselCargoHoldCount,
       bogedaCountProductEnum: BogedaCountProductEnum.A, marchamo1: '',
-      marchamo2: '', productId: '',
+      marchamo2: '', productId: '', weightUnitEnum: WeightUnitEnum.Kg, searchTags: {},
     );
     ChoferesModel choferes = choferesModel.copyWith(
       choferesStatusEnum: ChoferesStatusEnum.portEntered,
@@ -189,7 +188,7 @@ class TruckRegistrationController extends StateNotifier<bool> {
       VesselProductModel productModel= originalModel.vesselProductModels[productModelIndex];
       List<VesselProductModel> updatedProdModels =
       List.from(originalModel.vesselProductModels);
-      updatedProdModels[cargoModelIndex] = productModel.copyWith(
+      updatedProdModels[productModelIndex] = productModel.copyWith(
           pesoUnloaded: updatedProdModels[productModelIndex].pesoUnloaded +
               pureCargoWeight);
 
@@ -225,7 +224,7 @@ class TruckRegistrationController extends StateNotifier<bool> {
         marchamo2: marchamo2,
         productId: productId,
         productName: productName,
-        viajesStatusEnum: ViajesStatusEnum.portLeft);
+        viajesStatusEnum: ViajesStatusEnum.portLeft,cargoId: newCargoModel.cargoId, weightUnitEnum: vesselModel.weightUnitEnum);
 
     VesselModel vessel = updateCargoModel(
         originalModel: vesselModel, cargoModelId: newCargoModel.cargoId,productModelId: productId,pureCargoWeight: pureCargoWeight);

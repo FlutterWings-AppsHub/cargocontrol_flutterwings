@@ -64,48 +64,46 @@ class _AdChoferesListState extends ConsumerState<InShipsList> {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final shipsNotiCtr = ref.watch(shipNotiController);
-        return Expanded(
-          child:GestureDetector(
-            onTap:() => FocusManager.instance.primaryFocus!.unfocus(),
-            child: Column(
-              children: [
-                CustomTextField(
-                  controller: searchCtr,
-                  hintText: "",
-                  onChanged: (val){
-                    shipsNotiCtr.getAllShips(searchWord: searchCtr.text);
-                    if(searchCtr.text.isEmpty){
-                      shipsNotiCtr.firstTime();
-                    }
-                    setState(() {
-                    });
-                  },
-                  onFieldSubmitted: (val){},
-                  obscure: false,
-                  label: 'Buscar buques',
-                  tailingIcon: Image.asset(AppAssets.searchIcon, scale: 2,),
-                ),
-                SizedBox(height: 13.h,),
-                shipsNotiCtr.isLoading ?
-                  const LoadingWidget():
-                shipsNotiCtr.shipsModels.isEmpty ?
-                  const Text("No Vessels!"):
-                  Expanded(
-                    child: ListView.builder(
-                        controller: _scrollController,
-                        itemCount: shipsNotiCtr.shipsModels.length,
-                        physics: const BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          VesselModel model = shipsNotiCtr.shipsModels[index];
-                          return  InShipCard(vesselModel: model,);
+        return GestureDetector(
+          onTap:() => FocusManager.instance.primaryFocus!.unfocus(),
+          child: Column(
+            children: [
+              CustomTextField(
+                controller: searchCtr,
+                hintText: "",
+                onChanged: (val){
+                  shipsNotiCtr.getAllShips(searchWord: searchCtr.text);
+                  if(searchCtr.text.isEmpty){
+                    shipsNotiCtr.firstTime();
+                  }
+                  setState(() {
+                  });
+                },
+                onFieldSubmitted: (val){},
+                obscure: false,
+                label: 'Buscar buques',
+                tailingIcon: Image.asset(AppAssets.searchIcon, scale: 2,),
+              ),
+              SizedBox(height: 13.h,),
+              shipsNotiCtr.isLoading ?
+                const LoadingWidget():
+              shipsNotiCtr.shipsModels.isEmpty ?
+                const Text("No Vessels!"):
+                Expanded(
+                  child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: shipsNotiCtr.shipsModels.length,
+                      physics: const BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        VesselModel model = shipsNotiCtr.shipsModels[index];
+                        return  InShipCard(vesselModel: model,);
 
-                        }),
-                  ),
-                ref.watch(shipNotiController).isSecondaryLoading?
-                const LoadingWidget(): const SizedBox()
-              ],
-            ),
+                      }),
+                ),
+              ref.watch(shipNotiController).isSecondaryLoading?
+              const LoadingWidget(): const SizedBox()
+            ],
           ),
         );
       },

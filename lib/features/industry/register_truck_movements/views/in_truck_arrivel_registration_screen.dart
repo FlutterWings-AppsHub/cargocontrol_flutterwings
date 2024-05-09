@@ -127,7 +127,8 @@ class _InRegisterTruckArrivalScreenState extends State<InRegisterTruckArrivalScr
                     onPressed: ()async{
                       await industryNotiCtr.getCurrentIndustry(
                         realIndustryId: ref.read(authNotifierCtr).userModel?.industryId?? '',
-                        ref: ref,
+                          vesselId: industryNotiCtr.vesselModel!.vesselId,
+                          ref: ref,
                         context: context
                       );
                       if(ref.read(inTruckRegistrationNotiControllerProvider).currentIndustryModel!= null){

@@ -58,7 +58,7 @@ class TruckRegistrationNotiController extends ChangeNotifier {
       showSnackBar(context: context, content: l.message);
       setLoading(false);
     }, (r) {
-      _isLoading = false;
+      setLoading(false);
       setMatchedViajes(r);
       Navigator.pushNamed(context, pageName);
     });
@@ -81,13 +81,14 @@ class TruckRegistrationNotiController extends ChangeNotifier {
 
   Future getCurrentIndustry({
     required String realIndustryId,
+    required String vesselId,
     required BuildContext context,
     required WidgetRef ref,
   })async{
     _matchedViajes = null;
     setLoading(true);
     final result = await  _datasource.getIndustriaIndustrywithFuture(
-      realIndustryId: realIndustryId
+      realIndustryId: realIndustryId,vesselId: vesselId
     );
     result.fold((l) {
       debugPrintStack(stackTrace: l.stackTrace);
@@ -116,7 +117,7 @@ class TruckRegistrationNotiController extends ChangeNotifier {
       showSnackBar(context: context, content: l.message);
       setLoading(false);
     }, (r) {
-      _isLoading = false;
+      setLoading(false);
       r.cargoModels.forEach((cargo) {
         if(cargo.cargoId == cargoId){
           setViajesCargoModel(cargo);

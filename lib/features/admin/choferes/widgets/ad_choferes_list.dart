@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../commons/common_functions/format_weight.dart';
 import '../../../../commons/common_widgets/CustomTextFields.dart';
 import '../../../../models/choferes_models/choferes_model.dart';
 import '../../../../utils/constants/assets_manager.dart';
@@ -145,7 +146,7 @@ class _AdChoferesListState extends ConsumerState<AdChoferesList> {
                                     topLeftText: "ID ${model.choferNationalId}",
                                     topRightText: "Viajes ${model.numberOfTrips}",
                                     titleText: "${model.firstName} ${model.lastName}",
-                                    bottomLeftText: "Deficit ${model.averageCargoDeficit}",
+                                    bottomLeftText: "Deficit ${formatWeight(model.averageCargoDeficit)}",
                                     bottomRightText: "Retraso Promedio : 2:00H"),
                               ),
                             );

@@ -98,8 +98,8 @@ class _CoTruckLeavingInformationScreenState
                         plateNumber:
                             truckCtr.matchedViajes!.licensePlate.toString(),
                         chofereName: truckCtr.matchedViajes!.chofereName,
-                        truckWeight: formatWeight(truckCtr
-                            .matchedViajes!.entryTimeTruckWeightToPort)+" "+truckCtr.vesselModel!.weightUnitEnum.type,
+                        truckWeight: "${formatWeight(truckCtr
+                            .matchedViajes!.entryTimeTruckWeightToPort)} ${truckCtr.vesselModel!.weightUnitEnum.type}",
                       ),
                       SizedBox(
                         height: 20.h,

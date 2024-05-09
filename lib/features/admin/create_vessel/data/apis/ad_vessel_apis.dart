@@ -112,7 +112,7 @@ class AdVesselApis implements AdVesselApisImplements{
         viajesCount = viajesCount + industrySubModel.viajesIds.length;
         deficit=deficit + industrySubModel.deficit;
       });
-      DeficitViajesModel model = DeficitViajesModel(viajesCount: viajesCount.toString(), totalDeficit: deficit.toString());
+      DeficitViajesModel model = DeficitViajesModel(viajesCount: viajesCount.toString(), totalDeficit: deficit);
       return model;
     });
   }
@@ -129,7 +129,7 @@ class AdVesselApis implements AdVesselApisImplements{
         viajesCount = viajesCount + industrySubModel.viajesIds.length;
         deficit=deficit + industrySubModel.deficit;
       });
-      DeficitViajesModel model = DeficitViajesModel(viajesCount: viajesCount.toString(), totalDeficit: deficit.toString());
+      DeficitViajesModel model = DeficitViajesModel(viajesCount: viajesCount.toString(), totalDeficit: deficit);
       return model;
     });
   }

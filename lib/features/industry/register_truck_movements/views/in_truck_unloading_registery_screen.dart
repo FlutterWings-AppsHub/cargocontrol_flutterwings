@@ -139,6 +139,7 @@ class _InRegisterTruckUnlaodingScreenState extends State<InRegisterTruckUnlaodin
                       }else{
                         await truckCtr.getCurrentIndustry(
                             realIndustryId: ref.read(authNotifierCtr).userModel?.industryId?? '',
+                            vesselId: truckCtr.vesselModel!.vesselId,
                             ref: ref,
                             context: context
                         );

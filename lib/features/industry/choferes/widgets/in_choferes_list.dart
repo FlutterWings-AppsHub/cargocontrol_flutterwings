@@ -1,4 +1,5 @@
 import 'package:cargocontrol/common_widgets/cargo_card.dart';
+import 'package:cargocontrol/commons/common_functions/format_weight.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -103,7 +104,7 @@ class _InChoferesListState extends ConsumerState<InChoferesList> {
                                 topLeftText: "ID ${model.choferNationalId}",
                                 topRightText: "Viajes ${model.numberOfTrips}",
                                 titleText: "${model.firstName} ${model.lastName}",
-                                bottomLeftText: "Deficit ${model.averageCargoDeficit}",
+                                bottomLeftText: "Deficit ${formatWeight(model.averageCargoDeficit)}",
                                 bottomRightText: "Retraso Promedio : 2:00H"),
                           );
 

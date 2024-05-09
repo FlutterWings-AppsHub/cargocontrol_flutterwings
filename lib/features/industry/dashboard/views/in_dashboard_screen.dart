@@ -1,3 +1,4 @@
+import 'package:cargocontrol/commons/common_functions/format_weight.dart';
 import 'package:cargocontrol/commons/common_widgets/cargo_bar_chart.dart';
 import 'package:cargocontrol/commons/common_imports/common_libs.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
@@ -23,11 +24,13 @@ import '../widgets/in_progress_dashboard_card.dart';
 class InDashboardScreen extends ConsumerWidget {
   const InDashboardScreen({super.key});
   initialize(WidgetRef ref)async{
+    await ref
+        .read(inTruckRegistrationNotiControllerProvider)
+        .getCurrentVessel(ref: ref);
     await ref.read(inTruckRegistrationNotiControllerProvider).setMatchedViajes(null);
     await ref.read(inTruckRegistrationNotiControllerProvider).setCurrentIndustry(null);
     await ref.read(inTruckRegistrationNotiControllerProvider).setViajesCargoModel(null);
     await ref.read(inTruckRegistrationNotiControllerProvider).setViajesChoferesModel(null);
-    await ref.read(inTruckRegistrationNotiControllerProvider).setCurrentVessel(null);
   }
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -100,19 +103,16 @@ class InDashboardScreen extends ConsumerWidget {
                                             numberOfTrips: industryModel
                                                 .viajesIds.length
                                                 .toString(),
-                                            divideNumber2: industryModel
-                                                .cargoUnloaded
-                                                .toString(),
-                                            divideNumber1: industryModel
-                                                .cargoAssigned
-                                                .toString(),
+                                            divideNumber2: formatWeight(industryModel
+                                                .cargoUnloaded),
+                                            divideNumber1: formatWeight(industryModel
+                                                .cargoAssigned),
                                             barPercentage: double.parse(
                                                 (industryModel.cargoUnloaded /
                                                         industryModel.cargoAssigned)
                                                     .toStringAsFixed(2)),
                                             title: industryModel.industryName,
-                                            deficit:
-                                                industryModel.deficit.toString(),
+                                            deficit:formatWeight(industryModel.deficit),
                                           ),
                                         ]),
                                   ),
@@ -153,7 +153,7 @@ class InDashboardScreen extends ConsumerWidget {
                                           title: 'Saldo',
                                           subTitle: ' total',
                                           value:
-                                              industryModel.deficit.toString()),
+                                          "${formatWeight(industryModel.deficit)} ${vesselModel.weightUnitEnum.type}"),
                                       ref
                                           .watch(getAllInProgressViajesList(
                                               industryModel.industryId))

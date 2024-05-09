@@ -12,8 +12,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cargocontrol/utils/constants.dart' as constants;
 
+import '../../../../commons/common_functions/format_weight.dart';
 import '../../../../commons/common_widgets/dashboard_top_widget.dart';
+import '../../../../commons/common_widgets/viajes_recent_record_card.dart';
 import '../../../../core/enums/viajes_status_enum.dart';
+import '../../../../core/enums/viajes_type.dart';
 import '../../../../models/industry_models/industry_sub_model.dart';
 import '../../../../models/viajes_models/viajes_model.dart';
 import '../../../../routes/route_manager.dart';
@@ -125,9 +128,9 @@ class AdDashboardScreen extends ConsumerWidget {
                                     return AdDashboardMiniCard(
                                         title: 'Descarga total',
                                         value:
-                                        "${viajes.fold(0, (sum, viaje) => (sum + viaje.cargoDeficitWeight).toInt())}");
+                                        "${formatWeight(viajes.fold(0, (sum, viaje) => (sum + viaje.cargoDeficitWeight).toInt()).toDouble())} ${vesselModel.weightUnitEnum.type}");
                                   }, error: (error, st) {
-                                    return AdDashboardMiniCard(
+                                    return const AdDashboardMiniCard(
                                         title: 'Descarga total', value: "0");
                                   }, loading: () {
                                     return const SizedBox();
@@ -137,7 +140,7 @@ class AdDashboardScreen extends ConsumerWidget {
                                         title: 'Viajes en camino',
                                         value: "${viajes.length}");
                                   }, error: (error, st) {
-                                    return AdDashboardMiniCard(
+                                    return const AdDashboardMiniCard(
                                         title: 'Viajes en camino', value: "0");
                                   }, loading: () {
                                     return const SizedBox();
@@ -193,7 +196,8 @@ class AdDashboardScreen extends ConsumerWidget {
                                             ViajesModel model = viajesList[index];
                                             return GestureDetector(
                                               onTap: () {},
-                                              child: AdRecentRecordCard(
+                                              child:
+                                              ViajesRecentRecordCard(
                                                 isEntered: model.viajesStatusEnum.type ==
                                                     ViajesStatusEnum.portEntered.type
                                                     ? true
@@ -202,9 +206,16 @@ class AdDashboardScreen extends ConsumerWidget {
                                                     ViajesStatusEnum.portLeft.type
                                                     ? true
                                                     : false,
-                                                guideNumber: model.guideNumber.toStringAsFixed(0),
+                                                guideNumber:
+                                                model.guideNumber.toStringAsFixed(0),
                                                 driverName: model.chofereName,
                                                 portEntryTime: model.entryTimeToPort,
+                                                productName: model.productName,
+                                                plateNo: model.licensePlate,
+                                                isCompleted: model.viajesTypeEnum ==
+                                                    ViajesTypeEnum.completed
+                                                    ? true
+                                                    : false,
                                               ),
                                             );
                                           },

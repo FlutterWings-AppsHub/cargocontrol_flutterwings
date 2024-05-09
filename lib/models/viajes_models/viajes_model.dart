@@ -2,6 +2,7 @@ import 'package:cargocontrol/core/enums/viajes_status_enum.dart';
 import 'package:cargocontrol/core/enums/viajes_type.dart';
 
 import '../../core/enums/bogeda_count_product_enum.dart';
+import '../../core/enums/weight_unit_enum.dart';
 
 class ViajesModel {
   final String viajesId;
@@ -33,6 +34,9 @@ class ViajesModel {
   final String productName;
   final ViajesTypeEnum viajesTypeEnum;
   final ViajesStatusEnum viajesStatusEnum;
+  final WeightUnitEnum weightUnitEnum;
+  final Map<String, dynamic> searchTags;
+
 
   Duration get tripTime {
     if (exitTimeToPort != null && timeToIndustry != null) {
@@ -72,6 +76,8 @@ class ViajesModel {
     required this.productName,
     required this.viajesTypeEnum,
     required this.viajesStatusEnum,
+    required this.weightUnitEnum,
+    required this.searchTags,
   });
 
   @override
@@ -107,7 +113,9 @@ class ViajesModel {
           productId == other.productId &&
           productName == other.productName &&
           viajesTypeEnum == other.viajesTypeEnum &&
-          viajesStatusEnum == other.viajesStatusEnum);
+          viajesStatusEnum == other.viajesStatusEnum &&
+          weightUnitEnum == other.weightUnitEnum &&
+          searchTags == other.searchTags);
 
   @override
   int get hashCode =>
@@ -139,7 +147,9 @@ class ViajesModel {
       productId.hashCode ^
       productName.hashCode ^
       viajesTypeEnum.hashCode ^
-      viajesStatusEnum.hashCode;
+      viajesStatusEnum.hashCode ^
+      weightUnitEnum.hashCode ^
+      searchTags.hashCode;
 
   @override
   String toString() {
@@ -173,6 +183,8 @@ class ViajesModel {
         ' productName: $productName,' +
         ' viajesTypeEnum: $viajesTypeEnum,' +
         ' viajesStatusEnum: $viajesStatusEnum,' +
+        ' weightUnitEnum: $weightUnitEnum,' +
+        ' searchTags: $searchTags,' +
         '}';
   }
 
@@ -206,6 +218,8 @@ class ViajesModel {
     String? productName,
     ViajesTypeEnum? viajesTypeEnum,
     ViajesStatusEnum? viajesStatusEnum,
+    WeightUnitEnum? weightUnitEnum,
+    Map<String, dynamic>? searchTags,
   }) {
     return ViajesModel(
       viajesId: viajesId ?? this.viajesId,
@@ -241,6 +255,8 @@ class ViajesModel {
       productName: productName ?? this.productName,
       viajesTypeEnum: viajesTypeEnum ?? this.viajesTypeEnum,
       viajesStatusEnum: viajesStatusEnum ?? this.viajesStatusEnum,
+      weightUnitEnum: weightUnitEnum ?? this.weightUnitEnum,
+      searchTags: searchTags ?? this.searchTags,
     );
   }
 
@@ -257,7 +273,7 @@ class ViajesModel {
       'cargoDeficitWeight': this.cargoDeficitWeight,
       'timeToIndustry': this.timeToIndustry.millisecondsSinceEpoch,
       'unloadingTimeInIndustry':
-          this.unloadingTimeInIndustry.millisecondsSinceEpoch,
+      this.unloadingTimeInIndustry.millisecondsSinceEpoch,
       'guideNumber': this.guideNumber,
       'industryId': this.industryId,
       'industryName': this.industryName,
@@ -276,20 +292,23 @@ class ViajesModel {
       'productId': this.productId,
       'viajesTypeEnum': this.viajesTypeEnum.type,
       'viajesStatusEnum': this.viajesStatusEnum.type,
+      'weightUnitEnum': this.weightUnitEnum.type,
+      'searchTags': this.searchTags,
 
     };
   }
 
+
   factory ViajesModel.fromMap(Map<String, dynamic> map) {
     return ViajesModel(
       entryTimeToPort:
-          DateTime.fromMillisecondsSinceEpoch(map['entryTimeToPort']),
+      DateTime.fromMillisecondsSinceEpoch(map['entryTimeToPort']),
       exitTimeToPort:
-          DateTime.fromMillisecondsSinceEpoch(map['exitTimeToPort']),
+      DateTime.fromMillisecondsSinceEpoch(map['exitTimeToPort']),
       timeToIndustry:
-          DateTime.fromMillisecondsSinceEpoch(map['timeToIndustry']),
+      DateTime.fromMillisecondsSinceEpoch(map['timeToIndustry']),
       unloadingTimeInIndustry:
-          DateTime.fromMillisecondsSinceEpoch(map['unloadingTimeInIndustry']),
+      DateTime.fromMillisecondsSinceEpoch(map['unloadingTimeInIndustry']),
       uploadingTime: DateTime.fromMillisecondsSinceEpoch(map['uploadingTime']),
       pureCargoWeight: (map['pureCargoWeight'] as num).toDouble(),
       cargoUnloadWeight: (map['cargoUnloadWeight'] as num).toDouble(),
@@ -308,20 +327,20 @@ class ViajesModel {
       cargoId: map['cargoId'] as String,
       viajesTypeEnum: (map['viajesTypeEnum'] as String).toViajesTypeEnum(),
       viajesStatusEnum:
-          (map['viajesStatusEnum'] as String).toViajesStatusEnum(),
+      (map['viajesStatusEnum'] as String).toViajesStatusEnum(),
       viajesId: map['viajesId'] as String,
       entryTimeTruckWeightToPort:
-          (map['entryTimeTruckWeightToPort'] as num).toDouble(),
+      (map['entryTimeTruckWeightToPort'] as num).toDouble(),
       exitTimeTruckWeightToPort:
-          (map['exitTimeTruckWeightToPort'] as num).toDouble(),
+      (map['exitTimeTruckWeightToPort'] as num).toDouble(),
       bogedaCountProductEnum:  (map['bogedaCountProductEnum'] as String).toBogedaCountProductEnum(),
       marchamo1: map['marchamo1'] as String,
       marchamo2: map['marchamo2'] as String,
       productId: map['productId'] as String,
+      weightUnitEnum: (map['weightUnitEnum'] as String).toWeightUnitEnum(),
+      searchTags: map['searchTags'] as Map<String, dynamic>,
     );
   }
-
-
 
 //</editor-fold>
 }
@@ -329,63 +348,7 @@ class ViajesModel {
 /*
 
 
-  Map<String, dynamic> toMap() {
-    return {
-      'viajesId': this.viajesId,
-      'entryTimeToPort': this.entryTimeToPort.millisecondsSinceEpoch,
-      'entryTimeTruckWeightToPort': this.entryTimeTruckWeightToPort,
-      'exitTimeToPort': this.exitTimeToPort.millisecondsSinceEpoch,
-      'exitTimeTruckWeightToPort': this.exitTimeTruckWeightToPort,
-      'uploadingTime': this.uploadingTime.millisecondsSinceEpoch,
-      'pureCargoWeight': this.pureCargoWeight,
-      'cargoUnloadWeight': this.cargoUnloadWeight,
-      'cargoDeficitWeight': this.cargoDeficitWeight,
-      'timeToIndustry': this.timeToIndustry.millisecondsSinceEpoch,
-      'unloadingTimeInIndustry': this.unloadingTimeInIndustry.millisecondsSinceEpoch,
-      'guideNumber': this.guideNumber,
-      'industryId': this.industryId,
-      'industryName': this.industryName,
-      'realIndustryId': this.realIndustryId,
-      'vesselId': this.vesselId,
-      'vesselName': this.vesselName,
-      'chofereId': this.chofereId,
-      'cargoHoldCount': this.cargoHoldCount,
-      'chofereName': this.chofereName,
-      'productName': this.productName,
-      'licensePlate': this.licensePlate,
-      'cargoId': this.cargoId,
-      'viajesTypeEnum': this.viajesTypeEnum.type,
-      'viajesStatusEnum': this.viajesStatusEnum.type,
-    };
-  }
 
-  factory ViajesModel.fromMap(Map<String, dynamic> map) {
-    return ViajesModel(
-      entryTimeToPort: DateTime.fromMillisecondsSinceEpoch(map['entryTimeToPort']),
-      exitTimeToPort: DateTime.fromMillisecondsSinceEpoch(map['exitTimeToPort']),
-      timeToIndustry: DateTime.fromMillisecondsSinceEpoch(map['timeToIndustry']),
-      unloadingTimeInIndustry: DateTime.fromMillisecondsSinceEpoch(map['unloadingTimeInIndustry']),
-      uploadingTime: DateTime.fromMillisecondsSinceEpoch(map['uploadingTime']),
-      pureCargoWeight: (map['pureCargoWeight'] as num).toDouble(),
-      cargoUnloadWeight: (map['cargoUnloadWeight'] as num).toDouble(),
-      cargoDeficitWeight: (map['cargoDeficitWeight'] as num).toDouble(),
-      guideNumber: (map['guideNumber'] as num).toDouble(),
-      industryId: map['industryId'] as String,
-      industryName: map['industryName'] as String,
-      realIndustryId: map['realIndustryId'] as String,
-      vesselId: map['vesselId'] as String,
-      vesselName: map['vesselName'] as String,
-      chofereId: map['chofereId'] as String,
-      cargoHoldCount: map['cargoHoldCount'] as int,
-      chofereName: map['chofereName'] as String,
-      productName: map['productName'] as String,
-      licensePlate: map['licensePlate'] as String,
-      cargoId: map['cargoId'] as String,
-      viajesTypeEnum: (map['viajesTypeEnum'] as String).toViajesTypeEnum(),
-      viajesStatusEnum: (map['viajesStatusEnum'] as String).toViajesStatusEnum(),
-      viajesId: map['viajesId'] as String,
-      entryTimeTruckWeightToPort: (map['entryTimeTruckWeightToPort'] as num).toDouble(),
-      exitTimeTruckWeightToPort: (map['exitTimeTruckWeightToPort'] as num).toDouble(),
-    );
-  }
+
+
 */

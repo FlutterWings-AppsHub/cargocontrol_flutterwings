@@ -3,10 +3,10 @@ import '../../core/enums/choferes_status_enum.dart';
 class ChoferesModel {
   final String choferId;
   final String choferNationalId;
-  final dynamic averageCargoDeficit;
-  final dynamic averageCargoDeficitPercentage;
-  final dynamic worstCargoDeficit;
-  final dynamic worstCargoDeficitPercentage;
+  final double averageCargoDeficit;
+  final double averageCargoDeficitPercentage;
+  final double worstCargoDeficit;
+  final double worstCargoDeficitPercentage;
   final ChoferesStatusEnum choferesStatusEnum;
   final double rating;
   final int numberOfTrips;
@@ -167,12 +167,10 @@ class ChoferesModel {
     return ChoferesModel(
       choferId: map['choferId'] as String,
       choferNationalId: map['choferNationalId'] as String,
-      averageCargoDeficit: map['averageCargoDeficit'] as dynamic,
-      averageCargoDeficitPercentage:
-          map['averageCargoDeficitPercentage'] as dynamic,
-      worstCargoDeficit: map['worstCargoDeficit'] as dynamic,
-      worstCargoDeficitPercentage:
-          map['worstCargoDeficitPercentage'] as dynamic,
+      averageCargoDeficit: (map['averageCargoDeficit'] as num).toDouble(),
+      averageCargoDeficitPercentage:(map['averageCargoDeficitPercentage'] as num).toDouble(),
+      worstCargoDeficit: (map['worstCargoDeficit'] as num).toDouble(),
+      worstCargoDeficitPercentage: (map['worstCargoDeficitPercentage'] as num).toDouble(),
       choferesStatusEnum:
       (map['choferesStatusEnum'] as String).toChoferesStatusEnum(),
       rating:(map['rating'] as num).toDouble(),

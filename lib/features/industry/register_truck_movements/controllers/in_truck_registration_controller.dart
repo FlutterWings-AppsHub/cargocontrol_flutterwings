@@ -18,6 +18,7 @@ import 'package:uuid/uuid.dart';
 import '../../../../commons/common_widgets/show_toast.dart';
 import '../../../../core/firebase_messaging/firebase_messaging_class.dart';
 import '../../../../models/vessel_models/vessel_cargo_model.dart';
+import '../../../../models/vessel_models/vessel_product_model.dart';
 import '../../../coordinator/register_truck_movement/data/apis/truck_registration_apis.dart';
 import 'in_truck_registration_noti_controller.dart';
 
@@ -97,20 +98,20 @@ class TruckRegistrationController extends StateNotifier<bool> {
         unloadingTimeInIndustry: unloadingTimeInIndustry,
         viajesTypeEnum: ViajesTypeEnum.completed,
         viajesStatusEnum: ViajesStatusEnum.industryUnloaded);
-    // Todo Industry model changes Effect: 13
-    // IndustrySubModel industry = industrySubModel.copyWith(
-    //   deficit: industrySubModel.deficit +
-    //       (viajesModel.exitTimeTruckWeightToPort - cargoUnloadWeight),
-    //   cargoUnloaded: industrySubModel.cargoUnloaded +
-    //       cargoUnloadWeight -
-    //       viajesModel.entryTimeTruckWeightToPort,
-    //   selectedVesselCargo: industrySubModel.selectedVesselCargo.copyWith(
-    //     pesoUnloaded: industrySubModel.selectedVesselCargo.pesoUnloaded +
-    //         cargoUnloadWeight -
-    //         viajesModel.entryTimeTruckWeightToPort,
-    //   ),
-    // );
-    IndustrySubModel industry = industrySubModel;
+
+    IndustrySubModel industry = industrySubModel.copyWith(
+      deficit: industrySubModel.deficit +
+          (viajesModel.exitTimeTruckWeightToPort - cargoUnloadWeight),
+      cargoUnloaded: industrySubModel.cargoUnloaded +
+          cargoUnloadWeight -
+          viajesModel.entryTimeTruckWeightToPort,
+    );
+    industry = updateProductModel(
+        originalModel: industry,
+        productModelId: viajesModel.productId,
+        pureCargoUnloadWeight:
+            cargoUnloadWeight - viajesModel.entryTimeTruckWeightToPort);
+
     double tripCargoDeficit =
         (viajesModel.exitTimeTruckWeightToPort - cargoUnloadWeight);
     double updatedAverageCargoDeficit = ((choferesModel.averageCargoDeficit *
@@ -136,7 +137,7 @@ class TruckRegistrationController extends StateNotifier<bool> {
         choferesModel.worstCargoDeficitPercentage < tripCargoDeficitPercentage
             ? tripCargoDeficitPercentage
             : choferesModel.worstCargoDeficitPercentage;
-    //
+
     // //Todo usman : get all the viajes where chofer id same and viajes is completed; then get avg time duration + this trip time
     // Duration avgTrip
     // Duration tripTime=(viajesModel.timeToIndustry.difference(viajesModel.exitTimeToPort));
@@ -187,6 +188,28 @@ class TruckRegistrationController extends StateNotifier<bool> {
       showSnackBar(context: context, content: Messages.viajesUnlaodedSuccess);
     });
     state = false;
+  }
+
+  IndustrySubModel updateProductModel(
+      {required IndustrySubModel originalModel,
+      required String productModelId,
+      required double pureCargoUnloadWeight}) {
+    int productModelIndex = originalModel.vesselProductModels
+        .indexWhere((prodModel) => prodModel.productId == productModelId);
+    if (productModelIndex != -1) {
+      VesselProductModel productModel =
+          originalModel.vesselProductModels[productModelIndex];
+      List<VesselProductModel> updatedProdModels =
+          List.from(originalModel.vesselProductModels);
+      updatedProdModels[productModelIndex] = productModel.copyWith(
+          pesoUnloaded: updatedProdModels[productModelIndex].pesoUnloaded +
+              pureCargoUnloadWeight);
+
+      originalModel =
+          originalModel.copyWith(vesselProductModels: updatedProdModels);
+    }
+
+    return originalModel;
   }
 
   Future<void> sendIndustryCompleteUnLoadingNotification(

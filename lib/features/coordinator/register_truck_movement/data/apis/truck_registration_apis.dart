@@ -54,7 +54,7 @@ abstract class TruckRegistrationApisImplements {
     required String industryId,
     required ViajesStatusEnum viajesStatusEnum,
   });
-  FutureEither<IndustrySubModel> getIndustriaIndustrywithFuture({required String realIndustryId});
+  FutureEither<IndustrySubModel> getIndustriaIndustrywithFuture({required String realIndustryId,required String vesselId});
   FutureEither<List<UserModel>> getAllAdmins();
   FutureEither<List<UserModel>> getAllRealIndustraUser({required String industryId});
   FutureEither<VesselModel> getVesselCargoModel({required String vesselId});
@@ -327,10 +327,10 @@ class TruckRegistrationApis implements TruckRegistrationApisImplements{
   }
 
   @override
-  FutureEither<IndustrySubModel> getIndustriaIndustrywithFuture({required String realIndustryId})async{
+  FutureEither<IndustrySubModel> getIndustriaIndustrywithFuture({required String realIndustryId,required String vesselId})async{
     try{
       final querySnapshot = await _firestore.collection(FirebaseConstants.industryGuideCollection).
-      where('realIndustryId', isEqualTo: realIndustryId).
+      where('realIndustryId', isEqualTo: realIndustryId).where('vesselId', isEqualTo: vesselId).
       get();
       if(querySnapshot.docs.length!=0){
         IndustrySubModel model = IndustrySubModel.fromMap(querySnapshot.docs.first.data());

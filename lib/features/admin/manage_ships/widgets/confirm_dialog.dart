@@ -1,5 +1,6 @@
 
 
+import 'package:cargocontrol/commons/common_functions/format_weight.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/admin/manage_ships/controllers/ship_controller.dart';
 import 'package:cargocontrol/models/vessel_models/vessel_model.dart';
@@ -68,11 +69,11 @@ class ConfirmDialog extends StatelessWidget {
                     color: context.textColor,
                     fontSize: MyFonts.size16),
               ),
-              if(vesselModel.cargoUnloadedWeight!=0)
+              if(vesselModel.cargoUnloadedWeight!=vesselModel.totalCargoWeight)
               Padding(
                 padding: EdgeInsets.only(top: 12.h),
                 child: Text(
-                  'Al buque le quedan ${vesselModel.cargoUnloadedWeight} de carga',
+                  'Al buque le quedan ${formatWeight(vesselModel.totalCargoWeight - vesselModel.cargoUnloadedWeight)} ${vesselModel.weightUnitEnum.type} de carga',
                   textAlign: TextAlign.center,
                   style: getRegularStyle(
                       color: context.errorColor,

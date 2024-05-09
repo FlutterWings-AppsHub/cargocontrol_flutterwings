@@ -1,3 +1,4 @@
+import 'package:cargocontrol/commons/common_functions/format_weight.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/admin/create_vessel/controllers/ad_vessel_controller.dart';
 import 'package:cargocontrol/features/admin/create_vessel/widgets/preliminatr_tile.dart';
@@ -42,45 +43,44 @@ class CargaWidget extends StatelessWidget {
         ),
         CustomTile(
             title: "Producto (Variedad)", subText: viajesModel.productName),
-        Consumer(
-          builder: (BuildContext context, WidgetRef ref, Widget? child) {
-            return ref
-                .watch(getIndustriaIndustryByIndustryId(viajesModel.industryId))
-                .when(
-              data: (industryModel) {
-                return Column(
-                  children: [
-                    // Todo Industry model changes Effect: 1
-                    // CustomTile(
-                    //   title: "Tipo",
-                    //   subText: industryModel.selectedVesselCargo.tipo,
-                    // ),
-                    // CustomTile(
-                    //   title: "Origen",
-                    //   subText: industryModel.selectedVesselCargo.origen,
-                    // ),
-                    // CustomTile(
-                    //   title: "Variedad",
-                    //   subText: industryModel.selectedVesselCargo.variety,
-                    // ),
-                    // CustomTile(
-                    //   title: "Cosecha",
-                    //   subText: industryModel.selectedVesselCargo.cosecha,
-                    // ),
-                  ],
-                );
-              },
-              error: (error, st) {
-                debugPrintStack(stackTrace: st);
-                debugPrint(error.toString());
-                return const SizedBox();
-              },
-              loading: () {
-                return const SizedBox();
-              },
-            );
-          },
-        ),
+        // Consumer(
+        //   builder: (BuildContext context, WidgetRef ref, Widget? child) {
+        //     return ref
+        //         .watch(getIndustriaIndustryByIndustryId(viajesModel.industryId))
+        //         .when(
+        //       data: (industryModel) {
+        //         return Column(
+        //           children: [
+        //             // CustomTile(
+        //             //   title: "Tipo",
+        //             //   subText: industryModel.selectedVesselCargo.tipo,
+        //             // ),
+        //             // CustomTile(
+        //             //   title: "Origen",
+        //             //   subText: industryModel.selectedVesselCargo.origen,
+        //             // ),
+        //             // CustomTile(
+        //             //   title: "Variedad",
+        //             //   subText: industryModel.selectedVesselCargo.variety,
+        //             // ),
+        //             // CustomTile(
+        //             //   title: "Cosecha",
+        //             //   subText: industryModel.selectedVesselCargo.cosecha,
+        //             // ),
+        //           ],
+        //         );
+        //       },
+        //       error: (error, st) {
+        //         debugPrintStack(stackTrace: st);
+        //         debugPrint(error.toString());
+        //         return const SizedBox();
+        //       },
+        //       loading: () {
+        //         return const SizedBox();
+        //       },
+        //     );
+        //   },
+        // ),
         Consumer(
           builder: (BuildContext context, WidgetRef ref, Widget? child) {
             return ref.watch(fetchCurrentVesselsProvider).when(
@@ -107,62 +107,73 @@ class CargaWidget extends StatelessWidget {
           if (!isEditable)
             CustomTile(
                 title: "Peso tara ",
-                subText: viajesModel.entryTimeTruckWeightToPort.toString()),
+                subText: "${formatWeight(viajesModel.entryTimeTruckWeightToPort)} ${viajesModel.weightUnitEnum.type}"),
           if (isEditable)
             CustomEditableTile(
               title: "Peso tara ",
-              subText: viajesModel.entryTimeTruckWeightToPort.toString(),
+              subText: "${formatWeight(viajesModel.entryTimeTruckWeightToPort)} ${viajesModel.weightUnitEnum.type}",
               onTap: onTruckWeightEdit!,
             ),
         ],
         if (viajesModel.exitTimeTruckWeightToPort != 0.0) ...[
           if (!isEditable)
             CustomTile(
-                title: "Peso bruto de salida",
-                subText: viajesModel.exitTimeTruckWeightToPort.toString()),
+              title: "Peso bruto de salida",
+              subText: "${formatWeight(viajesModel.exitTimeTruckWeightToPort)} ${viajesModel.weightUnitEnum.type}",
+            ),
           if (isEditable)
             CustomEditableTile(
               title: "Peso bruto de salida",
-              subText: viajesModel.exitTimeTruckWeightToPort.toString(),
+              subText: "${formatWeight(viajesModel.exitTimeTruckWeightToPort)} ${viajesModel.weightUnitEnum.type}",
               onTap: onExitPortWeightEdit!,
             ),
         ],
         if (viajesModel.exitTimeTruckWeightToPort != 0.0)
           CustomTile(
               title: "Total de carga inicial",
-              subText: (viajesModel.exitTimeTruckWeightToPort -
-                      viajesModel.entryTimeTruckWeightToPort)
-                  .toString()),
+              subText: "${formatWeight(viajesModel.exitTimeTruckWeightToPort -
+                  viajesModel.entryTimeTruckWeightToPort)} ${viajesModel.weightUnitEnum.type}"),
         if (viajesModel.cargoUnloadWeight != 0.0) ...[
           if (!isEditable)
             CustomTile(
-                title: "Peso bruto de llegada",
-                subText: viajesModel.cargoUnloadWeight.toString()),
+              title: "Peso bruto de llegada",
+              subText: "${formatWeight(viajesModel.cargoUnloadWeight)} ${viajesModel.weightUnitEnum.type}",
+            ),
           if (isEditable)
             CustomEditableTile(
               title: "Peso bruto de llegada",
-              subText: viajesModel.cargoUnloadWeight.toString(),
+              subText: "${formatWeight(viajesModel.cargoUnloadWeight)} ${viajesModel.weightUnitEnum.type}",
               onTap: onIndustryUnloadingWeightEdit!,
             ),
         ],
         if (viajesModel.cargoUnloadWeight != 0.0)
           CustomTile(
               title: "Total de carga final",
-              subText: (viajesModel.cargoUnloadWeight -
-                      viajesModel.entryTimeTruckWeightToPort)
-                  .toString()),
+              subText: "${formatWeight(viajesModel.cargoUnloadWeight -
+                  viajesModel.entryTimeTruckWeightToPort)} ${viajesModel.weightUnitEnum.type}",
+          ),
         if (viajesModel.cargoUnloadWeight != 0.0) ...[
           CustomTile(
             title: "Pérdida de viaje (kg)",
-            subText: (viajesModel.cargoUnloadWeight -
+            subText: "${formatWeight((viajesModel.cargoUnloadWeight -
                     viajesModel.exitTimeTruckWeightToPort)
-                .toString(),
-            isGoodSign: true,
+                .abs())} ${viajesModel.weightUnitEnum.type}",
+            isGoodSign: (viajesModel.cargoUnloadWeight -
+                        viajesModel.exitTimeTruckWeightToPort)
+                    .isNegative
+                ? false
+                : true,
+            hasWarning: (viajesModel.cargoUnloadWeight -
+                        viajesModel.exitTimeTruckWeightToPort)
+                    .isNegative
+                ? true
+                : false,
           ),
           CustomTile(
             title: "Pérdida de viaje (%)",
             subText:
                 "${(((viajesModel.cargoUnloadWeight - viajesModel.entryTimeTruckWeightToPort) - (viajesModel.exitTimeTruckWeightToPort - viajesModel.entryTimeTruckWeightToPort)) / (viajesModel.exitTimeTruckWeightToPort - viajesModel.entryTimeTruckWeightToPort)).toStringAsFixed(2)}%",
+          hasWarning: true,
           ),
           Consumer(
             builder: (BuildContext context, WidgetRef ref, Widget? child) {
@@ -175,7 +186,8 @@ class CargaWidget extends StatelessWidget {
                     title: "Deficit promedio industria",
                     subText:
                         "${"-" + (industryModel.deficit / (industryModel.cargoUnloaded + industryModel.deficit)).toStringAsFixed(2)}%",
-                    isGoodSign: true,
+                    isGoodSign: false,
+                    hasWarning: true,
                   );
                 },
                 error: (error, st) {
@@ -197,7 +209,7 @@ class CargaWidget extends StatelessWidget {
                 data: (model) {
                   return CustomTile(
                     title: "Deficit promedio de chofer",
-                    subText: model.averageCargoDeficit.toString(),
+                    subText: "${formatWeight(model.averageCargoDeficit)} ${viajesModel.weightUnitEnum.type}",
                     isGoodSign: true,
                   );
                 },

@@ -8,6 +8,7 @@ import 'package:cargocontrol/features/coordinator/register_truck_movement/contro
 import 'package:cargocontrol/utils/constants/font_manager.dart';
 
 import '../../../../common_widgets/cargo_card.dart';
+import '../../../../commons/common_functions/format_weight.dart';
 import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../commons/common_widgets/CustomTextFields.dart';
 import '../../../../models/choferes_models/choferes_model.dart';
@@ -127,7 +128,7 @@ class _CoSelectChoferScreenState extends ConsumerState<CoSelectChoferScreen> {
                                   topLeftText: "ID ${model.choferNationalId}",
                                   topRightText: "Viajes ${model.numberOfTrips}",
                                   titleText: "${model.firstName} ${model.lastName}",
-                                  bottomLeftText: "Deficit ${model.averageCargoDeficit}",
+                                bottomLeftText: "Deficit ${formatWeight(model.averageCargoDeficit)}",
                                   bottomRightText: "Retraso Promedio : 2:00H",
 
                               ),

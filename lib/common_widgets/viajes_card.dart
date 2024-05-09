@@ -1,7 +1,9 @@
+import 'package:cargocontrol/commons/common_functions/format_weight.dart';
 import 'package:cargocontrol/commons/common_imports/common_libs.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cargocontrol/utils/constants.dart' as constants;
@@ -70,9 +72,12 @@ class ViajesCard extends StatelessWidget {
                     'Carga',
                     style: getRegularStyle(color: context.textColor, fontSize: MyFonts.size12),
                   ),
-                  Text(
-                    ' ${model.pureCargoWeight} - ${model.productName}',
-                    style: getBoldStyle(color: context.textColor, fontSize: MyFonts.size12),
+                  Expanded(
+                    child: Text(
+                      ' ${formatWeight(model.pureCargoWeight)} ${model.weightUnitEnum.type} - ${model.productName}',
+                      overflow: TextOverflow.ellipsis,
+                      style: getBoldStyle(color: context.textColor, fontSize: MyFonts.size12),
+                    ),
                   ),
                 ],
               ),

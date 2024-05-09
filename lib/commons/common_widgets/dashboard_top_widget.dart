@@ -1,4 +1,6 @@
 
+import 'package:cargocontrol/commons/common_functions/format_weight.dart';
+import 'package:cargocontrol/commons/common_functions/get_product_name_form_cargo_hold.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -75,7 +77,7 @@ class DashBoardTopWidget extends StatelessWidget {
                                           (vesselModel.cargoUnloadedWeight / vesselModel.totalCargoWeight)
                                               .toStringAsFixed(2)),
                                       title: 'Descarga total',
-                                      deficit: viajesDeficitModel.totalDeficit,
+                                      deficit: formatWeight(viajesDeficitModel.totalDeficit),
                                     );
                                   },
                                   error: (error, st){
@@ -111,16 +113,29 @@ class DashBoardTopWidget extends StatelessWidget {
                                   return    ref.watch(fetchCargoHoldViajesDeficit(model.cargoId)).
                                   when(
                                       data: (viajesDeficitModel){
-                                        return  AdProgressIndicatorCard(
-                                          numberOfTrips:viajesDeficitModel.viajesCount,
-                                          divideNumber2: model.pesoUnloaded,
-                                          divideNumber1: model.pesoTotal,
-                                          barPercentage: double.parse(
-                                              (model.pesoUnloaded/ model.pesoTotal)
-                                                  .toStringAsFixed(2)),
-                                          title: 'Bodega # ${model.multipleProductInBodega? model.cargoCountNumber.toInt().toString() +
-                                              model.bogedaCountProductEnum.type:model.cargoCountNumber.toInt().toString()}',
-                                          deficit: viajesDeficitModel.totalDeficit,
+                                        return  Tooltip(
+                                          message: getProductNameFromCargoHold(vesselCargoModel: model),
+                                          triggerMode: TooltipTriggerMode.tap,
+                                          margin: EdgeInsets.symmetric(horizontal: 50.w),
+                                          padding: EdgeInsets.all(5.h),
+                                          showDuration: const Duration(seconds: 5),
+                                          decoration: BoxDecoration(
+                                            color: context.mainColor.withOpacity(0.8),
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                          textAlign: TextAlign.center,
+                                          textStyle: getRegularStyle(color: Colors.white,fontSize: MyFonts.size12),
+                                          child: AdProgressIndicatorCard(
+                                            numberOfTrips:viajesDeficitModel.viajesCount,
+                                            divideNumber2: model.pesoUnloaded,
+                                            divideNumber1: model.pesoTotal,
+                                            barPercentage: double.parse(
+                                                (model.pesoUnloaded/ model.pesoTotal)
+                                                    .toStringAsFixed(2)),
+                                            title: 'Bodega # ${model.multipleProductInBodega? model.cargoCountNumber.toInt().toString() +
+                                                model.bogedaCountProductEnum.type:model.cargoCountNumber.toInt().toString()}',
+                                            deficit: formatWeight(viajesDeficitModel.totalDeficit),
+                                          ),
                                         );
                                       },
                                       error: (error, st){
