@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../common_widgets/cargo_card.dart';
 import '../../../../common_widgets/viajes_card.dart';
 import '../../../../commons/common_imports/common_libs.dart';
+import '../../../../commons/common_widgets/CustomTextFields.dart';
 import '../../../../models/choferes_models/choferes_model.dart';
 import '../../../../models/viajes_models/viajes_model.dart';
 import '../../../../routes/route_manager.dart';
@@ -22,6 +23,7 @@ class InAllViajesSreen extends ConsumerStatefulWidget {
 
 class _AdAllViajesSreenState extends ConsumerState<InAllViajesSreen> {
   late ScrollController _scrollController;
+  final searchCtr = TextEditingController();
 
   @override
   void initState() {
@@ -43,13 +45,14 @@ class _AdAllViajesSreenState extends ConsumerState<InAllViajesSreen> {
     if (_scrollController.position.pixels ==
         _scrollController.position.maxScrollExtent) {
       final notiCtr = ref.read(inViajesNotiController);
-      notiCtr.getAllViajes(ref: ref, industryId: widget.industryId);
+      notiCtr.getAllViajes(ref: ref, industryId: widget.industryId,searchWord: searchCtr.text.trim());
     }
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
+    searchCtr.dispose();
     super.dispose();
   }
 
@@ -60,6 +63,26 @@ class _AdAllViajesSreenState extends ConsumerState<InAllViajesSreen> {
         final viajesNotiCtr = ref.watch(inViajesNotiController);
         return Column(
           children: [
+            SizedBox(height: 20.h,),
+            Padding(
+              padding:  EdgeInsets.symmetric(horizontal: 15.w,vertical: 0.h),
+              child: CustomTextField(
+                controller: searchCtr,
+                hintText: "",
+                onChanged: (val){
+                  viajesNotiCtr.getAllViajes(ref: ref, searchWord: searchCtr.text.trim(), industryId: widget.industryId);
+                  if(searchCtr.text.isEmpty){
+                    viajesNotiCtr.firstTime(ref: ref, industryId: widget.industryId);
+                  }
+                  setState(() {
+                  });
+                },
+                onFieldSubmitted: (val){},
+                obscure: false,
+                label: 'Buscar Viajes',
+                tailingIcon: Image.asset(AppAssets.searchIcon, scale: 2,),
+              ),
+            ),
             viajesNotiCtr.isLoading
                 ? const LoadingWidget()
                 : viajesNotiCtr.viajesModels.isEmpty

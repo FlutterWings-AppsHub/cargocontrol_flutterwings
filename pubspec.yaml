@@ -95,6 +95,7 @@ flutter_launcher_icons:
 
 flutter_native_splash:
   background_image: "assets/images/splash_screen/splash_screen.png"
+  web: false
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

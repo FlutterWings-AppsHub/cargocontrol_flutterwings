@@ -75,7 +75,7 @@ class ShipApis implements ShipsApisImplements {
   @override
   Future<QuerySnapshot> getAllShips(
       {int limit = 10, DocumentSnapshot? snapshot}) async {
-    Query query = _firestore.collection(FirebaseConstants.vesselCollection);
+    Query query = _firestore.collection(FirebaseConstants.vesselCollection).orderBy("entryDate",descending: true);
 
     if (snapshot != null) {
       query = query.limit(limit).startAfterDocument(snapshot);

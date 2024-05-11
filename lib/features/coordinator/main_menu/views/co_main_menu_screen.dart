@@ -15,12 +15,11 @@ class CoMainMenuScreen extends ConsumerStatefulWidget {
   const CoMainMenuScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _CoMainMenuScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _CoMainMenuScreenState();
 }
 
 class _CoMainMenuScreenState extends ConsumerState<CoMainMenuScreen> {
-
-
   @override
   void initState() {
     super.initState();
@@ -28,9 +27,13 @@ class _CoMainMenuScreenState extends ConsumerState<CoMainMenuScreen> {
     initiallize();
   }
 
-  initiallize()async{
-    await ref.read(truckRegistrationNotiControllerProvider).getCurrentVessel(ref: ref);
-    await ref.read(truckRegistrationNotiControllerProvider).getAllIndustriesModel();
+  initiallize() async {
+    await ref
+        .read(truckRegistrationNotiControllerProvider)
+        .getCurrentVessel(ref: ref);
+    await ref
+        .read(truckRegistrationNotiControllerProvider)
+        .getAllIndustriesModel();
   }
   // updateUserModel() async {
   //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
@@ -43,67 +46,65 @@ class _CoMainMenuScreenState extends ConsumerState<CoMainMenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          Consumer(
-            builder: (BuildContext context, WidgetRef ref, Widget? child) {
-              return TextButton(
-                  onPressed: () {
-                    ref.read(authControllerProvider.notifier).logout(
-                        context: context,
-                        ref: ref
-                    );
-                  },
-                  child: const Text(
-                    'Cerrar Sesión',
-                    style: TextStyle(
-                      color: constants.kMainColor,
-                      fontWeight: FontWeight.bold,
+        appBar: AppBar(
+          actions: <Widget>[
+            Consumer(
+              builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                return TextButton(
+                    onPressed: () {
+                      ref
+                          .read(authControllerProvider.notifier)
+                          .logout(context: context, ref: ref);
+                    },
+                    child: const Text(
+                      'Cerrar Sesión',
+                      style: TextStyle(
+                        color: constants.kMainColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ));
+              },
+            )
+          ],
+        ),
+        body: ref
+            .read(coMainMenuProvider)
+            .screens[ref.watch(coMainMenuProvider).index],
+        bottomNavigationBar: kIsWeb
+            ? BottomNavigationBar(
+                onTap: (value) {
+                  ref.read(coMainMenuProvider).setIndex(value);
+                },
+                iconSize: 22,
+                currentIndex: ref.read(coMainMenuProvider).index,
+                items: const <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: FaIcon(
+                      FontAwesomeIcons.house,
                     ),
-                  ));
-            },
-
-          )
-        ],
-      ),
-      body: ref.read(coMainMenuProvider).screens[ref.watch(coMainMenuProvider).index],
-
-      bottomNavigationBar:          kIsWeb?
-    BottomNavigationBar(
-        onTap: (value) {
-          ref.read(coMainMenuProvider).setIndex(value);
-        },
-        iconSize: 22,
-        currentIndex:  ref.read(coMainMenuProvider).index,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: FaIcon(
-              FontAwesomeIcons.house,
-            ),
-            label: 'Dashboard',
-          ),
-            BottomNavigationBarItem(
-              icon: FaIcon(
-                FontAwesomeIcons.list,
-              ),
-              label: 'Reporte',
-            ),
-          // BottomNavigationBarItem(
-          //   icon: FaIcon(
-          //     FontAwesomeIcons.truck,
-          //   ),
-          //   label: 'Viajes',
-          // ),
-          // BottomNavigationBarItem(
-          //   icon: FaIcon(
-          //     FontAwesomeIcons.person,
-          //   ),
-          //   label: 'Choferes',
-          // ),
-        ],
-      ) : null
-    );
+                    label: 'Dashboard',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: FaIcon(
+                      FontAwesomeIcons.list,
+                    ),
+                    label: 'Reporte',
+                  ),
+                  // BottomNavigationBarItem(
+                  //   icon: FaIcon(
+                  //     FontAwesomeIcons.truck,
+                  //   ),
+                  //   label: 'Viajes',
+                  // ),
+                  // BottomNavigationBarItem(
+                  //   icon: FaIcon(
+                  //     FontAwesomeIcons.person,
+                  //   ),
+                  //   label: 'Choferes',
+                  // ),
+                ],
+              )
+            : null);
   }
 }

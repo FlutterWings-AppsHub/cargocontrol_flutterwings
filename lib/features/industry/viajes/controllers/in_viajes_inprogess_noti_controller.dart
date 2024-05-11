@@ -59,7 +59,34 @@ class InViajesInprogessNotiController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future getInprogessViajes({required WidgetRef ref,required String industryId}) async {
+  Future getInprogessViajes({required WidgetRef ref,required String industryId,required String searchWord}) async {
+    if (searchWord != '') {
+      setSecondaryLoading(true);
+      setViajesModels([]);
+      setLastSnapShot(null);
+      String vesselId =
+      await ref.read(adVesselProvider.notifier).getCurrentVesselId();
+      QuerySnapshot querySnapshot = await _datasource.getInprogressViajes(
+        limit: 30,
+        snapshot: _lastSnapshot,
+        vesselId: vesselId, industryId: industryId,
+      );
+      List<ViajesModel> models = [];
+      List<String> filters = searchWord.split(' ');
+      for (var document in querySnapshot.docs) {
+        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+        bool matchesQuery =
+        filters.every((field) => data['searchTags'][field] == true);
+        if (matchesQuery) {
+          var model =
+          ViajesModel.fromMap(document.data() as Map<String, dynamic>);
+          models.add(model);
+        }
+      }
+      setViajesModels(models);
+      setSecondaryLoading(false);
+      return models;
+    } else if (searchWord == '') {
     setSecondaryLoading(true);
     String vesselId= await ref.read(adVesselProvider.notifier).getCurrentVesselId();
 
@@ -83,7 +110,7 @@ class InViajesInprogessNotiController extends ChangeNotifier {
     }
     setSecondaryLoading(false);
     return models;
-  }
+  }}
 
   Future firstTime({required WidgetRef ref,required String industryId}) async {
     _limit = 10;

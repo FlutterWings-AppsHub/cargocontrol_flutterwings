@@ -17,6 +17,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../commons/common_functions/search_tags_handler.dart';
 import '../../../../commons/common_widgets/show_toast.dart';
 import '../../../../core/enums/bogeda_count_product_enum.dart';
 import '../../../../core/firebase_messaging/firebase_messaging_class.dart';
@@ -138,7 +139,7 @@ class TruckRegistrationController extends StateNotifier<bool> {
       vesselName: vesselName,
       cargoHoldCount: vesselCargoHoldCount,
       bogedaCountProductEnum: BogedaCountProductEnum.A, marchamo1: '',
-      marchamo2: '', productId: '', weightUnitEnum: WeightUnitEnum.Kg, searchTags: {},
+      marchamo2: '', productId: '', weightUnitEnum: WeightUnitEnum.Kg, searchTags: viajesSearchTagsHandler(choferId: choferesId, choferName: choferesname, guideNumber: guideNumber.toInt().toString()),
     );
     ChoferesModel choferes = choferesModel.copyWith(
       choferesStatusEnum: ChoferesStatusEnum.portEntered,

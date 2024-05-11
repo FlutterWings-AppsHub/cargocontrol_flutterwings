@@ -61,7 +61,8 @@ class ChoferesNotiController extends ChangeNotifier {
 
 
   Future getAllChoferes({String? searchWord})async{
-    if(searchWord!= null && searchWord!= ''){
+    if(searchWord!= null && searchWord!= '')
+    {
       setSecondaryLoading(true);
       setChoferesModels([]);
       setLastSnapShot(null);
@@ -88,7 +89,8 @@ class ChoferesNotiController extends ChangeNotifier {
       setSecondaryLoading(false);
       return models;
 
-    }else if(searchWord == ''){
+    }
+    else if(searchWord == ''){
 
       setSecondaryLoading(true);
       QuerySnapshot querySnapshot = await _datasource.getAllChoferes(

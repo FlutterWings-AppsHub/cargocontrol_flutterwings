@@ -2,11 +2,13 @@
 
 import 'package:cargocontrol/features/auth/controllers/auth_notifier_controller.dart';
 import 'package:cargocontrol/models/choferes_models/choferes_model.dart';
+import 'package:cargocontrol/models/viajes_models/viajes_model.dart';
 import 'package:cargocontrol/utils/constants/error_messages.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../common_widgets/loading_sheet.dart';
 import '../../../commons/common_functions/search_tags_handler.dart';
@@ -274,5 +276,51 @@ class AuthController extends StateNotifier<bool> {
 
       await usersCollection.doc(updatedUserModel.choferNationalId  ).update(updatedUserModel.toMap());
     }
+  }
+  Future<void> updateViajesTags() async {
+    final CollectionReference<Map<String, dynamic>> usersCollection = FirebaseFirestore.instance.collection(FirebaseConstants.viajesCollection);
+
+    QuerySnapshot querySnapshot = await usersCollection
+        .get();
+    List<ViajesModel> models = [];
+    querySnapshot.docs.forEach((element) {
+      models
+          .add(ViajesModel.fromMap(element.data() as Map<String, dynamic>));
+    });
+
+
+
+
+    for (ViajesModel user in models) {
+      // Modify the searchTag as per your requirement
+      final searchTags = viajesSearchTagsHandler(choferId: user.chofereId, choferName:user.chofereName, guideNumber: user.guideNumber.toInt().toString());
+      ViajesModel updatedUserModel = user.copyWith(searchTags: searchTags);
+      await usersCollection.doc(updatedUserModel.viajesId  ).update(updatedUserModel.toMap());
+    }
+  }
+  Future<void> copy10updateViajesTags() async {
+    int cargoholdcount=90000;
+    final CollectionReference<Map<String, dynamic>> usersCollection = FirebaseFirestore.instance.collection(FirebaseConstants.viajesCollection);
+
+    QuerySnapshot querySnapshot = await usersCollection.where('cargoHoldCount',isEqualTo: cargoholdcount)
+        .get();
+    List<ViajesModel> models = [];
+    querySnapshot.docs.forEach((element) {
+      models
+          .add(ViajesModel.fromMap(element.data() as Map<String, dynamic>));
+    });
+
+
+ for(int i=0;i<20;i++){
+   for (ViajesModel user in models) {
+     // Modify the searchTag as per your requirement
+     ViajesModel updatedUserModel = user;//user.copyWith(cargoHoldCount:cargoholdcount,viajesId: Uuid().v4());
+    // await usersCollection.doc(updatedUserModel.viajesId  ).set(updatedUserModel.toMap());
+     await usersCollection.doc(updatedUserModel.viajesId  ).delete();
+
+   }
+   print("${i+1} Done");
+ }
+
   }
 }

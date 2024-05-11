@@ -141,9 +141,9 @@ class _MyAppState extends ConsumerState<MyApp> {
               }, error: (error, st) {
                 debugPrintStack(stackTrace: st);
                 debugPrint(error.toString());
-                return const LoadingScreen();
+                return const LoginScreen();
               }, loading: () {
-                return const LoadingScreen();
+                return const LoginScreen();
               });
             } else {
               return const LoginScreen();

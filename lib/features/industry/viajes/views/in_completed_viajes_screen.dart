@@ -2,9 +2,11 @@ import 'package:cargocontrol/common_widgets/viajes_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../commons/common_imports/common_libs.dart';
+import '../../../../commons/common_widgets/CustomTextFields.dart';
 import '../../../../core/enums/viajes_type.dart';
 import '../../../../models/viajes_models/viajes_model.dart';
 import '../../../../routes/route_manager.dart';
+import '../../../../utils/constants/assets_manager.dart';
 import '../../../../utils/loading.dart';
 import '../controllers/in_viajes_completed_noti_controller.dart';
 
@@ -17,6 +19,7 @@ class InCompletedViajesSreen extends ConsumerStatefulWidget {
 
 class _AdCompletedViajesSreenState extends ConsumerState<InCompletedViajesSreen> {
   late ScrollController _scrollController;
+  final searchCtr = TextEditingController();
 
   @override
   void initState() {
@@ -35,13 +38,15 @@ class _AdCompletedViajesSreenState extends ConsumerState<InCompletedViajesSreen>
   void _onScroll() {
     if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
       final notiCtr = ref.read(inViajesCompletedNotiController);
-      notiCtr.getCompletedViajes(ref: ref,industryId: widget.industryId);
+      notiCtr.getCompletedViajes(ref: ref,industryId: widget.industryId,searchWord: searchCtr.text.trim());
     }
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
+    searchCtr.dispose();
+
     super.dispose();
   }
 
@@ -54,6 +59,26 @@ class _AdCompletedViajesSreenState extends ConsumerState<InCompletedViajesSreen>
         final viajesNotiCtr = ref.watch(inViajesCompletedNotiController);
         return Column(
           children: [
+            SizedBox(height: 20.h,),
+            Padding(
+              padding:  EdgeInsets.symmetric(horizontal: 15.w,vertical: 0.h),
+              child: CustomTextField(
+                controller: searchCtr,
+                hintText: "",
+                onChanged: (val){
+                  viajesNotiCtr.getCompletedViajes(ref: ref, searchWord: searchCtr.text.trim(), industryId: widget.industryId);
+                  if(searchCtr.text.isEmpty){
+                    viajesNotiCtr.firstTime(ref: ref, industryId: widget.industryId);
+                  }
+                  setState(() {
+                  });
+                },
+                onFieldSubmitted: (val){},
+                obscure: false,
+                label: 'Buscar Viajes',
+                tailingIcon: Image.asset(AppAssets.searchIcon, scale: 2,),
+              ),
+            ),
             viajesNotiCtr.isLoading ?
             const LoadingWidget():
             viajesNotiCtr.viajesModels.isEmpty ?

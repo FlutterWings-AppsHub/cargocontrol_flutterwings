@@ -59,28 +59,58 @@ class ViajesCompletedNotiController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future getCompletedViajes({required WidgetRef ref}) async {
-    setSecondaryLoading(true);
-    String vesselId= await ref.read(adVesselProvider.notifier).getCurrentVesselId();
-    QuerySnapshot querySnapshot = await _datasource.getCompletedViajes(
-      limit: limit,
-      snapshot: _lastSnapshot,
-      vesselId: vesselId
-    );
+  Future getCompletedViajes({required WidgetRef ref,required String searchWord}) async {
 
-    List<ViajesModel> models = [];
-    for (var document in querySnapshot.docs) {
-      var model =
+    if (searchWord != '') {
+      setSecondaryLoading(true);
+      setViajesModels([]);
+      setLastSnapShot(null);
+      String vesselId =
+      await ref.read(adVesselProvider.notifier).getCurrentVesselId();
+      QuerySnapshot querySnapshot = await _datasource.getCompletedViajes(
+        limit: 30,
+        snapshot: _lastSnapshot,
+        vesselId: vesselId,
+      );
+      List<ViajesModel> models = [];
+      List<String> filters = searchWord.split(' ');
+      for (var document in querySnapshot.docs) {
+        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+        bool matchesQuery =
+        filters.every((field) => data['searchTags'][field] == true);
+        if (matchesQuery) {
+          var model =
           ViajesModel.fromMap(document.data() as Map<String, dynamic>);
-      _viajesModels.add(model);
-    }
+          models.add(model);
+        }
+      }
+      setViajesModels(models);
+      setSecondaryLoading(false);
+      return models;
+    } else if (searchWord == '') {
+      setSecondaryLoading(true);
+      String vesselId = await ref.read(adVesselProvider.notifier)
+          .getCurrentVesselId();
+      QuerySnapshot querySnapshot = await _datasource.getCompletedViajes(
+          limit: limit,
+          snapshot: _lastSnapshot,
+          vesselId: vesselId
+      );
 
-    if (querySnapshot.docs.isNotEmpty) {
-      _lastSnapshot = querySnapshot.docs.last;
-      _limit = _limit + 10;
+      List<ViajesModel> models = [];
+      for (var document in querySnapshot.docs) {
+        var model =
+        ViajesModel.fromMap(document.data() as Map<String, dynamic>);
+        _viajesModels.add(model);
+      }
+
+      if (querySnapshot.docs.isNotEmpty) {
+        _lastSnapshot = querySnapshot.docs.last;
+        _limit = _limit + 10;
+      }
+      setSecondaryLoading(false);
+      return models;
     }
-    setSecondaryLoading(false);
-    return models;
   }
 
   Future firstTime({required WidgetRef ref}) async {

@@ -45,6 +45,7 @@ class ViajesModel {
     return Duration.zero;
   }
 
+
 //<editor-fold desc="Data Methods">
   const ViajesModel({
     required this.viajesId,

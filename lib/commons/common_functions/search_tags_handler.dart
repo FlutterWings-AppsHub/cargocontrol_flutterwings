@@ -134,3 +134,51 @@ Map<String, dynamic> choferesSearchTagsHandler({
 
   return searchTags;
 }
+
+Map<String, dynamic> viajesSearchTagsHandler({
+  required String choferId,
+  required String choferName,
+  required String guideNumber,
+}) {
+  Map<String, dynamic> searchTags = {};
+
+  // Function to generate all permutations of a string
+  List<String> generatePermutations(String str) {
+    List<String> permutations = [];
+    for (int i = 0; i < str.length; i++) {
+      for (int j = i + 1; j <= str.length; j++) {
+        permutations.add(str.substring(i, j).toLowerCase());
+      }
+    }
+    return permutations;
+  }
+
+  // Add all permutations of the first name to search tags
+  if (choferId.isNotEmpty) {
+    choferId.trim().split(' ').forEach((val) {
+      generatePermutations(val).forEach((perm) {
+        searchTags[perm] = true;
+      });
+    });
+  }
+
+  // Add all permutations of the last name to search tags
+  if (choferName.isNotEmpty) {
+    choferName.trim().split(' ').forEach((val) {
+      generatePermutations(val).forEach((perm) {
+        searchTags[perm] = true;
+      });
+    });
+  }
+
+  // Add all permutations of the national ID to search tags
+  if (guideNumber.isNotEmpty) {
+    guideNumber.trim().split(' ').forEach((val) {
+      generatePermutations(val).forEach((perm) {
+        searchTags[perm] = true;
+      });
+    });
+  }
+
+  return searchTags;
+}

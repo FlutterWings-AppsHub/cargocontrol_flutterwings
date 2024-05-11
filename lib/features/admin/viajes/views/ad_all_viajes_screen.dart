@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../common_widgets/cargo_card.dart';
 import '../../../../commons/common_imports/common_libs.dart';
+import '../../../../commons/common_widgets/CustomTextFields.dart';
 import '../../../../models/choferes_models/choferes_model.dart';
 import '../../../../models/viajes_models/viajes_model.dart';
 import '../../../../routes/route_manager.dart';
@@ -21,8 +22,9 @@ class AdAllViajesSreen extends ConsumerStatefulWidget {
 }
 
 class _AdAllViajesSreenState extends ConsumerState<AdAllViajesSreen> {
-
   late ScrollController _scrollController;
+  final searchCtr = TextEditingController();
+
 
   @override
   void initState() {
@@ -32,68 +34,88 @@ class _AdAllViajesSreenState extends ConsumerState<AdAllViajesSreen> {
     initiallization();
   }
 
-  initiallization(){
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp)async{
+  initiallization() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await ref.read(viajesNotiController).firstTime(ref: ref);
     });
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
       final notiCtr = ref.read(viajesNotiController);
-      notiCtr.getAllViajes(ref: ref);
+      notiCtr.getAllViajes(ref: ref,searchWord: searchCtr.text.trim());
     }
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    //_scrollController.dispose();
+    searchCtr.dispose();
+
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final viajesNotiCtr = ref.watch(viajesNotiController);
         return Column(
           children: [
-            viajesNotiCtr.isLoading ?
-            const LoadingWidget():
-            viajesNotiCtr.viajesModels.isEmpty ?
+            SizedBox(height: 20.h,),
             Padding(
-              padding: EdgeInsets.all(32.0.h),
-              child: const Text("No hay viajes"),
-            ):
-            Expanded(
-              child: ListView.builder(
-                  controller: _scrollController,
-                  itemCount: viajesNotiCtr.viajesModels.length,
-                  physics: const BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    ViajesModel model = viajesNotiCtr.viajesModels[index];
-                    return  ViajesCard(
-                      viajesEnum: model.viajesTypeEnum,
-                      model: model,
-                      onTap: (){
-                        Navigator.pushNamed(context, AppRoutes.adminViajesDetailsScreen,arguments: {
-                          'viajesModel':model
-                        });
-                      },
-                    );
-
-                  }),
+              padding:  EdgeInsets.symmetric(horizontal: 15.w,vertical: 0.h),
+              child: CustomTextField(
+                controller: searchCtr,
+                hintText: "",
+                onChanged: (val){
+                  viajesNotiCtr.getAllViajes(ref: ref, searchWord: searchCtr.text.trim());
+                  if(searchCtr.text.isEmpty){
+                    viajesNotiCtr.firstTime(ref: ref);
+                  }
+                  setState(() {
+                  });
+                },
+                onFieldSubmitted: (val){},
+                obscure: false,
+                label: 'Buscar Viajes',
+                tailingIcon: Image.asset(AppAssets.searchIcon, scale: 2,),
+              ),
             ),
-            ref.watch(viajesNotiController).isSecondaryLoading?
-            const LoadingWidget(): const SizedBox()
+            viajesNotiCtr.isLoading
+                ? const LoadingWidget()
+                : viajesNotiCtr.viajesModels.isEmpty
+                    ? Padding(
+                        padding: EdgeInsets.all(32.0.h),
+                        child: const Text("No hay viajes"),
+                      )
+                    : Expanded(
+                        child: ListView.builder(
+                            controller: _scrollController,
+                            itemCount: viajesNotiCtr.viajesModels.length,
+                            physics: const BouncingScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              ViajesModel model =
+                                  viajesNotiCtr.viajesModels[index];
+                              return ViajesCard(
+                                viajesEnum: model.viajesTypeEnum,
+                                model: model,
+                                onTap: () {
+                                  Navigator.pushNamed(context,
+                                      AppRoutes.adminViajesDetailsScreen,
+                                      arguments: {'viajesModel': model});
+                                },
+                              );
+                            }),
+                      ),
+            ref.watch(viajesNotiController).isSecondaryLoading
+                ? const LoadingWidget()
+                : const SizedBox()
           ],
         );
       },
-
     );
   }
-
 }
