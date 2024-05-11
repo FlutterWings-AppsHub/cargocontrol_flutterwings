@@ -253,12 +253,12 @@ class _CoTruckLeavingInformationScreenState
                               });
                               if (pureCargoWeight <=
                                       (truckCtr
-                                              .selectedIndustry!.cargoAssigned -
+                                              .selectedIndustry!.cargoTotal -
                                           truckCtr.selectedIndustry!
-                                              .cargoUnloaded) &&
+                                              .cargoAssigned) &&
                                   pureCargoWeight <=
                                       (industryProductModel!.pesoTotal -
-                                          industryProductModel!.pesoUnloaded)) {
+                                          industryProductModel!.pesoAssigned)) {
                                 Navigator.pushNamed(context,
                                     AppRoutes.coTruckLeavingBriefScreen,
                                     arguments: {

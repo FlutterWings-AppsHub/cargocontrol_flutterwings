@@ -231,7 +231,7 @@ class _CreateIndustryCompleteDataScreenState
   calculateTotalWeight(List<IndustrySubModel> industriesList) {
     double totalWeight = 0.0;
     industriesList.forEach((industry) {
-      totalWeight = totalWeight + industry.cargoAssigned;
+      totalWeight = totalWeight + industry.cargoTotal;
     });
     return totalWeight;
   }

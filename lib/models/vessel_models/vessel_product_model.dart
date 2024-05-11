@@ -1,9 +1,13 @@
 // Used in Vessel Model and also in industry sub model
-class VesselProductModel{
+class VesselProductModel {
   final String productId;
-  final String productName; // comma seperated // tipo; origen; variety; cosecha;
-  final dynamic pesoTotal;
-  final dynamic pesoUnloaded;
+  final String
+      productName; // comma seperated // tipo; origen; variety; cosecha;
+  final double pesoTotal;
+  final double pesoUnloaded;
+  final List<String> viajesIds;
+  final double pesoAssigned;
+  final double deficit;
 
 //<editor-fold desc="Data Methods">
   const VesselProductModel({
@@ -11,6 +15,9 @@ class VesselProductModel{
     required this.productName,
     required this.pesoTotal,
     required this.pesoUnloaded,
+    required this.viajesIds,
+    required this.pesoAssigned,
+    required this.deficit,
   });
 
   @override
@@ -21,14 +28,20 @@ class VesselProductModel{
           productId == other.productId &&
           productName == other.productName &&
           pesoTotal == other.pesoTotal &&
-          pesoUnloaded == other.pesoUnloaded);
+          pesoUnloaded == other.pesoUnloaded &&
+          viajesIds == other.viajesIds &&
+          pesoAssigned == other.pesoAssigned &&
+          deficit == other.deficit);
 
   @override
   int get hashCode =>
       productId.hashCode ^
       productName.hashCode ^
       pesoTotal.hashCode ^
-      pesoUnloaded.hashCode;
+      pesoUnloaded.hashCode ^
+      viajesIds.hashCode ^
+      pesoAssigned.hashCode ^
+      deficit.hashCode;
 
   @override
   String toString() {
@@ -37,20 +50,29 @@ class VesselProductModel{
         ' productName: $productName,' +
         ' pesoTotal: $pesoTotal,' +
         ' pesoUnloaded: $pesoUnloaded,' +
+        ' viajesIds: $viajesIds,' +
+        ' pesoAssigned: $pesoAssigned,' +
+        ' deficit: $deficit,' +
         '}';
   }
 
   VesselProductModel copyWith({
     String? productId,
     String? productName,
-    dynamic? pesoTotal,
-    dynamic? pesoUnloaded,
+    double? pesoTotal,
+    double? pesoUnloaded,
+    List<String>? viajesIds,
+    double? pesoAssigned,
+    double? deficit,
   }) {
     return VesselProductModel(
       productId: productId ?? this.productId,
       productName: productName ?? this.productName,
       pesoTotal: pesoTotal ?? this.pesoTotal,
       pesoUnloaded: pesoUnloaded ?? this.pesoUnloaded,
+      viajesIds: viajesIds ?? this.viajesIds,
+      pesoAssigned: pesoAssigned ?? this.pesoAssigned,
+      deficit: deficit ?? this.deficit,
     );
   }
 
@@ -60,6 +82,9 @@ class VesselProductModel{
       'productName': this.productName,
       'pesoTotal': this.pesoTotal,
       'pesoUnloaded': this.pesoUnloaded,
+      'viajesIds': this.viajesIds.map((e) => e.toString()).toList(),
+      'pesoAssigned': this.pesoAssigned,
+      'deficit': this.deficit,
     };
   }
 
@@ -67,8 +92,11 @@ class VesselProductModel{
     return VesselProductModel(
       productId: map['productId'] as String,
       productName: map['productName'] as String,
-      pesoTotal: map['pesoTotal'] as dynamic,
-      pesoUnloaded: map['pesoUnloaded'] as dynamic,
+      pesoTotal: (map['pesoTotal'] as num).toDouble(),
+      pesoUnloaded: (map['pesoUnloaded'] as num).toDouble(),
+      viajesIds: (map['viajesIds'] as List<dynamic>).cast<String>(),
+      pesoAssigned: (map['pesoAssigned'] as num).toDouble(),
+      deficit: (map['deficit'] as num).toDouble(),
     );
   }
 

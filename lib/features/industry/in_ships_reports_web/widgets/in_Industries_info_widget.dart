@@ -95,7 +95,7 @@ Widget buildSingleIndustryInfo(
               ),
               CustomTile(
                 title: "Cantidad total asignada",
-                subText: industrySubModel.cargoAssigned.toStringAsFixed(0),
+                subText: industrySubModel.cargoTotal.toStringAsFixed(0),
               ),
               CustomTile(
                 title: "Cantitad total descargada",
@@ -104,7 +104,7 @@ Widget buildSingleIndustryInfo(
               CustomTile(
                   title: "Asignación",
                   subText: ((industrySubModel.cargoUnloaded /
-                      industrySubModel.cargoAssigned) *
+                      industrySubModel.cargoTotal) *
                       100)
                       .toStringAsFixed(0) +
                       "%"),
@@ -116,7 +116,7 @@ Widget buildSingleIndustryInfo(
                 CustomTile(
                     title: "Perdida total (%)",
                     subText: ((industrySubModel.deficit /
-                        industrySubModel.cargoAssigned) *
+                        industrySubModel.cargoTotal) *
                         100)
                         .toStringAsFixed(0) +
                         "%"),

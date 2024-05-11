@@ -27,7 +27,7 @@ abstract class TruckRegistrationApisImplements {
     required IndustrySubModel industrySubModel,
     required ChoferesModel choferesModel,
   });
-  FutureEitherVoid registerTruckLeavingFromPort({required ViajesModel viajesModel, required VesselModel vesselModel,});
+  FutureEitherVoid registerTruckLeavingFromPort({required ViajesModel viajesModel, required VesselModel vesselModel,required IndustrySubModel industrySubModel,});
   FutureEitherVoid registerTruckEnteringInIndustry({required ViajesModel viajesModel, required IndustrySubModel industrySubModel,}) ;
   FutureEitherVoid registerTruckUnloadingInIndustry({
     required ViajesModel viajesModel,
@@ -102,7 +102,7 @@ class TruckRegistrationApis implements TruckRegistrationApisImplements{
 
 
   @override
-  FutureEitherVoid registerTruckLeavingFromPort({required ViajesModel viajesModel, required VesselModel vesselModel,}) async {
+  FutureEitherVoid registerTruckLeavingFromPort({required ViajesModel viajesModel, required VesselModel vesselModel,required IndustrySubModel industrySubModel,}) async {
     try{
       await _firestore.runTransaction((Transaction transaction) async {
         transaction.update(
@@ -114,6 +114,11 @@ class TruckRegistrationApis implements TruckRegistrationApisImplements{
           _firestore.collection(FirebaseConstants.vesselCollection).
           doc(vesselModel.vesselId),
           vesselModel.toMap(),
+        );
+        transaction.update(
+          _firestore.collection(FirebaseConstants.industryGuideCollection).
+          doc(industrySubModel.industryId),
+          industrySubModel.toMap(),
         );
       });
       return Right(null);
@@ -225,7 +230,7 @@ class TruckRegistrationApis implements TruckRegistrationApisImplements{
 
   @override
   Stream<QuerySnapshot<Map<String, dynamic>>> getAllViajesList({required String vesselId}){
-    return _firestore.collection(FirebaseConstants.viajesCollection).where('vesselId',isEqualTo: vesselId).
+    return _firestore.collection(FirebaseConstants.viajesCollection).where('vesselId',isEqualTo: vesselId).orderBy('entryTimeToPort',descending: true).
     snapshots();
   }
   @override

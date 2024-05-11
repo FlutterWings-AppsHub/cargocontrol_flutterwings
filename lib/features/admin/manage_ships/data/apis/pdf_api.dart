@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 
 import '../../../../../commons/common_functions/date_time_methods.dart';
 import '../../../../../models/viajes_models/viajes_model.dart';
+import '../../../../../utils/constants/app_constants.dart';
 
 class PdfApi {
   static Future<File> saveDocument({
@@ -19,7 +20,6 @@ class PdfApi {
     return file;
   }
 }
-
 
 List<List<dynamic>> generateCsvData(List<ViajesModel> viajesList) {
   List<List<dynamic>> csvData = [];
@@ -48,7 +48,9 @@ List<List<dynamic>> generateCsvData(List<ViajesModel> viajesList) {
     csvData.add([
       viaje.viajesId,
       viaje.guideNumber,
-      formatDateTime(viaje.exitTimeToPort),
+      AppConstants.constantDateTime == viaje.exitTimeToPort
+          ? "--"
+          : formatDateTime(viaje.exitTimeToPort),
       viaje.licensePlate,
       viaje.chofereName,
       viaje.productName,
@@ -58,8 +60,12 @@ List<List<dynamic>> generateCsvData(List<ViajesModel> viajesList) {
       viaje.cargoUnloadWeight,
       viaje.cargoDeficitWeight,
       ((viaje.cargoDeficitWeight / viaje.pureCargoWeight) * 100),
-      formatDateTime(viaje.timeToIndustry),
-      formatDateTime(viaje.unloadingTimeInIndustry),
+      AppConstants.constantDateTime == viaje.timeToIndustry
+          ? "--"
+          : formatDateTime(viaje.timeToIndustry),
+      AppConstants.constantDateTime == viaje.unloadingTimeInIndustry
+          ? "--"
+          : formatDateTime(viaje.unloadingTimeInIndustry),
       viaje.industryName,
     ]);
   });

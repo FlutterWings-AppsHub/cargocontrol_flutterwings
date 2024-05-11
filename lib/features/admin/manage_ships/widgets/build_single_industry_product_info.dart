@@ -1,18 +1,19 @@
 import 'dart:typed_data';
+import 'package:cargocontrol/commons/common_functions/format_weight.dart';
 import 'package:cargocontrol/features/admin/manage_ships/widgets/pdf_text.dart';
 import 'package:cargocontrol/models/industry_models/industry_sub_model.dart';
 import 'package:cargocontrol/models/vessel_models/vessel_model.dart';
+import 'package:cargocontrol/models/vessel_models/vessel_product_model.dart';
 import 'package:cargocontrol/utils/thems/my_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 
 import '../../../../commons/common_functions/date_time_methods.dart';
-import '../../../../commons/common_functions/format_weight.dart';
 import '../../../../utils/constants/font_manager.dart';
 
-Widget buildSingleIndustryInfo(
-        {required IndustrySubModel industrySubModel,
+Widget buildSingleProductIndustryInfo(
+        {required IndustrySubModel industrySubModel,required VesselProductModel vesselProductModel,
         required VesselModel vesselModel}) =>
     Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,56 +32,61 @@ Widget buildSingleIndustryInfo(
                 SizedBox(
                   height: 10.h,
                 ),
-                pdfText(
-                  text: industrySubModel.industryName,
-                  color: PdfColors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: MyFonts.size10,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children:[
+                    pdfText(
+                      text: 'Producto',
+                      color: PdfColors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: MyFonts.size8,
+                    ),
+                    pdfText(
+                      text: vesselProductModel.productName,
+                      color: PdfColors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: MyFonts.size8,
+                    ),
+                  ]
                 ),
+
                 SizedBox(
                   height: 5.h,
                 ),
                 buildPdfRow(
                   title: "Cantidad total asignada",
-                  subText: "${formatWeight( industrySubModel.cargoTotal)} ${vesselModel.weightUnitEnum.type}",
+                  subText: "${formatWeight(vesselProductModel.pesoTotal)} ${vesselModel.weightUnitEnum.type}",
                 ),
                 buildPdfRow(
-                  title: "Cantidad total despachada",
-                  subText: "${formatWeight( industrySubModel.cargoAssigned)} ${vesselModel.weightUnitEnum.type}",
+                  title: "Cantitad total despachada",
+                  subText: "${formatWeight(vesselProductModel.pesoAssigned)} ${vesselModel.weightUnitEnum.type}",
                 ),
                 buildPdfRow(
                     title: "Asignación",
-                    subText: ((industrySubModel.cargoAssigned /
-                        industrySubModel.cargoTotal) *
+                    subText: ((vesselProductModel.pesoAssigned /
+                        vesselProductModel.pesoTotal) *
                         100)
                         .toStringAsFixed(0) +
                         "%"),
                 buildPdfRow(
                   title: "Cantitad total descargada",
-                  subText: "${formatWeight( industrySubModel.cargoUnloaded)} ${vesselModel.weightUnitEnum.type}",
+                  subText: "${formatWeight(vesselProductModel.pesoUnloaded)} ${vesselModel.weightUnitEnum.type}",
                 ),
                 buildPdfRow(
-                    title: "Asignación",
-                    subText: ((industrySubModel.cargoUnloaded /
-                                    industrySubModel.cargoTotal) *
-                                100)
-                            .toStringAsFixed(0) +
-                        "%"),
-                buildPdfRow(
-                  title: "Perdida total (kg)",
-                  subText: industrySubModel.deficit.toStringAsFixed(0),
+                  title: "Perdida total",
+                  subText: "${formatWeight(vesselProductModel.deficit)} ${vesselModel.weightUnitEnum.type}",
                 ),
-                if (vesselModel.isFinishedUnloading)
+                if (vesselProductModel.pesoAssigned.toInt()!=0)
                   buildPdfRow(
                       title: "Perdida total (%)",
-                      subText: ((industrySubModel.deficit /
-                                      industrySubModel.cargoTotal) *
+                      subText: ((vesselProductModel.deficit /
+                          vesselProductModel.pesoAssigned) *
                                   100)
                               .toStringAsFixed(0) +
                           "%"),
                 buildPdfRow(
                     title: "Viajes",
-                    subText: industrySubModel.viajesIds.length.toString()),
+                    subText: vesselProductModel.viajesIds.length.toString()),
                 SizedBox(
                   height: 10.h,
                 ),

@@ -104,12 +104,12 @@ class InDashboardScreen extends ConsumerWidget {
                                                 .viajesIds.length
                                                 .toString(),
                                             divideNumber2: formatWeight(industryModel
-                                                .cargoUnloaded),
+                                                .cargoUnloaded)+" "+vesselModel.weightUnitEnum.type,
                                             divideNumber1: formatWeight(industryModel
-                                                .cargoAssigned),
+                                                .cargoTotal),
                                             barPercentage: double.parse(
                                                 (industryModel.cargoUnloaded /
-                                                        industryModel.cargoAssigned)
+                                                        industryModel.cargoTotal)
                                                     .toStringAsFixed(2)),
                                             title: industryModel.industryName,
                                             deficit:formatWeight(industryModel.deficit),

@@ -21,6 +21,7 @@ import '../pdf_constants/pdf_constants.dart';
 import 'buildViajesTable.dart';
 import 'build_header.dart';
 import 'build_single_industry_info.dart';
+import 'build_single_industry_product_info.dart';
 
 class ReportPDFFormat {
   static Future<File> generate(
@@ -42,43 +43,62 @@ class ReportPDFFormat {
     companyLogo = await PdfConstants.convertAssetToUnit8(AppAssets.logo);
 
     pdf.addPage(MultiPage(
-      pageTheme: PageTheme(
-        pageFormat: PdfPageFormat.a4,
-        margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.w),
-        buildBackground: (context) => FullPage(
-          ignoreMargins: true,
-          child: Container(color: color),
+        pageTheme: PageTheme(
+          pageFormat: PdfPageFormat.a4,
+          margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.w),
+          buildBackground: (context) => FullPage(
+            ignoreMargins: true,
+            child: Container(color: color),
+          ),
         ),
-      ),
-      build: (context) => [
-        //buildHeader(vesselModel: vesselModel, companyLogo: companyLogo),
-        buildVesselInfo(
-          vesselModel: vesselModel,
-        ),
-        buildIndustriesInfo(
-            vesselModel: vesselModel, allIndustriesModel: allIndustriesModels),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: allIndustriesModels.map<Widget>((industrySubModel) {
-            return buildSingleIndustryInfo(
-                industrySubModel: industrySubModel, vesselModel: vesselModel);
-          }).toList(),
-        ),
-        buildClosingContainer(),
-        SizedBox(height: .2.h * PdfPageFormat.cm),
-        SizedBox(height: 1 * PdfPageFormat.cm),
-        pdfText(text: "Viajies", color: MyColors.pdfMainColor,fontSize: MyFonts.size15,fontWeight: FontWeight.bold),
-        SizedBox(height: 1 * PdfPageFormat.cm),
-        buildViajesTable(allViajesModel),
-      ],
-      // footer: (context) => buildFooter(
-      //   imageData: imageData,
-      // ),
-      header: (context) => buildHeader(vesselModel: vesselModel, companyLogo: companyLogo)
-    ));
+        build: (context) => [
+              buildVesselInfo(
+                vesselModel: vesselModel,
+              ),
+              buildIndustriesInfo(
+                  vesselModel: vesselModel,
+                  allIndustriesModel: allIndustriesModels,
+                  allViajes: allViajesModel),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: allIndustriesModels.map<Widget>((industrySubModel) {
+                  return Column(children: [
+                    buildSingleIndustryInfo(
+                        industrySubModel: industrySubModel,
+                        vesselModel: vesselModel),
+                    Column(
+                      children: industrySubModel.vesselProductModels
+                          .map<Widget>((vesselProductModel) {
+                        return buildSingleProductIndustryInfo(
+                            industrySubModel: industrySubModel,
+                            vesselModel: vesselModel,
+                            vesselProductModel: vesselProductModel);
+                      }).toList(),
+                    )
+                  ]);
+                }).toList(),
+              ),
+              buildClosingContainer(),
+              SizedBox(height: .2.h * PdfPageFormat.cm),
+              SizedBox(height: 1 * PdfPageFormat.cm),
+              pdfText(
+                  text: "Viajies",
+                  color: MyColors.pdfMainColor,
+                  fontSize: MyFonts.size15,
+                  fontWeight: FontWeight.bold),
+              SizedBox(height: 1 * PdfPageFormat.cm),
+              buildViajesTable(allViajesModel),
+            ],
+        // footer: (context) => buildFooter(
+        //   imageData: imageData,
+        // ),
+        header: (context) =>
+            buildHeader(vesselModel: vesselModel, companyLogo: companyLogo)));
 
-    return PdfApi.saveDocument(name:  "${vesselModel.vesselName}_${formatDD(vesselModel.entryDate)}.pdf", pdf: pdf);
+    return PdfApi.saveDocument(
+        name:
+            "${vesselModel.vesselName}_${formatDD(vesselModel.entryDate)}.pdf",
+        pdf: pdf);
   }
-
 }

@@ -781,7 +781,7 @@ class _CreateIndustryInformationScreenState
                                 realIndustryId: section.industryIdCtr.text,
                                 industryName: section.nameCtr.text,
                                 finishedUnloading: false,
-                                cargoAssigned: _isMultipleProductInIndustry[i]
+                                cargoTotal: _isMultipleProductInIndustry[i]
                                     ? double.parse(section.loadCtr.text) +
                                         double.parse(section.loadBCtr.text)
                                     : double.parse(section.loadCtr.text),
@@ -792,7 +792,7 @@ class _CreateIndustryInformationScreenState
                                     double.parse(section.endOfGuideCtr.text),
                                 deficit: 0,
                                 vesselProductIds: vesselProductIds,
-                                vesselProductModels: vesselProductModels,
+                                vesselProductModels: vesselProductModels, cargoAssigned: 0.0,
                               );
                               industrySubModels.add(model);
                               i++;

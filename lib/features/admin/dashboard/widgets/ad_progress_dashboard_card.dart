@@ -1,5 +1,6 @@
 import 'package:cargocontrol/commons/common_functions/format_weight.dart';
 import 'package:cargocontrol/commons/common_imports/common_libs.dart';
+import 'package:cargocontrol/core/enums/weight_unit_enum.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
 import 'package:flutter/foundation.dart';
@@ -13,9 +14,10 @@ class AdProgressIndicatorCard extends StatelessWidget {
   final double divideNumber2;
   final String numberOfTrips;
   final String deficit;
+  final WeightUnitEnum weightUnitEnum;
 
   const AdProgressIndicatorCard({
-    super.key, required this.title, required this.barPercentage, required this.divideNumber1, required this.divideNumber2, required this.numberOfTrips, this.deficit='',
+    super.key, required this.title, required this.barPercentage, required this.divideNumber1, required this.divideNumber2, required this.numberOfTrips, this.deficit='', required this.weightUnitEnum,
   });
 
   @override
@@ -60,7 +62,7 @@ class AdProgressIndicatorCard extends StatelessWidget {
               height: 16.h,
             ),
             Text(
-              '${formatWeight(divideNumber1)}/${formatWeight(divideNumber2)}',
+              '${formatWeight(divideNumber1)}/${formatWeight(divideNumber2)} ${weightUnitEnum.type}',
               style: getBoldStyle(color: context.textColor, fontSize: MyFonts.size16),
             ),
             SizedBox(

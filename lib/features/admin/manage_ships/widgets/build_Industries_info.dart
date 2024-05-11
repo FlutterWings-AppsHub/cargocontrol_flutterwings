@@ -4,6 +4,7 @@ import 'package:cargocontrol/features/admin/manage_ships/widgets/build_vessel_in
 import 'package:cargocontrol/features/admin/manage_ships/widgets/pdf_text.dart';
 import 'package:cargocontrol/models/industry_models/industry_sub_model.dart';
 import 'package:cargocontrol/models/vessel_models/vessel_model.dart';
+import 'package:cargocontrol/models/viajes_models/viajes_model.dart';
 import 'package:cargocontrol/utils/thems/my_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pdf/pdf.dart';
@@ -14,11 +15,7 @@ import '../../../../utils/constants/font_manager.dart';
 
 Widget buildIndustriesInfo(
     {required VesselModel vesselModel,
-    required List<IndustrySubModel> allIndustriesModel}) {
-  int totalViajes = 0;
-  for (var industrySubModel in allIndustriesModel) {
-    totalViajes += industrySubModel.viajesIds.length;
-  }
+    required List<IndustrySubModel> allIndustriesModel,required List<ViajesModel> allViajes}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -56,7 +53,7 @@ Widget buildIndustriesInfo(
                   title: "Cantidad total descargada",
                   subText: vesselModel.cargoUnloadedWeight.toStringAsFixed(0)),
               buildPdfRow(
-                  title: "Viajes totales", subText: totalViajes.toString()),
+                  title: "Viajes totales", subText:allViajes.length.toString()),
               
             ]),
       ),

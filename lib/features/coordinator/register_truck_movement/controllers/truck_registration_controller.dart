@@ -198,6 +198,27 @@ class TruckRegistrationController extends StateNotifier<bool> {
 
     return originalModel;
   }
+  IndustrySubModel updateIndustryProductModel(
+      {required IndustrySubModel originalModel,
+        required String productModelId,
+        required double pureCargoWeight}) {
+    int productModelIndex = originalModel.vesselProductModels
+        .indexWhere((prodModel) => prodModel.productId == productModelId);
+    if (productModelIndex != -1) {
+      VesselProductModel productModel =
+      originalModel.vesselProductModels[productModelIndex];
+      List<VesselProductModel> updatedProdModels =
+      List.from(originalModel.vesselProductModels);
+      updatedProdModels[productModelIndex] = productModel.copyWith(
+          pesoAssigned: updatedProdModels[productModelIndex].pesoAssigned+
+              pureCargoWeight);
+
+      originalModel =
+          originalModel.copyWith(vesselProductModels: updatedProdModels);
+    }
+
+    return originalModel;
+  }
 
   Future<void> registerTruckLeavingFromPort({
     required double pureCargoWeight,
@@ -209,6 +230,7 @@ class TruckRegistrationController extends StateNotifier<bool> {
     required String productName,
     required String marchamo1,
     required String marchamo2,
+    required IndustrySubModel industrySubModel,
     required WidgetRef ref,
     required BuildContext context,
   }) async {
@@ -227,13 +249,22 @@ class TruckRegistrationController extends StateNotifier<bool> {
         productName: productName,
         viajesStatusEnum: ViajesStatusEnum.portLeft,cargoId: newCargoModel.cargoId, weightUnitEnum: vesselModel.weightUnitEnum);
 
+    IndustrySubModel industryModel= industrySubModel.copyWith(
+      cargoAssigned: industrySubModel.cargoAssigned + pureCargoWeight,
+    );
+    industryModel = updateIndustryProductModel(
+        originalModel: industryModel,
+        productModelId: productId,
+        pureCargoWeight:pureCargoWeight);
+
     VesselModel vessel = updateCargoModel(
         originalModel: vesselModel, cargoModelId: newCargoModel.cargoId,productModelId: productId,pureCargoWeight: pureCargoWeight);
+
     VesselModel vesselUpdate = vessel.copyWith(
         cargoUnloadedWeight: vessel.cargoUnloadedWeight + pureCargoWeight);
 
     final result = await _datasource.registerTruckLeavingFromPort(
-        viajesModel: model, vesselModel: vesselUpdate);
+        viajesModel: model, vesselModel: vesselUpdate, industrySubModel: industryModel);
 
     result.fold((l) {
       state = false;

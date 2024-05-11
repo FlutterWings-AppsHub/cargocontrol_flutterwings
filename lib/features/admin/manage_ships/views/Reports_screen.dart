@@ -41,7 +41,7 @@ class ReportScreen extends ConsumerStatefulWidget {
 }
 
 class _ReportScreenState extends ConsumerState<ReportScreen> {
-  late final invoice;
+  late final report;
   bool loading = false;
   int selectedFile = 0;
   List<int> listColor = AppConstants.lisOfColor;
@@ -50,7 +50,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
 
   @override
   void initState() {
-    invoice = widget.vesselModel;
+    report = widget.vesselModel;
     selectedColorNotifier = ref.read(selectedColorProvider);
     onClicked();
     super.initState();
@@ -59,7 +59,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
   onClicked() async {
     final generatedFile = await ReportPDFFormat.generate(
       color: PdfColor.fromInt(listColor[0]),
-      vesselModel: invoice,
+      vesselModel: report,
       allIndustriesModels: widget.allIndustriesModels,
       allViajesModel: widget.allViajesModel,
     );
@@ -102,36 +102,6 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                       ],
                     ),
                   ),
-                  // SizedBox(
-                  //   height: 110.h,
-                  //   width: double.infinity,
-                  //   child: ListView.builder(
-                  //     shrinkWrap: true,
-                  //     scrollDirection: Axis.horizontal,
-                  //     itemCount: listColor.length,
-                  //     itemBuilder: (context, index) {
-                  //       return ColorContainer(
-                  //         color: Color(listColor[index]),
-                  //         isSelected:
-                  //         selectedColorNotifier.selectedColorIndex == index,
-                  //         onTap: () async {
-                  //           setState(() {
-                  //             loading = true;
-                  //           });
-                  //           final selectedFileIndex = selectedFile;
-                  //           final generatedFile = await
-                  //           PdfFormatFour.generate(
-                  //             color: PdfColor.fromInt(listColor[index]), vesselModel: invoice,
-                  //           );
-                  //           setState(() {
-                  //             loading = false;
-                  //             selectedColorNotifier.selectedColorIndex = index;
-                  //           });
-                  //         },
-                  //       );
-                  //     },
-                  //   ),
-                  // ),
                 ],
               ),
             ),
@@ -140,13 +110,13 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
             padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: CustomButton(
               onPressed: () async {
-                List<List<dynamic>> csvData = generateCsvData(widget.allViajesModel);
+                List<List<dynamic>> csvData =
+                    generateCsvData(widget.allViajesModel);
                 //
                 // // Write to CSV file
                 // String csvContent = const ListToCsvConverter().convert(csvData);
                 // File csvFile = File('viajes_table.csv');
                 // csvFile.writeAsStringSync(csvContent);
-
 
                 // Get the application's temporary directory
                 Directory tempDir = await getTemporaryDirectory();
@@ -154,11 +124,14 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
 
                 // Write to CSV file in the temporary directory
                 File csvFile = File('$tempPath/viajes_table.csv');
-                csvFile.writeAsStringSync(const ListToCsvConverter().convert(csvData));
-
+                csvFile.writeAsStringSync(
+                    const ListToCsvConverter().convert(csvData));
 
                 await Share.shareXFiles(
-                  [XFile(ref.watch(pdfProvider).generatedFile!.path),XFile(csvFile.path)],
+                  [
+                    XFile(ref.watch(pdfProvider).generatedFile!.path),
+                    XFile(csvFile.path)
+                  ],
                   text: 'Vessel Report',
                 );
               },

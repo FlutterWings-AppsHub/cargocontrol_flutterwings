@@ -1,4 +1,5 @@
 import 'package:cargocontrol/models/vessel_models/vessel_model.dart';
+import 'package:cargocontrol/utils/constants/font_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
@@ -52,7 +53,7 @@ Widget buildViajesTable(List<ViajesModel> viajesList) {
         [
           i + 1, // Incremental index starting from 1
           viajesList[i].guideNumber.toStringAsFixed(0),
-          formatDateTime(viajesList[i].exitTimeToPort),
+          AppConstants.constantDateTime==viajesList[i].exitTimeToPort?"--":formatDateTime(viajesList[i].exitTimeToPort),
           viajesList[i].licensePlate,
           viajesList[i].chofereName,
           viajesList[i].productName,
@@ -62,8 +63,8 @@ Widget buildViajesTable(List<ViajesModel> viajesList) {
           viajesList[i].cargoUnloadWeight.toStringAsFixed(0),
           viajesList[i].cargoDeficitWeight.toStringAsFixed(0),
           ((viajesList[i].cargoDeficitWeight / viajesList[i].pureCargoWeight) * 100).toStringAsFixed(2),
-          formatDateTime(viajesList[i].timeToIndustry),
-          formatDateTime(viajesList[i].unloadingTimeInIndustry),
+          AppConstants.constantDateTime==viajesList[i].timeToIndustry?"--":formatDateTime(viajesList[i].timeToIndustry),
+          AppConstants.constantDateTime==viajesList[i].unloadingTimeInIndustry?"--":formatDateTime(viajesList[i].unloadingTimeInIndustry),
           viajesList[i].industryName,
         ]
       ],
@@ -73,11 +74,16 @@ Widget buildViajesTable(List<ViajesModel> viajesList) {
     headerStyle: pw.TextStyle(
       fontWeight: pw.FontWeight.bold,
       color: PdfColors.white,
+      fontSize: 7
     ),
     headerCellDecoration: pw.BoxDecoration(color: PdfColor.fromInt(0xFF000000)),
     rowDecoration: const pw.BoxDecoration(color: rowColor1),
     oddRowDecoration: const pw.BoxDecoration(color: rowColor2),
     cellHeight: 20.h,
+    cellStyle: TextStyle(
+        color: PdfColors.black,
+        fontSize: 6
+    ),
     cellAlignments: {
       for (var i = 0; i < headers.length; i++) i: pw.Alignment.center,
     },

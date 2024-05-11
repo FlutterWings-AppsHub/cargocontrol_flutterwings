@@ -107,10 +107,13 @@ class TruckRegistrationController extends StateNotifier<bool> {
           viajesModel.entryTimeTruckWeightToPort,
     );
     industry = updateProductModel(
-        originalModel: industry,
-        productModelId: viajesModel.productId,
-        pureCargoUnloadWeight:
-            cargoUnloadWeight - viajesModel.entryTimeTruckWeightToPort);
+      viajesId: model.viajesId,
+      originalModel: industry,
+      productModelId: viajesModel.productId,
+      pureCargoUnloadWeight:
+          cargoUnloadWeight - viajesModel.entryTimeTruckWeightToPort,
+      deficit: (viajesModel.exitTimeTruckWeightToPort - cargoUnloadWeight),
+    );
 
     double tripCargoDeficit =
         (viajesModel.exitTimeTruckWeightToPort - cargoUnloadWeight);
@@ -138,32 +141,11 @@ class TruckRegistrationController extends StateNotifier<bool> {
             ? tripCargoDeficitPercentage
             : choferesModel.worstCargoDeficitPercentage;
 
-    // //Todo usman : get all the viajes where chofer id same and viajes is completed; then get avg time duration + this trip time
-    // Duration avgTrip
-    // Duration tripTime=(viajesModel.timeToIndustry.difference(viajesModel.exitTimeToPort));
-    //
-    // Duration updatedAverageTimeDeficit = ((choferesModel.averageTimeDeficit *
-    //     (choferesModel.numberOfTrips - 1) +
-    //     tripTimeDeficit) *
-    //     (1/choferesModel.numberOfTrips));
-    // Duration tripTimeDeficit = tripTime - updatedAverageTimeDeficit;
-    // Duration worstTimeDeficit = choferesModel.worstTimeDeficit < tripTimeDeficit ? tripTimeDeficit : choferesModel.worstTimeDeficit;
-    //
-    // ChoferesModel chofere = choferesModel.copyWith(
-    //     averageCargoDeficit: updatedAverageCargoDeficit,
-    //     averageCargoDeficitPercentage: updatedAverageCargoDeficitPercentage,
-    //     worstCargoDeficitPercentage: updatedWorstCargoDeficitPercentage,
-    //     averageTimeDeficit: updatedAverageTimeDeficit,
-    //     worstTimeDeficit: worstTimeDeficit,
-    //     choferesStatusEnum: ChoferesStatusEnum.available);
-
     ChoferesModel chofere = choferesModel.copyWith(
         averageCargoDeficit: updatedAverageCargoDeficit,
         averageCargoDeficitPercentage: updatedAverageCargoDeficitPercentage,
         worstCargoDeficitPercentage: updatedWorstCargoDeficitPercentage,
         worstCargoDeficit: updatedWorstCargoDeficit,
-        // averageTimeDeficit: updatedAverageTimeDeficit,
-        // worstTimeDeficit: worstTimeDeficit,
         choferesStatusEnum: ChoferesStatusEnum.available);
 
     final result = await _datasource.registerTruckUnloadingInIndustry(
@@ -179,7 +161,7 @@ class TruckRegistrationController extends StateNotifier<bool> {
           viajesModel: model, ref: ref, context: context);
       await sendAdminUnLoadingNotification(
           viajesModel: viajesModel, ref: ref, context: context);
-      if (industry.cargoUnloaded + industry.deficit == industry.cargoAssigned) {
+      if (industry.cargoUnloaded + industry.deficit == industry.cargoTotal) {
         await sendIndustryCompleteUnLoadingNotification(
             industrySubModel: industry, ref: ref, context: context);
       }
@@ -193,6 +175,8 @@ class TruckRegistrationController extends StateNotifier<bool> {
   IndustrySubModel updateProductModel(
       {required IndustrySubModel originalModel,
       required String productModelId,
+      required String viajesId,
+      required double deficit,
       required double pureCargoUnloadWeight}) {
     int productModelIndex = originalModel.vesselProductModels
         .indexWhere((prodModel) => prodModel.productId == productModelId);
@@ -203,7 +187,10 @@ class TruckRegistrationController extends StateNotifier<bool> {
           List.from(originalModel.vesselProductModels);
       updatedProdModels[productModelIndex] = productModel.copyWith(
           pesoUnloaded: updatedProdModels[productModelIndex].pesoUnloaded +
-              pureCargoUnloadWeight);
+              pureCargoUnloadWeight,
+          viajesIds: updatedProdModels[productModelIndex].viajesIds
+            ..add(viajesId),
+          deficit: updatedProdModels[productModelIndex].deficit + deficit);
 
       originalModel =
           originalModel.copyWith(vesselProductModels: updatedProdModels);
@@ -245,13 +232,13 @@ class TruckRegistrationController extends StateNotifier<bool> {
           (i + batchSize <= totalDevices) ? (i + batchSize) : totalDevices;
       final List<String> batchIds = industryFCMTokens.sublist(i, endIndex);
       String lossPercent =
-          "${(industrySubModel.deficit / industrySubModel.cargoAssigned).abs().toStringAsFixed(2)}%";
+          "${(industrySubModel.deficit / industrySubModel.cargoTotal).abs().toStringAsFixed(2)}%";
 
       NotificationModel notificationModel = NotificationModel(
           title: "Carga Total Industria descargada",
           notificationId: "",
           description:
-              "El total de la carga de ${industrySubModel.cargoAssigned} ha sido transportada con una pérdida de ${lossPercent}",
+              "El total de la carga de ${industrySubModel.cargoTotal} ha sido transportada con una pérdida de ${lossPercent}",
           createdAt: AppConstants.constantDateTime,
           screenName: "");
 

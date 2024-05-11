@@ -27,6 +27,7 @@ class CustomTile extends StatelessWidget {
               fontSize: MyFonts.size12,
             ),),
           ),
+          SizedBox(width: 20.w,),
           Container(
             constraints: BoxConstraints(
               maxWidth: 150.w,minWidth: 65.w

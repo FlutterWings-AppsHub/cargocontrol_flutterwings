@@ -220,8 +220,10 @@ class _CreateVesselCompleteDataScreenState
       return VesselProductModel(
         productId: productId,
         productName: productName,
-        pesoTotal: totalPesoTotal,
-        pesoUnloaded: totalPesoUnloaded,
+        pesoTotal: totalPesoTotal.toDouble(),
+        pesoUnloaded: totalPesoUnloaded.toDouble(),
+        viajesIds: [],
+        pesoAssigned: 0.0, deficit: 0.0,
       );
     }).toList();
 

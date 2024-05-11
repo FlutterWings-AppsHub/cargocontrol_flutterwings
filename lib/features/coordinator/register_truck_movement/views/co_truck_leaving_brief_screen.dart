@@ -148,6 +148,7 @@ class _CoTruckLeavingBriefScreenState
                                       viajesModel: truckCtr.matchedViajes!,
                                       vesselModel: truckCtr.vesselModel!,
                                       newCargoModel: truckCtr.vesselCargoModel!,
+                                      industrySubModel: truckCtr.selectedIndustry!,
                                       ref: ref,
                                       productId: widget.productId,
                                       productName: widget.productName,

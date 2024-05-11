@@ -121,12 +121,12 @@ class CoDashboardScreen extends ConsumerWidget {
                                         numberOfTrips:
                                             model.viajesIds.length.toString(),
                                         divideNumber2:
-                                            formatWeight(model.cargoUnloaded),
+                                            "${formatWeight(model.cargoUnloaded)} ${vesselModel.weightUnitEnum.type}",
                                         divideNumber1:
-                                            formatWeight(model.cargoAssigned),
+                                            formatWeight(model.cargoTotal),
                                         barPercentage: model.cargoUnloaded != 0
                                             ? (model.cargoUnloaded /
-                                                model.cargoAssigned)
+                                                model.cargoTotal)
                                             : 0,
                                         title: '${model.industryName}',
                                         deficit: formatWeight(model.deficit),
