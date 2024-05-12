@@ -235,7 +235,7 @@ class TruckRegistrationApis implements TruckRegistrationApisImplements{
   }
   @override
   Stream<QuerySnapshot<Map<String, dynamic>>> getAllViajesForIndustryList({required IndustryAndVesselIdsModel industryAndVesselIdsModel}){
-    return _firestore.collection(FirebaseConstants.viajesCollection).where('vesselId',isEqualTo: industryAndVesselIdsModel.vesselId).where('industryId',isEqualTo: industryAndVesselIdsModel.industryId).where('viajesTypeEnum', isEqualTo: ViajesTypeEnum.completed.type).
+    return _firestore.collection(FirebaseConstants.viajesCollection).where('vesselId',isEqualTo: industryAndVesselIdsModel.vesselId).where('industryId',isEqualTo: industryAndVesselIdsModel.industryId).//where('viajesTypeEnum', isEqualTo: ViajesTypeEnum.completed.type).
     snapshots();
   }
 

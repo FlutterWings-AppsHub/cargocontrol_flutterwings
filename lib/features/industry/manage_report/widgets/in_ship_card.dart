@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../routes/route_manager.dart';
 import '../../../../utils/loading.dart';
 import '../../../admin/manage_ships/controllers/ship_controller.dart';
 import '../../../auth/controllers/auth_notifier_controller.dart';
@@ -62,23 +63,27 @@ class InShipCard extends StatelessWidget {
                   vesselModel.shipper,
                   style: getRegularStyle(color: context.textColor, fontSize: MyFonts.size12),
                 ),
-                if(!kIsWeb)
                   Consumer(builder: (context, ref, child) {
                   return ref.watch(shipControllerProvider)
                       ? LoadingWidget(
                     color: context.mainColor,
                   )
                       : InkWell(
-                    onTap: () async {
+                      onTap: () async {
+                        if(kIsWeb) {
+                          Navigator.pushNamed(context, AppRoutes.inShipsReportsWebVesselModelScreen, arguments: {
+                            'vesselModel': vesselModel,
+                          });
+                          return;
+                        }else{
+
                       final userModel = ref.watch(authNotifierCtr).userModel;
-
-
                       await ref
                           .read(shipControllerProvider.notifier)
                           .createReportsForIndustry(
                           vesselModel: vesselModel,
                           ref: ref,
-                          context: context, realIndustryId: userModel?.industryId??"");
+                          context: context, realIndustryId: userModel?.industryId??"");}
                     },
                     child: Text(
                       'Descargar',

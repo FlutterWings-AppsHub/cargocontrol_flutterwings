@@ -32,6 +32,7 @@ import '../features/coordinator/register_truck_movement/views/register_truck_lea
 import '../features/dashboard/components/dashboard_screen.dart';
 import '../features/industry/choferes/views/in_choferes_details_screen.dart';
 import '../features/industry/dashboard/views/in_dashboard_screen.dart';
+import '../features/industry/in_ships_reports_web/views/in_ship_report_web_Vessel_model_screen.dart';
 import '../features/industry/main_menu/views/in_main_menu_screen.dart';
 import '../features/industry/manage_report/views/in_all_reports_screen.dart';
 import '../features/industry/register_truck_movements/views/in_registration_success_screen.dart';
@@ -107,6 +108,7 @@ class AppRoutes {
   static const String dashboardScreen = '/dashboardScreen';
   static const String reportScreen = '/reportScreen';
   static const String adShipsReportsWebVesselModelScreen = '/adShipsReportsWebVesselModelScreen';
+  static const String inShipsReportsWebVesselModelScreen = '/inShipsReportsWebVesselModelScreen';
 
 
 
@@ -267,7 +269,11 @@ class AppRoutes {
         return _buildRoute(AdShipsReportsWebVesselModelScreen(
           vesselModel: args['vesselModel'],
         ));
-
+      case inShipsReportsWebVesselModelScreen:
+        final args = settings.arguments as Map<String, dynamic>;
+        return _buildRoute(InShipsReportsWebVesselModelScreen(
+          vesselModel: args['vesselModel'],
+        ));
       case choferesDetailsScreen:
         final args = settings.arguments as Map<String, dynamic>;
         return _buildRoute(ChoferesDetailsScreen(
