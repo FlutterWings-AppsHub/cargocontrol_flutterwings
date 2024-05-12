@@ -164,7 +164,6 @@ class ChoferesController extends StateNotifier<bool> {
       _lastSnapshot = querySnapshot.docs.last;
     }
 
-    print('Length: ${querySnapshot.docs.length}');
     return models;
   }
 
@@ -198,7 +197,6 @@ class ChoferesController extends StateNotifier<bool> {
       double percentile = (index + 1) / totalChoferes * 100;
       return percentile;
     } catch (ex) {
-      print(ex);
       return 0.0;
     }
   }
@@ -261,18 +259,13 @@ class ChoferesController extends StateNotifier<bool> {
             ? Duration(
                 milliseconds: totalTripTime.inMilliseconds ~/ viajesCount)
             : Duration.zero;
-        print("============");
         List<Duration> timeDeficitList = [];
         for (ViajesModel viaje in filteredViajesList) {
-          print("Average Trip Time: " + averageTripTime.toString());
-          print("trip time: " + viaje.tripTime.toString());
           Duration timeDeficit = viaje.tripTime - averageTripTime;
           timeDeficitList.add(timeDeficit);
         }
 
         // Find the worst and average time deficit
-        print("Time deficit List" + timeDeficitList.toString());
-        print("============");
         Duration worstTimeDeficit = timeDeficitList.isEmpty
             ? Duration.zero
             : timeDeficitList

@@ -38,7 +38,6 @@ class FormScreen extends StatelessWidget {
                 name: 'Cargo',
                 categories: ['1', '2', '3', '4', '5'],
                 onChange: (hello) {
-                  print(hello);
                 },
               ),
               CargoFormTextField(
@@ -65,7 +64,7 @@ class FormScreen extends StatelessWidget {
                 items: const ['prueba1', 'prueba2'],
                 label: 'label',
                 onSelect: (value) {
-                  print(value);
+                  //print(value);
                 },
               ),
               MainTextButton(

@@ -90,9 +90,7 @@ class ChoferesWeightTiempoWidget extends StatelessWidget {
                   List<ChoferesTimeDeficitModel> choferesTimeDeficitModels=[];
                   if(realIndustryIdOfCurrentUser.isEmpty){
                     choferesTimeDeficitModels=choferesTimeDefModels;
-                    print("here worng");
                   }else{
-                    print("here");
                     choferesTimeDefModels.forEach((model) {
                       if(model.realIndustryId==realIndustryIdOfCurrentUser){
                         choferesTimeDeficitModels.add(model);

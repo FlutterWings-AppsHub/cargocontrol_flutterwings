@@ -63,10 +63,12 @@ class ReportPDFFormat {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: allIndustriesModels.map<Widget>((industrySubModel) {
-                  return Column(children: [
-                    buildSingleIndustryInfo(
-                        industrySubModel: industrySubModel,
-                        vesselModel: vesselModel),
+                  return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        buildSingleIndustryName(
+                            industrySubModel: industrySubModel,
+                            vesselModel: vesselModel),
                     Column(
                       children: industrySubModel.vesselProductModels
                           .map<Widget>((vesselProductModel) {
@@ -75,7 +77,11 @@ class ReportPDFFormat {
                             vesselModel: vesselModel,
                             vesselProductModel: vesselProductModel);
                       }).toList(),
-                    )
+                    ),
+                    buildSingleIndustryInfo(
+                        industrySubModel: industrySubModel,
+                        vesselModel: vesselModel),
+
                   ]);
                 }).toList(),
               ),

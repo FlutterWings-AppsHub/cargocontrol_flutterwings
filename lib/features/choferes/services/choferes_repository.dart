@@ -14,7 +14,6 @@ class ChoferesRepository {
       DatabaseReference ref = FirebaseDatabase.instance.ref();
       final initialQuery =
           ref.child('chofer').orderByKey().limitToFirst(pageSize);
-      print(lastDoc ?? ' not null');
       final query =
           //lastDoc != null ? initialQuery.startAfter() : initialQuery;
           lastDoc != null

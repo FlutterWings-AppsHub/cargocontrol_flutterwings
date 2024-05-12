@@ -30,8 +30,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  LocalNotificationService.requestPermission(Permission.notification);
-  LocalNotificationService.initialize();
+  if(!kIsWeb) {
+    LocalNotificationService.requestPermission(Permission.notification);
+    LocalNotificationService.initialize();
+  }
   runApp(const ProviderScope(child: MyApp()));
 }
 

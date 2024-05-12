@@ -23,7 +23,6 @@ class DownloadOptionButton extends StatelessWidget {
         surfaceTintColor: context.scaffoldBackgroundColor,
         icon: icon,
         onSelected: (value) {
-          print("Selected Option: $value");
         },
         itemBuilder: (BuildContext context) {
           return List.generate(itemValues.length, (index) {

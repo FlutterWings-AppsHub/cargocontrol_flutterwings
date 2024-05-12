@@ -263,7 +263,6 @@ class AuthController extends StateNotifier<bool> {
       models
           .add(ChoferesModel.fromMap(element.data() as Map<String, dynamic>));
     });
-    print(models.length);
 
 
 
@@ -319,7 +318,6 @@ class AuthController extends StateNotifier<bool> {
      await usersCollection.doc(updatedUserModel.viajesId  ).delete();
 
    }
-   print("${i+1} Done");
  }
 
   }

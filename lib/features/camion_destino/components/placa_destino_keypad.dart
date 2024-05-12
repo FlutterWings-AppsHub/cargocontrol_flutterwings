@@ -12,7 +12,6 @@ class PlacaDestinoKeypadScreen extends StatelessWidget {
         subtitle: "Indique el número de placa del camión llegando a destino",
         showCamera: true,
         onTextChanged: (value) {
-          print(value);
         },
         onButtonTapped: () {
           Navigator.push(

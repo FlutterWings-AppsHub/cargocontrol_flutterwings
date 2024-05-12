@@ -302,7 +302,6 @@ class TruckRegistrationController extends StateNotifier<bool> {
       });
     });
 
-    print(industryFCMTokens.toString());
 
     if (industryFCMTokens.isEmpty) {
       return; // No registered devices, no need to send notifications.
@@ -355,7 +354,6 @@ class TruckRegistrationController extends StateNotifier<bool> {
       });
     });
 
-    print(adminsFCMTokens.toString());
 
     if (adminsFCMTokens.isEmpty) {
       return; // No registered devices, no need to send notifications.

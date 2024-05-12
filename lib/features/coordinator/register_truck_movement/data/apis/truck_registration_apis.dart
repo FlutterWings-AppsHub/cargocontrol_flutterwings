@@ -310,9 +310,7 @@ class TruckRegistrationApis implements TruckRegistrationApisImplements{
     required ViajesStatusEnum viajesStatusEnum,
   })async {
     try{
-      print(viajesStatusEnum.type);
-      print(plateNumber);
-      print(industryId);
+
       final querySnapshot = await _firestore.collection(FirebaseConstants.viajesCollection).
       where('licensePlate', isEqualTo: plateNumber).
       where('industryId', isEqualTo: industryId).

@@ -47,7 +47,6 @@ class AdVesselNotiController extends ChangeNotifier {
      debugPrintStack(stackTrace: l.stackTrace);
      debugPrint( l.message);
    }, (r) {
-     print(r.length);
      setAllProducts(r);
    });
   }

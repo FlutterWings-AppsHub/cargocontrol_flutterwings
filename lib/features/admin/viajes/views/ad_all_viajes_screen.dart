@@ -2,6 +2,7 @@ import 'package:cargocontrol/core/enums/viajes_type.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/admin/viajes/controllers/viajes_noti_controller.dart';
 import 'package:cargocontrol/common_widgets/viajes_card.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../common_widgets/cargo_card.dart';
@@ -65,7 +66,7 @@ class _AdAllViajesSreenState extends ConsumerState<AdAllViajesSreen> {
           children: [
             SizedBox(height: 20.h,),
             Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 15.w,vertical: 0.h),
+              padding: kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal:15.w),
               child: CustomTextField(
                 controller: searchCtr,
                 hintText: "",

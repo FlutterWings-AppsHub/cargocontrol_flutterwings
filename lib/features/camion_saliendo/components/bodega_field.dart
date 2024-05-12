@@ -10,7 +10,6 @@ class BodegaField extends StatelessWidget {
       name: "Número de bodega",
       categories: ['1', '2', '3', '4', '5'],
       onChange: (hello) {
-        print('funciono');
       },
     );
   }

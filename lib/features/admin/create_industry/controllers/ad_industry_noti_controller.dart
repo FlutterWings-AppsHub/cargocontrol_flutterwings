@@ -32,7 +32,6 @@ class AdIndustryNotiController extends ChangeNotifier {
      debugPrintStack(stackTrace: l.stackTrace);
      debugPrint( l.message);
    }, (r) {
-     print(r.length);
      setAllIndustriesModels(r);
    });
   }

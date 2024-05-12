@@ -1,6 +1,7 @@
 import 'package:cargocontrol/commons/common_imports/apis_commons.dart';
 import 'package:cargocontrol/features/admin/viajes/controllers/viajes_inprogess_noti_controller.dart';
 import 'package:cargocontrol/common_widgets/viajes_card.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../commons/common_widgets/CustomTextFields.dart';
@@ -63,7 +64,7 @@ class _AdInProgressViajesSreenState
               height: 20.h,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 0.h),
+              padding: kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal:15.w),
               child: CustomTextField(
                 controller: searchCtr,
                 hintText: "",

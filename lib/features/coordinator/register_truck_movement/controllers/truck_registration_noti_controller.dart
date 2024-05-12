@@ -40,7 +40,6 @@ class TruckRegistrationNotiController extends ChangeNotifier {
       debugPrintStack(stackTrace: l.stackTrace);
       debugPrint(l.message);
     }, (r) {
-      print(r.length);
       setAllIndustriesModels(r);
     });
   }
@@ -57,9 +56,6 @@ class TruckRegistrationNotiController extends ChangeNotifier {
 
     if (allIndustriesModels.length != 0) {
       for (int index = 0; index < _allIndustriesModels.length; index++) {
-        print(_allIndustriesModels.length);
-        print(index);
-        print(guideNumber);
         if (guideNumber >= _allIndustriesModels[index].initialGuide &&
             guideNumber <= _allIndustriesModels[index].lastGuide &&
             vesselModel!.vesselId == _allIndustriesModels[index].vesselId &&
@@ -83,7 +79,6 @@ class TruckRegistrationNotiController extends ChangeNotifier {
             !_allIndustriesModels[index]
                 .usedGuideNumbers
                 .contains(guideNumber)) {
-          print("usman");
           _selectedIndustry = _allIndustriesModels[index];
           setIndustryMatchedStatus(true);
           break;

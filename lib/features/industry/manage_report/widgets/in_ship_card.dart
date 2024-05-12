@@ -71,7 +71,6 @@ class InShipCard extends StatelessWidget {
                       : InkWell(
                     onTap: () async {
                       final userModel = ref.watch(authNotifierCtr).userModel;
-                      print( userModel?.industryId);
 
 
                       await ref

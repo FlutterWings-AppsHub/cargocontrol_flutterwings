@@ -190,7 +190,6 @@ class _CreateIndustryInformationScreenState
   }
 
   reCalculateAll() {
-    print("herer");
     setState(() {});
     totalCargoLoad = 0;
     totalIndustryLoads = 0;

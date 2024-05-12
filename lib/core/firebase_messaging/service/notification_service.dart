@@ -96,7 +96,6 @@ class LocalNotificationService {
         notificationDetails,
       );
     } on Exception catch (e) {
-      print('Error>>>$e');
     }
   }
 

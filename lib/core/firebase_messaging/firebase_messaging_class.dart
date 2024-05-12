@@ -24,7 +24,6 @@ class MessagingFirebase {
         return '';
       }
     } catch (e) {
-      print(e.toString());
       return '';
     }
   }
@@ -49,7 +48,6 @@ class MessagingFirebase {
     required NotificationModel model,
     required String token,
   }) async {
-    print(token);
     String dataNotifications = '{ "to" : "$token",'
         '"notification" : {'
         '"title":"${model.title}",'
@@ -70,7 +68,6 @@ class MessagingFirebase {
         },
         body: dataNotifications,
       );
-      print('Done');
 
     } catch (e, st) {
       debugPrint(e.toString());
@@ -114,11 +111,9 @@ class MessagingFirebase {
           '"registration_ids" field cannot be empty') {
         return false;
       } else {
-        print(response.body.toString());
         return true;
       }
     } catch (e) {
-      print(e.toString());
       return false;
     }
 
@@ -132,7 +127,6 @@ class MessagingFirebase {
     required NotificationModel model,
     required List<String> registerIds,
   }) async {
-    print('here im !');
     List<String> tempLst = [];
     for (var element in registerIds) {
       tempLst.add(' "$element" ');
@@ -152,7 +146,6 @@ class MessagingFirebase {
           '}'
           '}';
 
-print("sending notification");
       var response = await http.post(
         Uri.parse(Constants.BASE_URL),
         headers: <String, String>{
@@ -163,14 +156,12 @@ print("sending notification");
         body: dataNotifications,
       );
       if(response.body.toString() == '"registration_ids" field cannot be empty'){
-        print(response);
         return false;
       }else{
         return true;
       }
 
     }catch(e){
-      print(e.toString());
       return false;
     }
   }
@@ -194,7 +185,6 @@ print("sending notification");
         // print('Hola');
       }
     } catch (e) {
-      print(e);
     }
   }
 }

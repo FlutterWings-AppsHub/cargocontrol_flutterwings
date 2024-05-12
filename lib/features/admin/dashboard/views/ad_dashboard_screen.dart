@@ -51,7 +51,6 @@ class AdDashboardScreen extends ConsumerWidget {
               child: Consumer(
                 builder: (BuildContext context, WidgetRef ref, Widget? child) {
                   final userModel = ref.read(authNotifierCtr).userModel;
-                  print(userModel?.uid);
                   return Text(
                     userModel!.accountType.type,
                     style: getBoldStyle(

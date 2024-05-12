@@ -11,7 +11,6 @@ class PesoLlegadaFormTextField extends ConsumerWidget {
       onlyNumeric: true,
       hintText: 'Peso Bruto de llegada',
       onChanged: (hello) {
-        print(hello);
       },
     );
   }

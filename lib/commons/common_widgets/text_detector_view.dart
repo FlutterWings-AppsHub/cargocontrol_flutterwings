@@ -68,7 +68,6 @@ class _TextDetectorScreenState extends State<TextDetectorScreen> {
     if (isNumericStringWithLength6(recognizedText) &&
         mounted &&
         !_recognizedPlate) {
-      print('here');
       _recognizedPlate = true;
       await Future.delayed(const Duration(milliseconds: 200));
       Navigator.pop(context, _recognizedPlateNumber);

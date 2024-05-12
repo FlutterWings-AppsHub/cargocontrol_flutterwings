@@ -20,7 +20,6 @@ class GuiaKeyPadScreen extends ConsumerWidget {
         showCamera: false,
         onTextChanged: (value) {
           camionEntrandoController.onNumeroGuiaChange(value);
-          print(value);
         },
         onButtonTapped: () {
           Navigator.push(context,

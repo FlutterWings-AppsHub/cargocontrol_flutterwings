@@ -11,7 +11,6 @@ class PesoBrutoFormTextField extends ConsumerWidget {
       onlyNumeric: true,
       hintText: 'Peso Bruto',
       onChanged: (hello) {
-        print(hello);
       },
     );
   }

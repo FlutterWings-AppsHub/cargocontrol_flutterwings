@@ -49,6 +49,7 @@ class _EmptyTruckWeightWeightUpdateDialogState
   }
 
   update({required WidgetRef ref}) async {
+    return;
     try {
       double pesoTara = double.parse(emptyTruckWeightCtr.text);
       if (pesoTara < 1) {

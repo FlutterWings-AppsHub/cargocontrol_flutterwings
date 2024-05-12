@@ -28,10 +28,6 @@ Widget buildSingleProductIndustryInfo(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Divider(thickness: 1.h, color: PdfColors.grey200),
-                SizedBox(
-                  height: 10.h,
-                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children:[

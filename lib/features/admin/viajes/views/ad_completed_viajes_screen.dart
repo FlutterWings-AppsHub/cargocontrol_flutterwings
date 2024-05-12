@@ -1,4 +1,5 @@
 import 'package:cargocontrol/common_widgets/viajes_card.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../commons/common_imports/common_libs.dart';
@@ -62,7 +63,7 @@ class _AdCompletedViajesSreenState extends ConsumerState<AdCompletedViajesSreen>
           children: [
             SizedBox(height: 20.h,),
             Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 15.w,vertical: 0.h),
+              padding: kIsWeb?EdgeInsets.symmetric(horizontal: 0.35.sw):EdgeInsets.symmetric(horizontal:15.w),
               child: CustomTextField(
                 controller: searchCtr,
                 hintText: "",

@@ -26,12 +26,10 @@ class ChoferesListController extends StreamNotifier<List<ChoferInfo>> {
   Future<void> fetchMore() async {
     if (state.isLoading || !hasMore || lastDoc == null) return;
 
-    print('llego aca');
     final newChoferes = _listenToChoferesList();
     choferStream = StreamGroup.merge([choferStream!, newChoferes]);
 
     //print ChoferInfo values from the new stream
-    print(choferStream!);
 
     // final test = state.value;
     // for (final chofer in test!) {
@@ -53,7 +51,6 @@ class ChoferesListController extends StreamNotifier<List<ChoferInfo>> {
       final lastDocument = event.$2;
       if (lastDocument != null) {
         lastDoc = lastDocument;
-        print(lastDoc!.key);
       }
       return result;
     });

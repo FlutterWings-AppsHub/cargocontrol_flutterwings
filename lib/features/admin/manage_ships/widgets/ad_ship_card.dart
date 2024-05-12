@@ -89,7 +89,6 @@ class AdShipCard extends StatelessWidget {
                     style: getRegularStyle(
                         color: context.textColor, fontSize: MyFonts.size12),
                   ),
-                  if(!kIsWeb)
                   Consumer(builder: (context, ref, child) {
                     return ref.watch(shipControllerProvider)
                         ? LoadingWidget(
@@ -97,12 +96,19 @@ class AdShipCard extends StatelessWidget {
                           )
                         : InkWell(
                             onTap: () async {
-                              await ref
-                                  .read(shipControllerProvider.notifier)
-                                  .createReports(
-                                      vesselModel: vesselModel,
-                                      ref: ref,
-                                      context: context);
+                              if(kIsWeb) {
+                                Navigator.pushNamed(context, AppRoutes.adShipsReportsWebVesselModelScreen, arguments: {
+                                'vesselModel': vesselModel,
+                              });
+                                return;
+                              }else{
+                                await ref
+                                    .read(shipControllerProvider.notifier)
+                                    .createReports(
+                                    vesselModel: vesselModel,
+                                    ref: ref,
+                                    context: context);
+                              }
                             },
                             child: Text(
                               'Descargar',

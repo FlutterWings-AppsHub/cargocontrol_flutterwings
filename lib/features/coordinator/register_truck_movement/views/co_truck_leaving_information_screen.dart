@@ -195,7 +195,6 @@ class _CoTruckLeavingInformationScreenState
                                 double.parse(fullTruckWeightCtr.text) -
                                     truckCtr.matchedViajes!
                                         .entryTimeTruckWeightToPort;
-                            print(pureCargoWeight);
 
                             // Step 2: Check Peso tara valid
                             if (double.parse(fullTruckWeightCtr.text) <

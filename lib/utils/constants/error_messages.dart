@@ -1,15 +1,15 @@
 
 class Messages {
-  static const String deleteChoferesError = 'You cannot delete the choferes because the chorefes is currently on viajes';
-  static const String fillAllTheFieldError = "Please Fill All Fields!";
+  static const String deleteChoferesError = 'No puede eliminar al Chofer mientras está realizando un viaje';
+  static const String fillAllTheFieldError = "Porfavor llene todos los campos";
   static const String vesselFinishLoadingSuccess = "Buque terminado de descargar!";
-  static const String viajesUpdatedSuccess ='Viajes Updated!';
-  static const String invalidWeightError ="Invalid Weight";
-  static const String accountCreatedSuccess ='Account Created Successfully!';
-  static const String viajesRegisteredSuccess ='Viajes Registered Successfully!';
-  static const String noIndustryFoundError ='No Industry Found!';
+  static const String viajesUpdatedSuccess ='Viajes han sido actualizados!';
+  static const String invalidWeightError ="Peso invalido";
+  static const String accountCreatedSuccess ='Cuenta creada exitosamente';
+  static const String viajesRegisteredSuccess ='Registro de viaje creado exitosamente';
+  static const String noIndustryFoundError ='No se ha encontrado la Industria';
   static const String arrivalBeforeAll =
-      "La hora de llegada al puerto debe ser anterior a todos los horarios.";
+      "La hora de llegada al puerto debe ser anterior a todos los demás horarios.";
   static const String departureBeforeArrival =
       "La hora de salida del puerto debe ser anterior a la hora de llegada y descarga de la industria.";
   static const String arrivalAfterDeparture =
@@ -17,32 +17,34 @@ class Messages {
   static const String unloadingTimeInvalid =
       "El tiempo de descarga debe ser posterior a la hora de salida del puerto y a la hora de llegada a la industria.";
 
-  static const String choferesDeleteSuccess = 'Choferes Deleted!';
-  static const String choferesAlreadyRegisteredError = 'Choferes Already Registered!';
-  static const String choferesRegisteredSuccess= 'Choferes Registered Successfully!';
+  static const String choferesDeleteSuccess = 'Chofer eliminado exitosamente!';
+  static const String choferesAlreadyRegisteredError = 'El chofer ya se encuentra registrado';
+  static const String choferesRegisteredSuccess= 'Chofer registrado exitosamente';
 
-  static const String industryCreatedSuccess = 'Industry Created Successfully!';
-  static const String industryGuidesError = "Industry guides cannot be the same, and the first guide should start after the second guide!";
-  static const String sameProductError = "Both products are same for industry #";
-  static const String sameIndustryError = "Cannot select the same industry multiple times!";
-  static const String totalLoadExceedError = "Total load exceeds Assigned Cargo weight! Limit is";
+  static const String industryCreatedSuccess = 'Industria registrada exitosamente';
+  static const String industryGuidesError = "Los números de guías no pueden ser iguales, y deben ser consecutivas";
+  static const String sameProductError = "Los productos están duplicados para la Industria #";
+  static const String sameIndustryError = "No se puede seleccionar a la misma Industria";
+  static const String totalLoadExceedError = "El peso total excede el permitido. El Límite es:";
 
-  static const String vesselCreatedSuccess = 'Vessel Created Successfully!';
-  static const String bothProductForBodegaError ="Both Products are same for Bodega" ;
-  static const String reportGenerateError = 'Unable to genearte report now!';
-  static const String brutoMorethanTaraError = 'Peso bruto cannot be less than peso tara!';
-  static const String enterPesoBrutoError = 'Enter Peso bruto!';
-  static const String pesoExceeedError = "Peso bruto is more then total carga! Max is can be";
+  static const String vesselCreatedSuccess = 'Buque creado exitosamente';
+  static const String bothProductForBodegaError ="Los productos están duplicados para la Bodega" ;
+  static const String reportGenerateError = 'No se puede generar el reporte, intente más tarde';
+  static const String brutoMorethanTaraError = 'El peso bruto no puede ser menor al peso tara';
+  static const String enterPesoBrutoError = 'Ingrese el peso bruto';
+  static const String pesoExceeedError = "El peso bruto es mayor a la carga total. El máximo es";
 
-  static const String enterPlateNumberError =   'Enter Plate Number!';
-  static const String viajesUnlaodedSuccess  = 'Viajes Unlaoded Succesfully!';
-  static const String industryCreateError =   'Created the vessel first!';
-  static const String vesselHasNotFinishError =   "Vessel has not finish unloading yet!";
+  static const String enterPlateNumberError =   'Ingrese la placa';
+  static const String viajesUnlaodedSuccess  = 'Camion descargado exitosamente';
+  static const String industryCreateError =   'Porfavor cree el registro del Buque primero';
+  static const String vesselHasNotFinishError =   "El buque no se ha descargado en su totalidad";
 
-  static const String selectTheProductError=   'Select the product!';
-  static const String selectTheBodegaError =   'Select the Bodega!';
-  static const String pesoNetLessThanBodegaError = "Peso neto is less than available product in bodega";
-  static const String pesoNetLessThanProductError = "Peso neto is less than available product in vessel";
+  static const String selectTheProductError = 'Sélectionnez le produit!';
+  static const String selectTheBodegaError = 'Sélectionnez la Bodega!';
+  static const String pesoNetLessThanBodegaError = "Le poids net est inférieur au produit disponible en bodega";
+  static const String pesoNetLessThanProductError = "Le poids net est inférieur au produit disponible dans le conteneur";
+
+
 
 
 }

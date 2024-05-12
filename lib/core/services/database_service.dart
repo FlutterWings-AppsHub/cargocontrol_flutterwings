@@ -14,7 +14,6 @@ class AuthService extends ChangeNotifier{
   bool get isReady => _isBoxInitialized;
 
   Future<String> initAuth() async {
-    print('Im tapped');
     if (!_isBoxInitialized) {
       authBox = await Hive.openBox<String>(AppConstants.authBox);
       if (authBox.values.isEmpty) authBox.add('');
