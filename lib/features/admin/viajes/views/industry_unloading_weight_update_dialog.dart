@@ -47,86 +47,79 @@ class _IndustryUnloadingWeightUpdateDialogState
     industryUnloadingWeightCtr.dispose();
     super.dispose();
   }
-  // Todo Industry model changes Effect: 8
-  // update({required WidgetRef ref}) async {
-  //   try {
-  //     double unloadingWeightAtIndustry =
-  //         double.parse(industryUnloadingWeightCtr.text);
-  //     if (unloadingWeightAtIndustry <
-  //         widget.viajesModel.entryTimeTruckWeightToPort) {
-  //       showToast(
-  //           msg: "Peso bruto de Ilegada cannot be less than peso tara!",
-  //           long: true,
-  //           textColor: MyColors.red);
-  //       return;
-  //     }
-  //     if (unloadingWeightAtIndustry >
-  //         widget.viajesModel.exitTimeTruckWeightToPort) {
-  //       showToast(
-  //           msg:
-  //               "Peso bruto de Ilegada must be less than peso bruto de salida!",
-  //           long: true,
-  //           textColor: MyColors.red);
-  //       return;
-  //     }
-  //     ViajesModel currentViajesModel = widget.viajesModel;
-  //     VesselModel currentVesselModel =
-  //         ref.read(viajesUpdateNotiControllerProvider).vesselModel!;
-  //
-  //     await getIndustryModel(ref: ref);
-  //
-  //     //Step 3: get current industry model
-  //     IndustrySubModel currentIndustrySubModel =
-  //         ref.read(viajesUpdateNotiControllerProvider).currentIndustryModel!;
-  //
-  //     //Step 5: update the industry deficit
-  //     VesselCargoModel vesselCargoModel =
-  //         currentIndustrySubModel.selectedVesselCargo;
-  //     vesselCargoModel = vesselCargoModel.copyWith(
-  //       pesoUnloaded: currentIndustrySubModel.selectedVesselCargo.pesoUnloaded -
-  //           currentViajesModel.cargoUnloadWeight +
-  //           unloadingWeightAtIndustry,
-  //     );
-  //     currentIndustrySubModel = currentIndustrySubModel.copyWith(
-  //       deficit: currentIndustrySubModel.deficit -
-  //           currentViajesModel.cargoDeficitWeight +
-  //           (currentViajesModel.exitTimeTruckWeightToPort -
-  //               unloadingWeightAtIndustry),
-  //       cargoUnloaded: currentIndustrySubModel.cargoUnloaded -
-  //           currentViajesModel.cargoUnloadWeight +
-  //           unloadingWeightAtIndustry,
-  //       selectedVesselCargo: vesselCargoModel,
-  //     );
-  //     if (currentIndustrySubModel.cargoUnloaded >
-  //         currentIndustrySubModel.cargoAssigned) {
-  //       showToast(
-  //           msg: "Cargo Exceed the assigned limit of Industry",
-  //           textColor: MyColors.red);
-  //       return;
-  //     }
-  //
-  //     //Step 8 : in Viajes model update - unload cargo weight, deificit, pure cargo weight
-  //     currentViajesModel = currentViajesModel.copyWith(
-  //       cargoUnloadWeight: unloadingWeightAtIndustry,
-  //       cargoDeficitWeight: currentViajesModel.exitTimeTruckWeightToPort -
-  //           unloadingWeightAtIndustry,
-  //       pureCargoWeight: currentViajesModel.exitTimeTruckWeightToPort -
-  //           unloadingWeightAtIndustry,
-  //     );
-  //     //Step 9: update all four models.
-  //     ref
-  //         .read(viajesControllerProvider.notifier)
-  //         .updateVaijesModelsForWeightUpdate(
-  //             viajesModel: currentViajesModel,
-  //             vesselModel: currentVesselModel,
-  //             currentIndustryModel: currentIndustrySubModel,
-  //             ref: ref,
-  //             context: context);
-  //   } catch (ex) {
-  //     print(ex);
-  //     return;
-  //   }
-  // }
+
+  update({required WidgetRef ref}) async {
+    try {
+      double unloadingWeightAtIndustry =
+          double.parse(industryUnloadingWeightCtr.text);
+      if (unloadingWeightAtIndustry <
+          widget.viajesModel.entryTimeTruckWeightToPort) {
+        showToast(
+            msg: "Peso bruto de Ilegada cannot be less than peso tara!",
+            long: true,
+            textColor: MyColors.red);
+        return;
+      }
+      if (unloadingWeightAtIndustry >
+          widget.viajesModel.exitTimeTruckWeightToPort) {
+        showToast(
+            msg:
+                "Peso bruto de Ilegada must be less than peso bruto de salida!",
+            long: true,
+            textColor: MyColors.red);
+        return;
+      }
+      await getIndustryModel(ref: ref);
+      ViajesModel currentViajesModel = widget.viajesModel;
+      VesselModel currentVesselModel =
+          ref.read(viajesUpdateNotiControllerProvider).vesselModel!;
+
+
+      //Step 3: get current industry model
+      IndustrySubModel currentIndustrySubModel =
+          ref.read(viajesUpdateNotiControllerProvider).currentIndustryModel!;
+
+      //Step 4: update the industry deficit
+      IndustrySubModel checkIndustrySubModel = ref
+          .read(viajesUpdateNotiControllerProvider)
+          .updateUnloadingIndustrySubModel(
+              originalModel: currentIndustrySubModel,
+              productModelId: currentViajesModel.productId,
+              unloadingWeightInIndustry: unloadingWeightAtIndustry,
+              currentViajesModel: currentViajesModel);
+
+      if (currentIndustrySubModel.cargoUnloaded >
+          currentIndustrySubModel.cargoAssigned) {
+        showToast(
+            msg: "Cargo Exceed the assigned limit of Industry",
+            textColor: MyColors.red);
+        return;
+      }
+      currentIndustrySubModel = checkIndustrySubModel;
+
+      //Step 5 : in Viajes model update - unload cargo weight, deificit, pure cargo weight
+      currentViajesModel = currentViajesModel.copyWith(
+        cargoUnloadWeight: unloadingWeightAtIndustry,
+        cargoDeficitWeight: currentViajesModel.exitTimeTruckWeightToPort -
+            unloadingWeightAtIndustry,
+        pureCargoWeight: currentViajesModel.exitTimeTruckWeightToPort -
+            unloadingWeightAtIndustry,
+      );
+      //Step 6: update all four models.
+      ref
+          .read(viajesControllerProvider.notifier)
+          .updateVaijesModelsForWeightUpdate(
+              viajesModel: currentViajesModel,
+              vesselModel: currentVesselModel,
+              currentIndustryModel: currentIndustrySubModel,
+              ref: ref,
+              context: context);
+    } catch (ex) {
+      showSnackBar(context: context, content: ex.toString());
+      print(ex);
+      return;
+    }
+  }
 
   Future<void> getIndustryModel({required WidgetRef ref}) async {
     await ref
@@ -139,7 +132,9 @@ class _IndustryUnloadingWeightUpdateDialogState
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: kIsWeb ?EdgeInsets.symmetric(horizontal: 0.35.sw):const EdgeInsets.all(8.0),
+      padding: kIsWeb
+          ? EdgeInsets.symmetric(horizontal: 0.35.sw)
+          : const EdgeInsets.all(8.0),
       child: Dialog(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.r),
@@ -222,8 +217,7 @@ class _IndustryUnloadingWeightUpdateDialogState
                           if (industryUnloadingWeightCtr.text.isEmpty) {
                             return;
                           }
-                          // Todo Industry model changes Effect: 9
-                         // await update(ref: ref);
+                          await update(ref: ref);
                           Navigator.pop(context);
                         },
                         buttonText: 'Update',

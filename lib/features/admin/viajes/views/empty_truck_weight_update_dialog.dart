@@ -1,3 +1,4 @@
+import 'package:cargocontrol/commons/common_functions/validator.dart';
 import 'package:cargocontrol/commons/common_widgets/CustomTextFields.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/admin/manage_ships/controllers/ship_controller.dart';
@@ -34,6 +35,8 @@ class EmptyTruckWeightWeightUpdateDialog extends StatefulWidget {
 class _EmptyTruckWeightWeightUpdateDialogState
     extends State<EmptyTruckWeightWeightUpdateDialog> {
   TextEditingController emptyTruckWeightCtr = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
 
   @override
   void initState() {
@@ -49,8 +52,10 @@ class _EmptyTruckWeightWeightUpdateDialogState
   }
 
   update({required WidgetRef ref}) async {
-    return;
     try {
+      if (!(formKey.currentState!.validate())) {
+        return;
+      }
       double pesoTara = double.parse(emptyTruckWeightCtr.text);
       if (pesoTara < 1) {
         showToast(msg:Messages.invalidWeightError);
@@ -77,6 +82,8 @@ class _EmptyTruckWeightWeightUpdateDialogState
     } catch (e) {
       showToast(msg: e.toString());
     }
+    Navigator.pop(context);
+
   }
 
   @override
@@ -130,14 +137,18 @@ class _EmptyTruckWeightWeightUpdateDialogState
               SizedBox(
                 height: 8.h,
               ),
-              CustomTextField(
-                controller: emptyTruckWeightCtr,
-                hintText: "",
-                onChanged: (val) {},
-                onFieldSubmitted: (val) {},
-                obscure: false,
-                inputType: TextInputType.number,
-                label: "",
+              Form(
+                key: formKey,
+                child: CustomTextField(
+                  controller: emptyTruckWeightCtr,
+                  hintText: "",
+                  onChanged: (val) {},
+                  onFieldSubmitted: (val) {},
+                  obscure: false,
+                  inputType: TextInputType.number,
+                  label: "",
+                  validatorFn: pesoTaraValidator,
+                ),
               ),
               Consumer(
                 builder: (BuildContext context, WidgetRef ref, Widget? child) {
@@ -162,7 +173,6 @@ class _EmptyTruckWeightWeightUpdateDialogState
                         buttonHeight: 42.h,
                         onPressed: () async {
                           await update(ref: ref);
-                          Navigator.pop(context);
                         },
                         buttonText: 'Update',
                       ),

@@ -1,3 +1,4 @@
+import 'package:cargocontrol/commons/common_functions/validator.dart';
 import 'package:cargocontrol/commons/common_widgets/CustomTextFields.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/admin/manage_ships/controllers/ship_controller.dart';
@@ -34,6 +35,7 @@ class ExitPortWeightUpdateDialog extends StatefulWidget {
 class _ExitPortWeightUpdateDialogState
     extends State<ExitPortWeightUpdateDialog> {
   TextEditingController exitPortWeightCtr = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -48,81 +50,82 @@ class _ExitPortWeightUpdateDialogState
     super.dispose();
   }
 
-  // Todo Industry model changes Effect: 4
-  // update({required WidgetRef ref}) async {
-  //   try {
-  //     double exitTruckWeightAtPort = double.parse(exitPortWeightCtr.text);
-  //     if (exitTruckWeightAtPort <
-  //         widget.viajesModel.entryTimeTruckWeightToPort) {
-  //       showToast(msg: "Peso bruto cannot be less than peso tara!");
-  //       return;
-  //     }
-  //     if (exitTruckWeightAtPort < widget.viajesModel.cargoUnloadWeight) {
-  //       showToast(msg: "Peso bruto cannot be less than peso unloading!");
-  //       return;
-  //     }
-  //     ViajesModel currentViajesModel = widget.viajesModel;
-  //
-  //     await getIndustryModel(ref: ref);
-  //
-  //     // Step 2: get current Vesesel Model
-  //     VesselModel currentVesselModel =
-  //         ref.read(viajesUpdateNotiControllerProvider).vesselModel!;
-  //
-  //     //Step 3: get current industry model
-  //     IndustrySubModel currentIndustrySubModel =
-  //         ref.read(viajesUpdateNotiControllerProvider).currentIndustryModel!;
-  //
-  //     //Step 4: get this weight is valid.
-  //     IndustrySubModel checkIndustrySubModel = ref
-  //         .read(viajesUpdateNotiControllerProvider)
-  //         .updateExitWeightIndustrySubModel(currentIndustrySubModel,
-  //             currentViajesModel, exitTruckWeightAtPort);
-  //     if (checkIndustrySubModel.cargoUnloaded >
-  //         checkIndustrySubModel.cargoAssigned) {
-  //       showToast(
-  //           msg: "Cargo Exceed the assigned limit of Industry",
-  //           textColor: MyColors.red);
-  //       return;
-  //     }
-  //     //Step 5: update the industry deficit
-  //     currentIndustrySubModel = currentIndustrySubModel.copyWith(
-  //         deficit: currentIndustrySubModel.deficit -
-  //             currentViajesModel.cargoDeficitWeight +
-  //             (exitTruckWeightAtPort - currentViajesModel.cargoUnloadWeight));
-  //     //Step 6:  update vessel model
-  //     currentVesselModel = ref
-  //         .read(viajesUpdateNotiControllerProvider)
-  //         .updateExitWeightInVesselCargo(
-  //             originalModel: currentVesselModel,
-  //             updatedCargoModel: currentIndustrySubModel.selectedVesselCargo,
-  //             exitTruckWeightMinusPeroTara: exitTruckWeightAtPort -
-  //                 currentViajesModel.entryTimeTruckWeightToPort,
-  //             oldExitTruckWeightMinusPeroTara:
-  //                 currentViajesModel.exitTimeTruckWeightToPort -
-  //                     currentViajesModel.entryTimeTruckWeightToPort);
-  //     //Step 8 : in Viajes model update -exitPortWeight, deificit, pure cargo weight
-  //     currentViajesModel = currentViajesModel.copyWith(
-  //       exitTimeTruckWeightToPort: exitTruckWeightAtPort,
-  //       cargoDeficitWeight:
-  //           exitTruckWeightAtPort - currentViajesModel.cargoUnloadWeight,
-  //       pureCargoWeight: exitTruckWeightAtPort -
-  //           currentViajesModel.entryTimeTruckWeightToPort,
-  //     );
-  //     //Step 9: update all four models.
-  //     ref
-  //         .read(viajesControllerProvider.notifier)
-  //         .updateVaijesModelsForWeightUpdate(
-  //             viajesModel: currentViajesModel,
-  //             vesselModel: currentVesselModel,
-  //             currentIndustryModel: currentIndustrySubModel,
-  //             ref: ref,
-  //             context: context);
-  //   } catch (ex) {
-  //     print(ex);
-  //     return;
-  //   }
-  // }
+  update({required WidgetRef ref}) async {
+    try {
+      if (!(formKey.currentState!.validate())) {
+        return;
+      }
+      double exitTruckWeightAtPort = double.parse(exitPortWeightCtr.text);
+      if (exitTruckWeightAtPort <
+          widget.viajesModel.entryTimeTruckWeightToPort) {
+        showToast(msg: "Peso bruto cannot be less than peso tara!");
+        return;
+      }
+      if (exitTruckWeightAtPort < widget.viajesModel.cargoUnloadWeight) {
+        showToast(msg: "Peso bruto cannot be less than peso unloading!");
+        return;
+      }
+      ViajesModel currentViajesModel = widget.viajesModel;
+
+      await getIndustryModel(ref: ref);
+
+      // Step 2: get current Vesesel Model
+      VesselModel currentVesselModel =
+          ref.read(viajesUpdateNotiControllerProvider).vesselModel!;
+
+      //Step 3: get current industry model
+      IndustrySubModel currentIndustrySubModel =
+          ref.read(viajesUpdateNotiControllerProvider).currentIndustryModel!;
+
+      //Step 4: get this weight is valid.
+      IndustrySubModel checkIndustrySubModel = ref
+          .read(viajesUpdateNotiControllerProvider)
+          .updateExitWeightIndustrySubModel(currentIndustrySubModel,
+              currentViajesModel, exitTruckWeightAtPort);
+      if (checkIndustrySubModel.cargoAssigned >
+          checkIndustrySubModel.cargoTotal) {
+        showToast(
+            msg: "Cargo Exceed the assigned limit of Industry",
+            textColor: MyColors.red);
+        return;
+      }
+      currentIndustrySubModel = checkIndustrySubModel;
+      //Step 6:  update vessel model
+      currentVesselModel = ref
+          .read(viajesUpdateNotiControllerProvider)
+          .updateExitWeightInVesselCargo(
+              originalModel: currentVesselModel,
+              exitTruckWeightMinusPeroTara: exitTruckWeightAtPort -
+                  currentViajesModel.entryTimeTruckWeightToPort,
+              oldExitTruckWeightMinusPeroTara:
+                  currentViajesModel.exitTimeTruckWeightToPort -
+                      currentViajesModel.entryTimeTruckWeightToPort,
+              currentViajesModel: currentViajesModel);
+      //Step 8 : in Viajes model update -exitPortWeight, deificit, pure cargo weight
+      currentViajesModel = currentViajesModel.copyWith(
+        cargoDeficitWeight:
+            exitTruckWeightAtPort - currentViajesModel.cargoUnloadWeight,
+        pureCargoWeight: exitTruckWeightAtPort -
+            currentViajesModel.entryTimeTruckWeightToPort,
+        exitTimeTruckWeightToPort: exitTruckWeightAtPort,
+
+      );
+      print(currentViajesModel.cargoDeficitWeight);
+      //Step 9: update all four models.
+      ref
+          .read(viajesControllerProvider.notifier)
+          .updateVaijesModelsForWeightUpdate(
+              viajesModel: currentViajesModel,
+              vesselModel: currentVesselModel,
+              currentIndustryModel: currentIndustrySubModel,
+              ref: ref,
+              context: context);
+    } catch (ex) {
+      showSnackBar(context: context, content: ex.toString());
+      print(ex);
+      return;
+    }
+  }
 
   Future<void> getIndustryModel({required WidgetRef ref}) async {
     await ref
@@ -135,7 +138,9 @@ class _ExitPortWeightUpdateDialogState
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: kIsWeb ?EdgeInsets.symmetric(horizontal: 0.35.sw):const EdgeInsets.all(8.0),
+      padding: kIsWeb
+          ? EdgeInsets.symmetric(horizontal: 0.35.sw)
+          : const EdgeInsets.all(8.0),
       child: Dialog(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.r),
@@ -183,15 +188,19 @@ class _ExitPortWeightUpdateDialogState
               SizedBox(
                 height: 8.h,
               ),
-              CustomTextField(
-                controller: exitPortWeightCtr,
-                hintText: "",
-                onChanged: (val) {},
-                onFieldSubmitted: (val) {},
-                obscure: false,
-                inputType: TextInputType.number,
-                onlyNumber: true,
-                label: "",
+              Form(
+                key: formKey,
+                child: CustomTextField(
+                  controller: exitPortWeightCtr,
+                  hintText: "",
+                  onChanged: (val) {},
+                  onFieldSubmitted: (val) {},
+                  obscure: false,
+                  inputType: TextInputType.number,
+                  onlyNumber: true,
+                  label: "",
+                  validatorFn: pesoBrutoValidator,
+                ),
               ),
               Consumer(
                 builder: (BuildContext context, WidgetRef ref, Widget? child) {
@@ -218,8 +227,7 @@ class _ExitPortWeightUpdateDialogState
                           if (exitPortWeightCtr.text.isEmpty) {
                             return;
                           }
-                          // Todo Industry model changes Effect: 5
-                          //await update(ref: ref);
+                          await update(ref: ref);
                           Navigator.pop(context);
                         },
                         buttonText: 'Update',
