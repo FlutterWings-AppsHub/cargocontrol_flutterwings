@@ -32,13 +32,6 @@ class ReportPDFFormat {
       String? imagePath}) async {
     final pdf = Document();
 
-    Uint8List? imageData;
-
-    if (imagePath != null) {
-      final ByteData image = await rootBundle.load(imagePath ?? '');
-      imageData = (image).buffer.asUint8List();
-    }
-
     Uint8List? companyLogo;
     companyLogo = await PdfConstants.convertAssetToUnit8(AppAssets.logo);
 

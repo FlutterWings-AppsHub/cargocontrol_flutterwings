@@ -10,10 +10,12 @@ import 'package:cargocontrol/routes/route_manager.dart';
 import 'package:cargocontrol/utils/constants/error_messages.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../commons/common_widgets/show_toast.dart';
+import '../../../../commons/common_functions/web_report_download.dart';
 import '../data/apis/ship_apis.dart';
 import 'ship_noti_controller.dart';
 
@@ -94,6 +96,13 @@ class ShipController extends StateNotifier<bool> {
       allViajesModels = r;
     });
     state = false;
+    if (kIsWeb) {
+      downloadWebReport(
+          vesselModel: vesselModel,
+          allIndustriesModels: allIndustryGuideModels,
+          allViajesModel: allViajesModels);
+      return;
+    }
     if (allViajesModels.isNotEmpty && allIndustryGuideModels.isNotEmpty) {
       Navigator.pushNamed(context, AppRoutes.reportScreen, arguments: {
         'vesselModel': vesselModel,
@@ -114,8 +123,9 @@ class ShipController extends StateNotifier<bool> {
     state = true;
     List<IndustrySubModel> allIndustryGuideModels = [];
     List<ViajesModel> allViajesModels = [];
-    final getIndustrieesSubModels = await _datasource.getAllIndustrySubModelsforIndustry(
-        vesselId: vesselModel.vesselId, realIndustryId: realIndustryId);
+    final getIndustrieesSubModels =
+        await _datasource.getAllIndustrySubModelsforIndustry(
+            vesselId: vesselModel.vesselId, realIndustryId: realIndustryId);
 
     getIndustrieesSubModels.fold((l) {
       state = false;
@@ -127,8 +137,8 @@ class ShipController extends StateNotifier<bool> {
       allIndustryGuideModels = r;
     });
 
-    final getAllViajeses =
-    await _datasource.getAllViajesForIndustry(vesselId: vesselModel.vesselId, realIndustryId: realIndustryId);
+    final getAllViajeses = await _datasource.getAllViajesForIndustry(
+        vesselId: vesselModel.vesselId, realIndustryId: realIndustryId);
 
     getAllViajeses.fold((l) {
       state = false;
@@ -140,6 +150,13 @@ class ShipController extends StateNotifier<bool> {
       allViajesModels = r;
     });
     state = false;
+    if (kIsWeb) {
+      downloadWebReport(
+          vesselModel: vesselModel,
+          allIndustriesModels: allIndustryGuideModels,
+          allViajesModel: allViajesModels);
+      return;
+    }
     if (allViajesModels.isNotEmpty && allIndustryGuideModels.isNotEmpty) {
       Navigator.pushNamed(context, AppRoutes.reportScreen, arguments: {
         'vesselModel': vesselModel,

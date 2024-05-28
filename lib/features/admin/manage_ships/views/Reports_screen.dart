@@ -112,11 +112,6 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
               onPressed: () async {
                 List<List<dynamic>> csvData =
                     generateCsvData(widget.allViajesModel);
-                //
-                // // Write to CSV file
-                // String csvContent = const ListToCsvConverter().convert(csvData);
-                // File csvFile = File('viajes_table.csv');
-                // csvFile.writeAsStringSync(csvContent);
 
                 // Get the application's temporary directory
                 Directory tempDir = await getTemporaryDirectory();
