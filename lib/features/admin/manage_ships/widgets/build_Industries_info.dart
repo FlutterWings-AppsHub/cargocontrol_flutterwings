@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:cargocontrol/commons/common_functions/format_weight.dart';
 import 'package:cargocontrol/features/admin/manage_ships/widgets/build_single_industry_info.dart';
 import 'package:cargocontrol/features/admin/manage_ships/widgets/build_vessel_info.dart';
 import 'package:cargocontrol/features/admin/manage_ships/widgets/pdf_text.dart';
@@ -15,7 +16,8 @@ import '../../../../utils/constants/font_manager.dart';
 
 Widget buildIndustriesInfo(
     {required VesselModel vesselModel,
-    required List<IndustrySubModel> allIndustriesModel,required List<ViajesModel> allViajes}) {
+    required List<IndustrySubModel> allIndustriesModel,
+    required List<ViajesModel> allViajes}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -24,9 +26,10 @@ Widget buildIndustriesInfo(
         width: 0.9.sw,
         padding: EdgeInsets.all(16.h),
         decoration: BoxDecoration(
-          color: PdfColors.white,
-          borderRadius: BorderRadius.only(topRight: Radius.circular(15.r), topLeft: Radius.circular(15.r))
-        ),
+            color: PdfColors.white,
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(15.r),
+                topLeft: Radius.circular(15.r))),
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -47,14 +50,14 @@ Widget buildIndustriesInfo(
                 height: 10.h,
               ),
               buildPdfRow(
-                  title: "Cantidad total",
-                  subText: vesselModel.totalCargoWeight.toStringAsFixed(0)),
+                      title: "Cantidad total",
+                      subText: "${formatWeight(vesselModel.totalCargoWeight)} ${vesselModel.weightUnitEnum.type}"),
               buildPdfRow(
-                  title: "Cantidad total descargada",
-                  subText: vesselModel.cargoUnloadedWeight.toStringAsFixed(0)),
+                      title: "Cantidad total descargada",
+                      subText: "${formatWeight(vesselModel.cargoUnloadedWeight)} ${vesselModel.weightUnitEnum.type}"),
               buildPdfRow(
-                  title: "Viajes totales", subText:allViajes.length.toString()),
-              
+                  title: "Viajes totales",
+                  subText: allViajes.length.toString()),
             ]),
       ),
     ],

@@ -60,11 +60,15 @@ Widget AdAllIndustriesInfoWidget(
                 height: 10.h,
               ),
               CustomTile(
-                  title: "Cantidad total",
-                  subText: vesselModel.totalCargoWeight.toStringAsFixed(0)),
+                title: "Cantidad total",
+                subText:
+                "${formatWeight(vesselModel.totalCargoWeight)} ${vesselModel.weightUnitEnum.type}",
+              ),
               CustomTile(
                   title: "Cantidad total descargada",
-                  subText: vesselModel.cargoUnloadedWeight.toStringAsFixed(0)),
+                  subText:
+                  "${formatWeight(vesselModel.cargoUnloadedWeight)} ${vesselModel.weightUnitEnum.type}"),
+
               CustomTile(
                   title: "Viajes totales", subText: totalViajes.toString()),
               Column(
@@ -160,7 +164,7 @@ Widget buildSingleIndustryInfo(
                 "${formatWeight(industrySubModel.cargoAssigned)} ${vesselModel.weightUnitEnum.type}",
           ),
           CustomTile(
-              title: "Asignación",
+              title: "Porcentaje descargado",
               subText: ((industrySubModel.cargoAssigned /
                               industrySubModel.cargoTotal) *
                           100)
@@ -243,7 +247,7 @@ Widget buildSingleProductIndustryInfo(
                 "${formatWeight(vesselProductModel.pesoAssigned)} ${vesselModel.weightUnitEnum.type}",
           ),
           CustomTile(
-              title: "Asignación",
+              title: "Porcentaje descargado",
               subText: ((vesselProductModel.pesoAssigned /
                               vesselProductModel.pesoTotal) *
                           100)

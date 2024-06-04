@@ -58,7 +58,7 @@ Widget buildSingleProductIndustryInfo(
                   subText: "${formatWeight(vesselProductModel.pesoAssigned)} ${vesselModel.weightUnitEnum.type}",
                 ),
                 buildPdfRow(
-                    title: "Asignación",
+                    title: "Porcentaje descargado",
                     subText: ((vesselProductModel.pesoAssigned /
                         vesselProductModel.pesoTotal) *
                         100)

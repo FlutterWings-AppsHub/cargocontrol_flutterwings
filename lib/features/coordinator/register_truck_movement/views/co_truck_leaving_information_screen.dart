@@ -114,7 +114,7 @@ class _CoTruckLeavingInformationScreenState
                       CustomDropDown(
                         ctr: productModelName,
                         list: productsNames,
-                        labelText: 'Producto (Variedad)',
+                        labelText: 'Producto',
                         onChange: (String val) {
                           matchedIndustry?.vesselProductModels
                               .forEach((productModel) {
@@ -170,7 +170,7 @@ class _CoTruckLeavingInformationScreenState
                         },
                         onFieldSubmitted: (val) {},
                         obscure: false,
-                        label: 'Marchamo 1 (opcional)',
+                        label: 'Marchamo 2 (opcional)',
                         //validatorFn: sectionValidator,
                       ),
                       SizedBox(

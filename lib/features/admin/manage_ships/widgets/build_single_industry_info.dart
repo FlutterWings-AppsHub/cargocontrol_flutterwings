@@ -45,7 +45,7 @@ Widget buildSingleIndustryInfo(
                   subText: "${formatWeight( industrySubModel.cargoAssigned)} ${vesselModel.weightUnitEnum.type}",
                 ),
                 buildPdfRow(
-                    title: "Asignación",
+                    title: "Porcentaje descargado",
                     subText: ((industrySubModel.cargoAssigned /
                         industrySubModel.cargoTotal) *
                         100)

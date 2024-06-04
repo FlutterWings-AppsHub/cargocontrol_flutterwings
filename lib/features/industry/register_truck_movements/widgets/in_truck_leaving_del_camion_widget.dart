@@ -1,6 +1,7 @@
 import 'package:cargocontrol/commons/common_functions/format_weight.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/admin/create_vessel/widgets/preliminatr_tile.dart';
+import 'package:cargocontrol/models/vessel_models/vessel_cargo_model.dart';
 import 'package:cargocontrol/models/vessel_models/vessel_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -30,6 +31,9 @@ class _InTruckLeavingDelCamionWidgetState
             ref.watch(inTruckRegistrationNotiControllerProvider).matchedViajes!;
         VesselModel vesselmodel =
             ref.watch(inTruckRegistrationNotiControllerProvider).vesselModel!;
+        VesselCargoModel vesselCargoModel = vesselmodel.cargoModels
+            .where((element) => element.cargoId == model.cargoId)
+            .first;
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +53,9 @@ class _InTruckLeavingDelCamionWidgetState
             CustomTile(title: "Placa", subText: model.licensePlate),
             CustomTile(title: "Nombre de chofer", subText: model.chofereName),
             CustomTile(title: "Producto", subText: model.productName),
-            CustomTile(title: "Número de bodega", subText: model.cargoHoldCount.toString()+model.bogedaCountProductEnum.type),
+            CustomTile(title: "Número de bodega", subText: vesselCargoModel.multipleProductInBodega?
+            model.cargoHoldCount.toString()+model.bogedaCountProductEnum.type:model.cargoHoldCount.toString()
+            ),
             CustomTile(
                 title: "Peso tara",
                 subText:
@@ -62,6 +68,10 @@ class _InTruckLeavingDelCamionWidgetState
                 title: "Peso bruto de llegada",
                 subText:
                     "${formatWeight(widget.cargoUnloadWeight)} ${vesselmodel.weightUnitEnum.type}"),
+            CustomTile(
+                title: "Perdida",
+                subText:
+                "${formatWeight(model.exitTimeTruckWeightToPort-widget.cargoUnloadWeight)} ${vesselmodel.weightUnitEnum.type}"),
           ],
         );
       },

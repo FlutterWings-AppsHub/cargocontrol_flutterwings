@@ -107,15 +107,18 @@ class AdDashboardScreen extends ConsumerWidget {
                                         numberOfTrips:
                                             '${model.viajesIds.length}',
                                         divideNumber2: double.parse(
-                                            model.cargoUnloaded.toString()),
+                                            (model.cargoUnloaded +
+                                                    model.deficit)
+                                                .toString()),
                                         divideNumber1: double.parse(
                                             model.cargoTotal.toString()),
                                         barPercentage: double.parse(
-                                            (model.cargoUnloaded /
+                                            ((model.cargoUnloaded +
+                                                        model.deficit) /
                                                     model.cargoTotal)
                                                 .toStringAsFixed(2)),
                                         title: '${model.industryName}',
-                                        deficit: model.deficit.toString(),
+                                        deficit: formatWeight(model.deficit),
                                         weightUnitEnum:
                                             vesselModel.weightUnitEnum,
                                       );
@@ -223,6 +226,7 @@ class AdDashboardScreen extends ConsumerWidget {
                                         return GestureDetector(
                                           onTap: () {},
                                           child: ViajesRecentRecordCard(
+                                            viajesModel: model,
                                             isEntered:
                                                 model.viajesStatusEnum.type ==
                                                         ViajesStatusEnum

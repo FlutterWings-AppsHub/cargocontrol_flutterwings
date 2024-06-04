@@ -1,3 +1,4 @@
+import 'package:cargocontrol/commons/common_functions/format_weight.dart';
 import 'package:cargocontrol/commons/common_imports/common_libs.dart';
 import 'package:cargocontrol/core/enums/viajes_status_enum.dart';
 import 'package:cargocontrol/models/viajes_models/viajes_model.dart';
@@ -25,10 +26,10 @@ class _ViajesTableState extends State<ViajesTable> {
     'Placa',
     'Nombre Chofer',
     'Producto',
-    'Peso Tara',
-    'Peso Bruto',
-    'Peso Neto',
-    'Total descargado',
+    'Peso Tara (Kg)',
+    'Peso Bruto (Kg)',
+    'Peso Neto (Kg)',
+    'Total descargado (Kg)',
     'Perdida (Kg)',
     'Perdida (%)',
     'Hora de llegada',
@@ -85,7 +86,7 @@ class _ViajesTableState extends State<ViajesTable> {
             ))),
             DataCell(Center(
                 child: Text(
-              formatDateTime(widget.viajesList[index].entryTimeToPort),
+              formatDateTime(widget.viajesList[index].exitTimeToPort),
               style: getRegularStyle(
                   color: MyColors.black, fontSize: MyFonts.size11),
             ))),
@@ -109,35 +110,32 @@ class _ViajesTableState extends State<ViajesTable> {
             ))),
             DataCell(Center(
                 child: Text(
-              widget.viajesList[index].entryTimeTruckWeightToPort
-                  .toStringAsFixed(0),
+              formatWeight(widget.viajesList[index].entryTimeTruckWeightToPort),
               style: getRegularStyle(
                   color: MyColors.black, fontSize: MyFonts.size11),
             ))),
             DataCell(Center(
                 child: Text(
-              widget.viajesList[index].exitTimeTruckWeightToPort
-                  .toStringAsFixed(0),
+                    formatWeight(widget.viajesList[index].exitTimeTruckWeightToPort),
               style: getRegularStyle(
                   color: MyColors.black, fontSize: MyFonts.size11),
             ))),
             DataCell(Center(
                 child: Text(
-              (widget.viajesList[index].exitTimeTruckWeightToPort -
-                      widget.viajesList[index].entryTimeTruckWeightToPort)
-                  .toStringAsFixed(0),
+                    formatWeight((widget.viajesList[index].exitTimeTruckWeightToPort -
+                      widget.viajesList[index].entryTimeTruckWeightToPort)),
+              style: getRegularStyle(
+                  color: MyColors.black, fontSize: MyFonts.size11),
+            ))),
+            DataCell(Center(
+                child: Text(widget.viajesList[index].viajesStatusEnum!=ViajesStatusEnum.industryUnloaded?"----":
+                formatWeight((widget.viajesList[index].cargoUnloadWeight-widget.viajesList[index].entryTimeTruckWeightToPort)),
               style: getRegularStyle(
                   color: MyColors.black, fontSize: MyFonts.size11),
             ))),
             DataCell(Center(
                 child: Text(
-              widget.viajesList[index].cargoUnloadWeight.toStringAsFixed(0),
-              style: getRegularStyle(
-                  color: MyColors.black, fontSize: MyFonts.size11),
-            ))),
-            DataCell(Center(
-                child: Text(
-              widget.viajesList[index].cargoDeficitWeight.toStringAsFixed(0),
+                  formatWeight(widget.viajesList[index].cargoDeficitWeight),
               style: getRegularStyle(
                   color: MyColors.black, fontSize: MyFonts.size11),
             ))),

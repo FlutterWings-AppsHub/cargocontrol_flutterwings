@@ -50,6 +50,7 @@ class CoAllRecentiesScreen extends StatelessWidget {
                             return GestureDetector(
                               onTap: () {},
                               child: ViajesRecentRecordCard(
+                                viajesModel: model,
                                 isEntered: model.viajesStatusEnum.type ==
                                         ViajesStatusEnum.portEntered.type
                                     ? true

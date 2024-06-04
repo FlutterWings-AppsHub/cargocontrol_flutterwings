@@ -1,15 +1,12 @@
-import 'package:cargocontrol/models/vessel_models/vessel_model.dart';
-import 'package:cargocontrol/utils/constants/font_manager.dart';
+import 'package:cargocontrol/core/enums/viajes_status_enum.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 import 'package:pdf/widgets.dart' as pw;
-
-
+import '../../../../commons/common_functions/date_time_methods.dart';
+import '../../../../commons/common_functions/format_weight.dart';
 import '../../../../models/viajes_models/viajes_model.dart';
 import '../../../../utils/constants/app_constants.dart';
-
-import 'package:pdf/widgets.dart' as pw;
 
 Widget buildViajesTable(List<ViajesModel> viajesList) {
   final headers = [
@@ -19,10 +16,10 @@ Widget buildViajesTable(List<ViajesModel> viajesList) {
     'Placa',
     'Nombre Chofer',
     'Producto',
-    'Peso Tara',
-    'Peso Bruto',
-    'Peso Neto',
-    'Total descargado',
+    'Peso Tara (Kg)',
+    'Peso Bruto (Kg)',
+    'Peso Neto (Kg)',
+    'Total descargado (Kg)',
     'Perdida (Kg)',
     'Perdida (%)',
     'Hora de llegada',
@@ -53,18 +50,31 @@ Widget buildViajesTable(List<ViajesModel> viajesList) {
         [
           i + 1, // Incremental index starting from 1
           viajesList[i].guideNumber.toStringAsFixed(0),
-          AppConstants.constantDateTime==viajesList[i].exitTimeToPort?"--":formatDateTime(viajesList[i].exitTimeToPort),
+          AppConstants.constantDateTime == viajesList[i].exitTimeToPort
+              ? "--"
+              : formatDateTime(viajesList[i].exitTimeToPort),
           viajesList[i].licensePlate,
           viajesList[i].chofereName,
           viajesList[i].productName,
-          viajesList[i].entryTimeTruckWeightToPort.toStringAsFixed(0),
-          viajesList[i].exitTimeTruckWeightToPort.toStringAsFixed(0),
-          (viajesList[i].exitTimeTruckWeightToPort - viajesList[i].entryTimeTruckWeightToPort).toStringAsFixed(0),
-          viajesList[i].cargoUnloadWeight.toStringAsFixed(0),
+          formatWeight(viajesList[i].entryTimeTruckWeightToPort),
+          formatWeight(viajesList[i].exitTimeTruckWeightToPort),
+          formatWeight((viajesList[i].exitTimeTruckWeightToPort -
+              viajesList[i].entryTimeTruckWeightToPort)),
+          viajesList[i].viajesStatusEnum != ViajesStatusEnum.industryUnloaded
+              ? "--"
+              : formatWeight((viajesList[i].cargoUnloadWeight -
+                  viajesList[i].entryTimeTruckWeightToPort)),
           viajesList[i].cargoDeficitWeight.toStringAsFixed(0),
-          ((viajesList[i].cargoDeficitWeight / viajesList[i].pureCargoWeight) * 100).toStringAsFixed(2),
-          AppConstants.constantDateTime==viajesList[i].timeToIndustry?"--":formatDateTime(viajesList[i].timeToIndustry),
-          AppConstants.constantDateTime==viajesList[i].unloadingTimeInIndustry?"--":formatDateTime(viajesList[i].unloadingTimeInIndustry),
+          ((viajesList[i].cargoDeficitWeight / viajesList[i].pureCargoWeight) *
+                  100)
+              .toStringAsFixed(2),
+          viajesList[i].viajesStatusEnum == ViajesStatusEnum.portEntered ||
+                  viajesList[i].viajesStatusEnum == ViajesStatusEnum.portLeft
+              ? "--"
+              : formatDateTime(viajesList[i].timeToIndustry),
+          viajesList[i].viajesStatusEnum != ViajesStatusEnum.industryUnloaded
+              ? "--"
+              : formatDateTime(viajesList[i].unloadingTimeInIndustry),
           viajesList[i].industryName,
         ]
       ],
@@ -72,31 +82,14 @@ Widget buildViajesTable(List<ViajesModel> viajesList) {
     cellDecoration: cellDecoration,
     border: pw.TableBorder.all(width: 1, color: PdfColors.grey),
     headerStyle: pw.TextStyle(
-      fontWeight: pw.FontWeight.bold,
-      color: PdfColors.white,
-      fontSize: 7
-    ),
+        fontWeight: pw.FontWeight.bold, color: PdfColors.white, fontSize: 7),
     headerCellDecoration: pw.BoxDecoration(color: PdfColor.fromInt(0xFF000000)),
     rowDecoration: const pw.BoxDecoration(color: rowColor1),
     oddRowDecoration: const pw.BoxDecoration(color: rowColor2),
     cellHeight: 20.h,
-    cellStyle: TextStyle(
-        color: PdfColors.black,
-        fontSize: 6
-    ),
+    cellStyle: TextStyle(color: PdfColors.black, fontSize: 6),
     cellAlignments: {
       for (var i = 0; i < headers.length; i++) i: pw.Alignment.center,
     },
   );
 }
-
-String formatDateTime(DateTime dateTime) {
-  return "${dateTime.day}:${dateTime.hour}:${dateTime.minute}:${dateTime.second}";
-}
-
-
-
-
-
-
-

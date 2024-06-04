@@ -134,7 +134,7 @@ class _AdViajesTimeEditScreenState extends State<AdViajesTimeEditScreen> {
                           height: 28.h,
                         ),
                         Text(
-                          "Tiempo de viaje",
+                          "Control de Tiempo",
                           style: getBoldStyle(
                             color: context.textColor,
                             fontSize: MyFonts.size14,

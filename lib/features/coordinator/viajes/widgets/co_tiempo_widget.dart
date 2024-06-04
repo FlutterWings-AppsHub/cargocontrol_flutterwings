@@ -12,7 +12,7 @@ class CoTiempoWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Tiempo de viaje", style: getBoldStyle(
+        Text("Control de Tiempo", style: getBoldStyle(
           color: context.textColor,
           fontSize: MyFonts.size14,
         ),),

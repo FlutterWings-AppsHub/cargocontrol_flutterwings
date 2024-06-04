@@ -26,7 +26,7 @@ class InPreliminarInfoWidget extends StatelessWidget {
             SizedBox(height: 28.h,),
             CustomTile(
                 title: "Número de guía",
-                subText: viajesModel.guideNumber.toString()
+                subText: viajesModel.guideNumber.toInt().toString()
             ),
             CustomTile(
                 title: "Placa",

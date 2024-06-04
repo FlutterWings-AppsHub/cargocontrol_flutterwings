@@ -89,7 +89,7 @@ class InDashboardScreen extends ConsumerWidget {
                                     Padding(
                                       padding: EdgeInsets.only(top: 20.h,left: 15.w),
                                       child: Text(
-                                        "Industry",
+                                        "Industria",
                                         style: getBoldStyle(color: context.textColor, fontSize: MyFonts.size14),
                                       ),
                                     ),

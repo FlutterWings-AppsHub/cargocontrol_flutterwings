@@ -74,6 +74,7 @@ class _CoTruckBriefScreenState extends ConsumerState<CoTruckBriefScreen> {
                                 isLoading: ref.watch(truckRegistrationControllerProvider),
                                   buttonWidth: double.infinity,
                                   onPressed: ()async{
+                                  if(!ref.watch(truckRegistrationControllerProvider)){
                                   if(truckNotiCtr.selectedChofere!= null){
                                     String choferesName =truckNotiCtr.selectedChofere?.firstName?? '';
                                     choferesName = "$choferesName ${truckNotiCtr.selectedChofere?.lastName?? ''}";
@@ -95,6 +96,7 @@ class _CoTruckBriefScreenState extends ConsumerState<CoTruckBriefScreen> {
                                         ref: ref,
                                         context: context
                                     );
+                                  }
                                   }
                                 },
                                 buttonText: "CONFIRMAR"

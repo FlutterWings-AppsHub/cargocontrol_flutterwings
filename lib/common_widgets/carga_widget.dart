@@ -210,7 +210,8 @@ class CargaWidget extends StatelessWidget {
                   return CustomTile(
                     title: "Deficit promedio de chofer",
                     subText: "${formatWeight(model.averageCargoDeficit)} ${viajesModel.weightUnitEnum.type}",
-                    isGoodSign: true,
+                    isGoodSign: false,
+                    hasWarning: true,
                   );
                 },
                 error: (error, st) {

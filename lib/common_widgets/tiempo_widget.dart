@@ -69,7 +69,7 @@ class TiempoWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Tiempo de viaje",
+            "Control de Tiempo",
             style: getBoldStyle(
               color: context.textColor,
               fontSize: MyFonts.size14,
@@ -98,7 +98,7 @@ class TiempoWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Tiempo de viaje",
+            "Control de Tiempo",
             style: getBoldStyle(
               color: context.textColor,
               fontSize: MyFonts.size14,
@@ -118,7 +118,7 @@ class TiempoWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Tiempo de viaje",
+            "Control de Tiempo",
             style: getBoldStyle(
               color: context.textColor,
               fontSize: MyFonts.size14,

@@ -16,7 +16,8 @@ import '../../../admin/create_vessel/widgets/preliminatr_tile.dart';
 
 Widget InIndustriesInfoWidget(
     {required VesselModel vesselModel,
-    required List<IndustrySubModel> allIndustriesModel, required IndustrySubModel industrySubModel,
+    required List<IndustrySubModel> allIndustriesModel,
+    required IndustrySubModel industrySubModel,
     required BuildContext context}) {
   int totalViajes = 0;
   for (var industrySubModel in allIndustriesModel) {
@@ -54,14 +55,20 @@ Widget InIndustriesInfoWidget(
                 height: 10.h,
               ),
               CustomTile(
-                  title: "Cantidad total",
-                  subText: vesselModel.totalCargoWeight.toStringAsFixed(0)),
+                title: "Cantidad total",
+                subText:
+                    "${formatWeight(vesselModel.totalCargoWeight)} ${vesselModel.weightUnitEnum.type}",
+              ),
               CustomTile(
                   title: "Cantidad total descargada",
-                  subText: vesselModel.cargoUnloadedWeight.toStringAsFixed(0)),
+                  subText:
+                      "${formatWeight(vesselModel.cargoUnloadedWeight)} ${vesselModel.weightUnitEnum.type}"),
               CustomTile(
                   title: "Viajes totales", subText: totalViajes.toString()),
-              buildSingleIndustryName(industrySubModel: industrySubModel, vesselModel: vesselModel, context: context),
+              buildSingleIndustryName(
+                  industrySubModel: industrySubModel,
+                  vesselModel: vesselModel,
+                  context: context),
               Column(
                 children: industrySubModel.vesselProductModels
                     .map<Widget>((vesselProductModel) {
@@ -73,20 +80,20 @@ Widget InIndustriesInfoWidget(
                 }).toList(),
               ),
               buildSingleIndustryInfo(
-                  industrySubModel: industrySubModel, vesselModel: vesselModel,context: context),
+                  industrySubModel: industrySubModel,
+                  vesselModel: vesselModel,
+                  context: context),
             ]),
       ),
       SizedBox(height: 30.h),
-
     ],
   );
 }
 
-
 Widget buildSingleIndustryName(
-    {required IndustrySubModel industrySubModel,
-      required VesselModel vesselModel,
-      required BuildContext context}) =>
+        {required IndustrySubModel industrySubModel,
+        required VesselModel vesselModel,
+        required BuildContext context}) =>
     Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -94,7 +101,8 @@ Widget buildSingleIndustryName(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Divider(thickness: 1.h, color: MyColors.kText3Color.withOpacity(0.4)),
+              Divider(
+                  thickness: 1.h, color: MyColors.kText3Color.withOpacity(0.4)),
               SizedBox(
                 height: 10.h,
               ),
@@ -112,9 +120,9 @@ Widget buildSingleIndustryName(
       ],
     );
 Widget buildSingleIndustryInfo(
-    {required IndustrySubModel industrySubModel,
-      required VesselModel vesselModel,
-      required BuildContext context}) =>
+        {required IndustrySubModel industrySubModel,
+        required VesselModel vesselModel,
+        required BuildContext context}) =>
     Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -132,24 +140,24 @@ Widget buildSingleIndustryInfo(
           CustomTile(
             title: "Cantidad total asignada",
             subText:
-            "${formatWeight(industrySubModel.cargoTotal)} ${vesselModel.weightUnitEnum.type}",
+                "${formatWeight(industrySubModel.cargoTotal)} ${vesselModel.weightUnitEnum.type}",
           ),
           CustomTile(
             title: "Cantidad total despachada",
             subText:
-            "${formatWeight(industrySubModel.cargoAssigned)} ${vesselModel.weightUnitEnum.type}",
+                "${formatWeight(industrySubModel.cargoAssigned)} ${vesselModel.weightUnitEnum.type}",
           ),
           CustomTile(
-              title: "Asignación",
+              title: "Porcentaje descargado",
               subText: ((industrySubModel.cargoAssigned /
-                  industrySubModel.cargoTotal) *
-                  100)
-                  .toStringAsFixed(0) +
+                              industrySubModel.cargoTotal) *
+                          100)
+                      .toStringAsFixed(0) +
                   "%"),
           CustomTile(
             title: "Cantitad total descargada",
             subText:
-            "${formatWeight(industrySubModel.cargoUnloaded)} ${vesselModel.weightUnitEnum.type}",
+                "${formatWeight(industrySubModel.cargoUnloaded)} ${vesselModel.weightUnitEnum.type}",
           ),
           CustomTile(
             title: 'Comienzo de guia',
@@ -167,9 +175,9 @@ Widget buildSingleIndustryInfo(
             CustomTile(
                 title: "Perdida total (%)",
                 subText: ((industrySubModel.deficit /
-                    industrySubModel.cargoAssigned) *
-                    100)
-                    .toStringAsFixed(0) +
+                                industrySubModel.cargoAssigned) *
+                            100)
+                        .toStringAsFixed(0) +
                     "%"),
           CustomTile(
               title: "Viajes",
@@ -180,10 +188,10 @@ Widget buildSingleIndustryInfo(
         ]);
 
 Widget buildSingleProductIndustryInfo(
-    {required IndustrySubModel industrySubModel,
-      required VesselProductModel vesselProductModel,
-      required VesselModel vesselModel,
-      required BuildContext context}) =>
+        {required IndustrySubModel industrySubModel,
+        required VesselProductModel vesselProductModel,
+        required VesselModel vesselModel,
+        required BuildContext context}) =>
     Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -196,7 +204,9 @@ Widget buildSingleProductIndustryInfo(
                 fontSize: MyFonts.size12,
               ),
             ),
-            SizedBox(width: 20.w,),
+            SizedBox(
+              width: 20.w,
+            ),
             Expanded(
               child: Text(
                 vesselProductModel.productName,
@@ -215,37 +225,37 @@ Widget buildSingleProductIndustryInfo(
           CustomTile(
             title: "Cantidad total asignada",
             subText:
-            "${formatWeight(vesselProductModel.pesoTotal)} ${vesselModel.weightUnitEnum.type}",
+                "${formatWeight(vesselProductModel.pesoTotal)} ${vesselModel.weightUnitEnum.type}",
           ),
           CustomTile(
             title: "Cantitad total despachada",
             subText:
-            "${formatWeight(vesselProductModel.pesoAssigned)} ${vesselModel.weightUnitEnum.type}",
+                "${formatWeight(vesselProductModel.pesoAssigned)} ${vesselModel.weightUnitEnum.type}",
           ),
           CustomTile(
-              title: "Asignación",
+              title: "Porcentaje descargado",
               subText: ((vesselProductModel.pesoAssigned /
-                  vesselProductModel.pesoTotal) *
-                  100)
-                  .toStringAsFixed(0) +
+                              vesselProductModel.pesoTotal) *
+                          100)
+                      .toStringAsFixed(0) +
                   "%"),
           CustomTile(
             title: "Cantitad total descargada",
             subText:
-            "${formatWeight(vesselProductModel.pesoUnloaded)} ${vesselModel.weightUnitEnum.type}",
+                "${formatWeight(vesselProductModel.pesoUnloaded)} ${vesselModel.weightUnitEnum.type}",
           ),
           CustomTile(
             title: "Perdida total",
             subText:
-            "${formatWeight(vesselProductModel.deficit)} ${vesselModel.weightUnitEnum.type}",
+                "${formatWeight(vesselProductModel.deficit)} ${vesselModel.weightUnitEnum.type}",
           ),
           if (vesselProductModel.pesoAssigned.toInt() != 0)
             CustomTile(
                 title: "Perdida total (%)",
                 subText: ((vesselProductModel.deficit /
-                    vesselProductModel.pesoAssigned) *
-                    100)
-                    .toStringAsFixed(0) +
+                                vesselProductModel.pesoAssigned) *
+                            100)
+                        .toStringAsFixed(0) +
                     "%"),
           CustomTile(
               title: "Viajes",

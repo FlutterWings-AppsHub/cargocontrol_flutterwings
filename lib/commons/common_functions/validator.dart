@@ -7,16 +7,7 @@ RegExp letterReg = RegExp(r".*[A-Za-z].*");
 
 String? emailValidator(String? value) {
   if (!regEx.hasMatch(value!)) {
-    return 'Enter a valid email address';
-  }
-  return null;
-}
-
-
-String? isValidInstagramHandle(String? handle) {
-  RegExp regex = RegExp(r'^[a-zA-Z0-9._]{1,30}$');
-  if (!regex.hasMatch(handle!)) {
-    return 'Enter a valid email address';
+    return 'Ingresa una dirección de correo electrónico válida';
   }
   return null;
 }
@@ -24,83 +15,84 @@ String? isValidInstagramHandle(String? handle) {
 
 String? uNameValidator(String? value) {
   if (value!.isEmpty) {
-    return 'Enter your user name';
+    return 'Ingresa tu nombre de usuario';
   }
   if (value.length > 15) {
-    return 'Exceeded 15 characters';
+    return 'Excedió los 15 caracteres';
   }
   return null;
 }
 
 String? countryValidator(String? value) {
   if (value!.isEmpty) {
-    return 'Enter your country';
+    return 'Ingresa tu país';
   }
   return null;
 }
 
 String? sectionValidator(String? value) {
   if (value!.isEmpty) {
-    return 'Can\'t be empty';
+    return 'No puede estar vacío';
   }
   return null;
 }
+
 String? pesoTaraValidator(String? value) {
   if (value!.isEmpty) {
-    return 'Can\'t be empty';
+    return 'No puede estar vacío';
   }
   double pesoTara = 0.0;
-  try{
-    pesoTara= double.parse(value.trim());
-  }catch(e){
-    return "Peso Tara should be number";
+  try {
+    pesoTara = double.parse(value.trim());
+  } catch (e) {
+    return "El peso tara debe ser un número";
   }
-  if(pesoTara<10000 || pesoTara > 20000){
-    return "Peso Tara should be between 10,000 to 20,000";
+  if (pesoTara < 10000 || pesoTara > 20000) {
+    return "El peso tara debe estar entre 10,000 y 20,000";
   }
   return null;
 }
 
 String? pesoBrutoValidator(String? value) {
   if (value!.isEmpty) {
-    return 'Can\'t be empty';
+    return 'No puede estar vacío';
   }
   double pesoTara = 0.0;
-  try{
-    pesoTara= double.parse(value.trim());
-  }catch(e){
-    return "Peso burto should be number";
+  try {
+    pesoTara = double.parse(value.trim());
+  } catch (e) {
+    return "El peso bruto debe ser un número";
   }
-  if(pesoTara<30000 || pesoTara > 60000){
-    return "Peso bruto should be between 30,000 to 50,000";
+  if (pesoTara < 30000 || pesoTara > 60000) {
+    return "El peso bruto debe estar entre 30,000 y 60,000";
   }
   return null;
 }
 
 String? cityValidator(String? value) {
   if (value!.isEmpty) {
-    return 'Enter your City';
+    return 'Ingresa tu ciudad';
   }
   return null;
 }
 
 String? addressValidator(String? value) {
   if (value!.isEmpty) {
-    return 'Enter a Valid Address';
+    return 'Ingresa una dirección válida';
   }
   return null;
 }
 
 String? passValidator(String? value) {
   if (value!.length < 6) {
-    return 'can not have less than 6 characters';
+    return 'No puede tener menos de 6 caracteres';
   }
   return null;
 }
 
 String? phoneValidator(String? value) {
   if (value!.length > 12 || value.length < 8) {
-    return 'Enter at least 8 numbers!';
+    return '¡Ingresa al menos 8 números!';
   }
   return null;
 }

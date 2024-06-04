@@ -121,6 +121,8 @@ class _CoTruckLeavingBriefScreenState
                         productName: widget.productName,
                         marchamo1: widget.marchamo1,
                         marchamo2: widget.marchamo2,
+                        pesoNeto: "${formatWeight(widget.fullTruckWeight-truckCtr
+                            .matchedViajes!.entryTimeTruckWeightToPort)} ${truckCtr.vesselModel!.weightUnitEnum.type}",
                       ),
                       SizedBox(
                         height: 20.h,
