@@ -18,6 +18,7 @@ import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../commons/common_widgets/common_header.dart';
 import '../../../../commons/common_widgets/custom_appbar.dart';
 import '../../../../utils/constants/assets_manager.dart';
+import '../../number_plate/widgets/co_select_numberplate_bottom_sheet.dart';
 
 class CoTruckInfoScreen extends StatefulWidget {
   final double guideNumber;
@@ -101,6 +102,37 @@ class _CoTruckInfoScreenState extends State<CoTruckInfoScreen> {
                         SizedBox(
                           height: 24.h,
                         ),
+                        // CustomTextField(
+                        //   controller: scanCtr,
+                        //   hintText: '',
+                        //   onChanged: (val) {},
+                        //   onFieldSubmitted: (val) {},
+                        //   obscure: false,
+                        //   label: 'Placa',
+                        //   maxLength: 6,
+                        //   inputType: TextInputType.number,
+                        //   onlyNumber: true,
+                        //   validatorFn: sectionValidator,
+                        //   tailingIcon: InkWell(
+                        //       onTap: () async {
+                        //         final result = await Navigator.push(
+                        //           context,
+                        //           MaterialPageRoute(
+                        //               builder: (context) =>
+                        //                   const TextDetectorScreen()),
+                        //         );
+                        //         setState(() {
+                        //           scanCtr.text = result;
+                        //         });
+                        //       },
+                        //       splashColor: MyColors.transparentColor,
+                        //       focusColor: MyColors.transparentColor,
+                        //       highlightColor: MyColors.transparentColor,
+                        //       child: Image.asset(
+                        //         AppAssets.scanIcon,
+                        //         scale: 2.2,
+                        //       )),
+                        // ),
                         CustomTextField(
                           controller: scanCtr,
                           hintText: '',
@@ -108,29 +140,43 @@ class _CoTruckInfoScreenState extends State<CoTruckInfoScreen> {
                           onFieldSubmitted: (val) {},
                           obscure: false,
                           label: 'Placa',
-                          maxLength: 6,
-                          inputType: TextInputType.number,
-                          onlyNumber: true,
                           validatorFn: sectionValidator,
-                          tailingIcon: InkWell(
-                              onTap: () async {
-                                final result = await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const TextDetectorScreen()),
-                                );
-                                setState(() {
-                                  scanCtr.text = result;
-                                });
-                              },
-                              splashColor: MyColors.transparentColor,
-                              focusColor: MyColors.transparentColor,
-                              highlightColor: MyColors.transparentColor,
-                              child: Image.asset(
-                                AppAssets.scanIcon,
-                                scale: 2.2,
-                              )),
+                          // tailingIcon: InkWell(
+                          //     onTap: () async {
+                          //       // final result = await Navigator.push(
+                          //       //   context,
+                          //       //   MaterialPageRoute(
+                          //       //       builder: (context) =>
+                          //       //       const TextDetectorScreen()),
+                          //       // );
+                          //       // setState(() {
+                          //       //   scanCtr.text = result;
+                          //       // });
+                          //     },
+                          //     splashColor: MyColors.transparentColor,
+                          //     focusColor: MyColors.transparentColor,
+                          //     highlightColor: MyColors.transparentColor,
+                          //     child: Image.asset(
+                          //       AppAssets.scanIcon,
+                          //       scale: 2.2,
+                          //     )),
+                          readOnly: true,
+                          onTap: () {
+                            bottomSheetComponent(
+                              context,
+                              adjustSizeOnOpenKeyboard: true,
+                              height: 750.h,
+                              CoSelectNumberPlateBottomSheet(
+                                selectNumberPlate: (String name) {
+                                  setState(() {
+                                    scanCtr.text = name;
+                                  });
+                                },
+                              ),
+                              isDismissible: true,
+                            );
+                          },
+
                         ),
                         CustomTextField(
                           controller: driverNameCtr,

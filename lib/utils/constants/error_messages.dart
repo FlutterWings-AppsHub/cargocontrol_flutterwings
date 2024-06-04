@@ -35,6 +35,8 @@ class Messages {
   static const String pesoExceeedError = "El peso bruto es mayor a la carga total. El máximo es";
 
   static const String enterPlateNumberError =   'Ingrese la placa';
+  static const String numberplateRegisterSuccess =   'Number Plate Registered!';
+  static const String numberplateDeleteSuccess =   'Number Plate Deleted Successfully!';
   static const String viajesUnlaodedSuccess  = 'Camion descargado exitosamente';
   static const String industryCreateError =   'Porfavor cree el registro del Buque primero';
   static const String vesselHasNotFinishError =   "El buque no se ha descargado en su totalidad";

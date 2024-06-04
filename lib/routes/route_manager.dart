@@ -19,17 +19,15 @@ import 'package:cargocontrol/features/coordinator/register_truck_movement/views/
 import 'package:flutter/material.dart';
 
 import '../features/admin/choferes/views/ad_choferes_details_screen.dart';
-import '../features/admin/create_industry/widgets/industries_for_all_data.dart';
 import '../features/admin/create_vessel/views/create_vessle_bodega_info_screen.dart';
 import '../features/admin/dashboard/views/ad_all_recenties_screen.dart';
 import '../features/admin/manage_ships/views/manage_ships_screen.dart';
 import '../features/admin/ships_reports_web/views/ad_ship_report_web_vessel_model_screen.dart';
-import '../features/coordinator/register_truck_movement/views/co_select_chofer_sheet.dart';
+import '../features/coordinator/number_plate/views/co_platenumber_screen.dart';
 import '../features/coordinator/register_truck_movement/views/co_truck_brief_screen.dart';
 import '../features/coordinator/register_truck_movement/views/co_registration_successfull_screen.dart';
 import '../features/coordinator/register_truck_movement/views/co_truck_leaving_information_screen.dart';
 import '../features/coordinator/register_truck_movement/views/register_truck_leaving_screen.dart';
-import '../features/dashboard/components/dashboard_screen.dart';
 import '../features/industry/choferes/views/in_choferes_details_screen.dart';
 import '../features/industry/dashboard/views/in_dashboard_screen.dart';
 import '../features/industry/in_ships_reports_web/views/in_ship_report_web_Vessel_model_screen.dart';
@@ -69,7 +67,10 @@ class AppRoutes {
   static const String adManageShipsScreen = '/adManageShipsScreen';
   static const String adAllRecentiesScreen = '/adAllRecentiesScreen';
 
+
+
   // Coordinator Section
+  static const String coNumberplateScreen = '/coNumberplateScreen';
   static const String coMainMenuScreen = '/coMainMenuScreen';
   static const String registerTruckEnteringScreen =
       '/registerTruckEnteringScreen';
@@ -183,6 +184,7 @@ class AppRoutes {
       case adAllRecentiesScreen:
         return _buildRoute(const AdAllRecentiesScreen());
 
+
       // Coordinator Screens
       case coMainMenuScreen:
         return _buildRoute(const CoMainMenuScreen());
@@ -195,6 +197,9 @@ class AppRoutes {
             guideNumber: args['guideNumber'],
           ),
         );
+
+      case coNumberplateScreen:
+        return _buildRoute(const CoNumberPlateScreen());
       case coTruckBriefScreen:
         final args = settings.arguments as Map<String, dynamic>;
         return _buildRoute(
