@@ -64,19 +64,19 @@ dependencies:
   firebase_database: ^10.2.6
   async: ^2.11.0
   uuid: ^4.2.1
-
+  flutter_popup: ^3.3.0
   syncfusion_flutter_pdfviewer: ^23.2.7
   syncfusion_flutter_core: ^23.2.7
   open_file: ^3.3.2
   path_provider: ^2.1.1
   shortid: ^0.1.2
   share_plus: ^7.2.1
-  pdf: ^3.10.7
+#  pdf: ^3.10.7
   carousel_slider: ^4.2.1
   csv: ^6.0.0
   printing: ^5.12.0
   universal_html: ^2.2.4
-
+  fvm: ^3.1.6
 
 dev_dependencies:
   flutter_test:

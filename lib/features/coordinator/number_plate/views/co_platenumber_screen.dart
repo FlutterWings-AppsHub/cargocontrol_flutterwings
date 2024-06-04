@@ -1,26 +1,25 @@
 import 'package:cargocontrol/commons/common_imports/apis_commons.dart';
 import 'package:cargocontrol/commons/common_imports/common_libs.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
-import 'package:cargocontrol/features/admin/choferes/widgets/add_choferes_modal.dart';
 import 'package:cargocontrol/utils/constants.dart' as constants;
 import 'package:cargocontrol/utils/constants/app_constants.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../../utils/constants/font_manager.dart';
 import '../../../../utils/loading.dart';
-import '../controllers/choferes_noti_controller.dart';
-import '../widgets/ad_add_choferes_dialoge.dart';
-import '../widgets/ad_choferes_list.dart';
+import '../controllers/numberplate_noti_controller.dart';
+import '../widgets/co_add_plate_dialoge.dart';
+import '../widgets/co_numberplates_list.dart';
 
-class AdChoferesScreen extends ConsumerWidget {
-  const AdChoferesScreen({super.key});
+class CoNumberPlateScreen extends ConsumerWidget {
+  const CoNumberPlateScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text('Choferes', style: getBoldStyle(
+        title: Text('Number Plate', style: getBoldStyle(
             color: context.textColor,
           fontSize: MyFonts.size28
         )),
@@ -32,8 +31,8 @@ class AdChoferesScreen extends ConsumerWidget {
           child: Column(
             children: [
               SizedBox(height: 20.h,),
-              const AdChoferesList(),
-              ref.watch(choferesNotiController).isSecondaryLoading?
+              const CoNumberplatesList(),
+              ref.watch(numberPlateNotiController).isSecondaryLoading?
               const LoadingWidget(): const SizedBox()
             ],
           ),
@@ -44,13 +43,9 @@ class AdChoferesScreen extends ConsumerWidget {
           showDialog(
               context: context,
               builder: (context) {
-                return const AddChoferesModal();
+                return CoAddPlateNumberDialoge();
               });
-          // showModalBottomSheet(
-          //     backgroundColor: Colors.white,
-          //     elevation: 0,
-          //     context: context,
-          //     builder: (context) => const AddChoferesModal());
+
         },
         backgroundColor: constants.kMainColor,
         child: const FaIcon(

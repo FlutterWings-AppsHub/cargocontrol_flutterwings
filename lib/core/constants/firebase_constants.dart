@@ -15,6 +15,7 @@ class FirebaseConstants {
   static String industryGuideCollection = 'industry-guide-collection';
 
   static String choferesCollection = 'choferes-collection';
+  static String numberplateCollection = 'numberplate-collection';
 
   static String viajesCollection = 'viajes-collection';
 

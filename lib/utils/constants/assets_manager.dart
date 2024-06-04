@@ -17,4 +17,5 @@ class AppAssets{
 
   // Images Paths
   static const String logo = '$logosPath/logo.png';
+  static const String colorFulCircle = 'assets/images/general/colorful_circle.png';
 }

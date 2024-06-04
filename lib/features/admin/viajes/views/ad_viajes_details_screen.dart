@@ -18,6 +18,7 @@ import '../controllers/viajes_completed_noti_controller.dart';
 import '../controllers/viajes_controller.dart';
 import '../controllers/viajes_inprogess_noti_controller.dart';
 import '../controllers/viajes_noti_controller.dart';
+import '../widgets/tiempo_new_widget.dart';
 import 'exit_port_weight_update_dialog.dart';
 import 'industry_unloading_weight_update_dialog.dart';
 
@@ -147,7 +148,7 @@ class _AdViajesDetailsScreenState extends State<AdViajesDetailsScreen> {
                         SizedBox(
                           height: 28.h,
                         ),
-                        TiempoWidget(
+                        TiempoNewWidget(
                           viajesModel: viajesModel,
                           onEdit: () {
                             Navigator.pushNamed(

@@ -182,3 +182,30 @@ Map<String, dynamic> viajesSearchTagsHandler({
 
   return searchTags;
 }
+
+Map<String, dynamic> numberPlateSearchTagHandler({
+  required String plateNo,
+  required String color,
+  required String model,
+}) {
+  Map<String, dynamic> searchTags = {};
+  if (plateNo != '') {
+    plateNo.trim().split(' ').forEach((val) {
+      searchTags[val.toLowerCase()] = true;
+    });
+  }
+
+  if (color != "") {
+    color.trim().split(' ').forEach((val) {
+      searchTags[val.toLowerCase()] = true;
+    });
+  }
+
+  if (model != "") {
+    model.trim().split(' ').forEach((val) {
+      searchTags[val.toLowerCase()] = true;
+    });
+  }
+
+  return searchTags;
+}
