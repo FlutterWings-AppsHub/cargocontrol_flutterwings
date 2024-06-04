@@ -68,7 +68,7 @@ class AdAllRecentiesScreen extends StatelessWidget {
                                 isCompleted: model.viajesTypeEnum ==
                                         ViajesTypeEnum.completed
                                     ? true
-                                    : false,
+                                    : false, viajesModel: model,
                               ),
                             );
                           },

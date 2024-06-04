@@ -14,7 +14,7 @@ String formatDateTimeForRecentRegisteries(DateTime? dateTime) {
   }
 
   String formattedDate = '${dateTime.month}/${dateTime.day}/${dateTime.year % 100} ';
-  formattedDate += '${dateTime.hour}:${dateTime.minute}:${dateTime.second}';
+  formattedDate += '${dateTime.hour}:${dateTime.minute}';
 
   return formattedDate;
 }

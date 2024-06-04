@@ -1,6 +1,7 @@
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/admin/create_vessel/widgets/preliminatr_tile.dart';
 
+import '../../models/viajes_models/viajes_model.dart';
 import '../common_functions/date_formatter.dart';
 import '../common_imports/common_libs.dart';
 
@@ -13,22 +14,24 @@ class ViajesRecentRecordCard extends StatelessWidget {
   final String plateNo;
   final String guideNumber;
   final DateTime portEntryTime;
-  const ViajesRecentRecordCard({Key? key, required this.isEntered, required this.isLeaving, required this.driverName, required this.guideNumber, required this.portEntryTime, required this.productName, required this.plateNo, required this.isCompleted}) : super(key: key);
+  final ViajesModel viajesModel;
+  const ViajesRecentRecordCard({Key? key, required this.isEntered, required this.isLeaving, required this.driverName, required this.guideNumber, required this.portEntryTime, required this.productName, required this.plateNo, required this.isCompleted, required this.viajesModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    DateTime dateTime= isCompleted?viajesModel.timeToIndustry:isEntered?viajesModel.entryTimeToPort: viajesModel.exitTimeToPort;
     return  Column(
       children: [
         CustomTile(
           title: "$driverName - $plateNo",
-          subText: isCompleted?"completado":isEntered? 'En patio': 'Despachado',
+          subText: isCompleted?"Completado":isEntered? 'En patio': 'Despachado',
           isGoodSign: isEntered,
           hasWarning: isLeaving,
         ),
 
         CustomTile(
           title: "$guideNumber - $productName",
-          subText: formatDateTimeForRecentRegisteries(portEntryTime),
+          subText: formatDateTimeForRecentRegisteries(dateTime),
         ),
         SizedBox(height: 10.h,),
         Divider(

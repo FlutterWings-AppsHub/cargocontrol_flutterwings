@@ -21,10 +21,13 @@ DateTime timeOfDayToDateTime(TimeOfDay timeOfDay){
   final dateTime = DateTime(now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
   return dateTime;
 }
-
 String formatDateTime(DateTime dateTime) {
-  return DateFormat('hh:mm a').format(dateTime);
+  String day = dateTime.day.toString().padLeft(2, '0');
+  String hour = dateTime.hour.toString().padLeft(2, '0');
+  String minute = dateTime.minute.toString().padLeft(2, '0');
+  return "$day:$hour:$minute";
 }
+
 
 String formatDateAndTime(DateTime dateTime) {
   return DateFormat('MMM, d, yyyy, hh:mm a').format(dateTime);

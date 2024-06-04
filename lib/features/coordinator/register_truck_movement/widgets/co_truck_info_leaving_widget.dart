@@ -13,6 +13,7 @@ class CoTruckInfoLeavingWidget extends StatelessWidget {
   final String productName;
   final String marchamo1;
   final String marchamo2;
+  final String pesoNeto;
   const CoTruckInfoLeavingWidget(
       {Key? key,
       required this.plateNumber,
@@ -22,7 +23,7 @@ class CoTruckInfoLeavingWidget extends StatelessWidget {
       required this.bogedaId,
       required this.productName,
       required this.marchamo1,
-      required this.marchamo2})
+      required this.marchamo2, required this.pesoNeto})
       : super(key: key);
 
   @override
@@ -44,12 +45,15 @@ class CoTruckInfoLeavingWidget extends StatelessWidget {
         CustomTile(title: "Nombre de chofer", subText: chofereName),
         CustomTile(title: "Peso tara", subText: truckWeight),
         CustomTile(title: "Peso bruto", subText: totalWeight),
-        CustomTile(title: "Product Name", subText: productName),
-        CustomTile(title: "Bodega ID", subText: bogedaId),
+        CustomTile(title: "Producto", subText: productName),
+        CustomTile(title: "Número de Bodega", subText: bogedaId),
         if (marchamo1.isNotEmpty)
           CustomTile(title: "Marchamo 1", subText: marchamo1),
         if (marchamo2.isNotEmpty)
-          CustomTile(title: "Marchamo 1", subText: marchamo2),
+          CustomTile(title: "Marchamo 2", subText: marchamo2),
+        CustomBoldTile(title: "Peso Neto", subText: pesoNeto),
+
+
       ],
     );
   }

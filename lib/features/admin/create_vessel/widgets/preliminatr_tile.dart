@@ -47,3 +47,46 @@ class CustomTile extends StatelessWidget {
     );
   }
 }
+class CustomBoldTile extends StatelessWidget {
+  final String title;
+  final String subText;
+  final bool hasWarning;
+  final bool isGoodSign;
+  const   CustomBoldTile({Key? key, required this.title, required this.subText, this.hasWarning = false, this.isGoodSign= false}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(
+        bottom: 8.h,
+        top:  8.h,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Text(title, style: getBoldStyle(
+              color: context.textColor,
+              fontSize: MyFonts.size12,
+            ),),
+          ),
+          SizedBox(width: 20.w,),
+          Container(
+            constraints: BoxConstraints(
+                maxWidth: 150.w,minWidth: 65.w
+            ),
+            child: Text(subText, style: getBoldStyle(
+              color:
+              hasWarning ? context.errorColor:
+              isGoodSign ? context.brandColor:
+              context.textColor,
+              fontSize: MyFonts.size12,
+            ),
+              textAlign: TextAlign.end,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

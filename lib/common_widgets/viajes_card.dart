@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cargocontrol/utils/constants.dart' as constants;
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 import '../core/enums/viajes_type.dart';
@@ -35,18 +36,24 @@ class ViajesCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        'Camión',
-                        style: getRegularStyle(color: context.textColor, fontSize: MyFonts.size12),
-                      ),
-                      Text(
-                        " ${model.chofereName} - ${model.chofereId}",
-                        style: getBoldStyle(color: context.textColor, fontSize: MyFonts.size12),
-                      ),
-                    ],
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Text(
+                          'Camión',
+                          style: getRegularStyle(color: context.textColor, fontSize: MyFonts.size12),
+                        ),
+                        Expanded(
+                          child: Text(
+                            " ${model.chofereName} - ${model.chofereId}",
+                            overflow: TextOverflow.ellipsis,
+                            style: getBoldStyle(color: context.textColor, fontSize: MyFonts.size12),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
+                  SizedBox(width: 10.w,),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
                     decoration: constants.DecorationStyles.viajesChipDecoration.copyWith(

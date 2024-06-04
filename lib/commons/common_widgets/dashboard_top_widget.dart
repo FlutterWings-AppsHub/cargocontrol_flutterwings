@@ -71,7 +71,7 @@ class DashBoardTopWidget extends StatelessWidget {
                               .watch(fetchCurrentVesselViajesDeficit(
                                   vesselModel.vesselId))
                               .when(data: (viajesDeficitModel) {
-                            return AdProgressIndicatorCard(
+                            return AdAllBodegaIndicatorCard(
                               numberOfTrips: viajesDeficitModel.viajesCount,
                               divideNumber2: vesselModel.cargoUnloadedWeight,
                               divideNumber1: vesselModel.totalCargoWeight,
@@ -85,7 +85,7 @@ class DashBoardTopWidget extends StatelessWidget {
                               weightUnitEnum: vesselModel.weightUnitEnum,
                             );
                           }, error: (error, st) {
-                            return AdProgressIndicatorCard(
+                            return AdAllBodegaIndicatorCard(
                               numberOfTrips: '0',
                               divideNumber2: (vesselModel.totalCargoWeight -
                                   vesselModel.cargoUnloadedWeight),
@@ -99,7 +99,7 @@ class DashBoardTopWidget extends StatelessWidget {
                               weightUnitEnum: vesselModel.weightUnitEnum,
                             );
                           }, loading: () {
-                            return AdProgressIndicatorCard(
+                            return AdAllBodegaIndicatorCard(
                               numberOfTrips: '0',
                               divideNumber2: (vesselModel.totalCargoWeight -
                                   vesselModel.cargoUnloadedWeight),

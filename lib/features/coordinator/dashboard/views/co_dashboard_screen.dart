@@ -181,8 +181,9 @@ class CoDashboardScreen extends ConsumerWidget {
                                       return CoDashboardMiniCard(
                                         title: 'Camiones ',
                                         subTitle: 'Despachados',
-                                          isBad: true,
-                                          value: "${viajesList.length}",);
+                                        isBad: true,
+                                        value: "${viajesList.length}",
+                                      );
                                     },
                                     error: (error, st) {
                                       debugPrintStack(stackTrace: st);
@@ -270,6 +271,7 @@ class CoDashboardScreen extends ConsumerWidget {
                                         return GestureDetector(
                                           onTap: () {},
                                           child: ViajesRecentRecordCard(
+                                            viajesModel: model,
                                             isEntered:
                                                 model.viajesStatusEnum.type ==
                                                         ViajesStatusEnum
@@ -286,10 +288,13 @@ class CoDashboardScreen extends ConsumerWidget {
                                                 .toStringAsFixed(0),
                                             driverName: model.chofereName,
                                             portEntryTime:
-                                                model.entryTimeToPort, productName: model.productName, plateNo: model.licensePlate,  isCompleted: model.viajesTypeEnum ==
-                                              ViajesTypeEnum.completed
-                                              ? true
-                                              : false,
+                                                model.entryTimeToPort,
+                                            productName: model.productName,
+                                            plateNo: model.licensePlate,
+                                            isCompleted: model.viajesTypeEnum ==
+                                                    ViajesTypeEnum.completed
+                                                ? true
+                                                : false,
                                           ),
                                         );
                                       },

@@ -110,6 +110,7 @@ class TruckRegistrationController extends StateNotifier<bool> {
   }) async {
     state = true;
 
+    await Future.delayed(const Duration(seconds: 5));
     final String viajesId = Uuid().v4();
     DateTime entryTimeToPort = DateTime.now();
     ViajesModel viajesModel = ViajesModel(
