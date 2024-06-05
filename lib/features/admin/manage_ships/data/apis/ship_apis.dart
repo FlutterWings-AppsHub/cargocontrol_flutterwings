@@ -57,7 +57,7 @@ class ShipApis implements ShipsApisImplements {
       // Fetch all documents from the collection
       QuerySnapshot chofers = await chofersCollection.get();
 
-      // Update "choferesStatusEnum" field for each document
+      // Actualizar "choferesStatusEnum" field for each document
       for (QueryDocumentSnapshot doc in chofers.docs) {
         await chofersCollection.doc(doc.id).update({
           'choferesStatusEnum': ChoferesStatusEnum.available.type,

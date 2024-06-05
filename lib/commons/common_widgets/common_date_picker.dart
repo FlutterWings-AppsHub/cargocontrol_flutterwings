@@ -31,7 +31,7 @@ Future<DateTime?> showPlatformDatePicker({
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   CupertinoButton(
-                      child: Text('Cancel',
+                      child: Text('Cancelar',
                           textAlign: TextAlign.center,
                           style: getMediumStyle(
                             color: MyColors.kMainColor,

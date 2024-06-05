@@ -15,6 +15,7 @@ import '../../../../commons/common_widgets/show_toast.dart';
 import '../../../../models/vessel_models/vessel_cargo_model.dart';
 import '../../../../utils/constants/app_constants.dart';
 import '../../../../utils/constants/assets_manager.dart';
+import '../../../../utils/constants/error_messages.dart';
 import '../../../../utils/constants/font_manager.dart';
 import '../../../coordinator/register_truck_movement/controllers/truck_registration_noti_controller.dart';
 import '../controllers/viajes_controller.dart';
@@ -58,11 +59,11 @@ class _ExitPortWeightUpdateDialogState
       double exitTruckWeightAtPort = double.parse(exitPortWeightCtr.text);
       if (exitTruckWeightAtPort <
           widget.viajesModel.entryTimeTruckWeightToPort) {
-        showToast(msg: "Peso bruto cannot be less than peso tara!");
+        showToast(msg: Messages.pesoBrutoLessThanPesoTaraError);
         return;
       }
       if (exitTruckWeightAtPort < widget.viajesModel.cargoUnloadWeight) {
-        showToast(msg: "Peso bruto cannot be less than peso unloading!");
+        showToast(msg: Messages.pesoBrutoLessThanPesoUnloadingError);
         return;
       }
       ViajesModel currentViajesModel = widget.viajesModel;
@@ -85,7 +86,7 @@ class _ExitPortWeightUpdateDialogState
       if (checkIndustrySubModel.cargoAssigned >
           checkIndustrySubModel.cargoTotal) {
         showToast(
-            msg: "Cargo Exceed the assigned limit of Industry",
+            msg: Messages.cargoExceedsIndustryLimitError,
             textColor: MyColors.red);
         return;
       }
@@ -214,7 +215,7 @@ class _ExitPortWeightUpdateDialogState
                         onPressed: () async {
                           Navigator.pop(context);
                         },
-                        buttonText: 'Cancel',
+                        buttonText: 'Cancelar',
                       ),
                       SizedBox(
                         width: 12.w,
@@ -230,7 +231,7 @@ class _ExitPortWeightUpdateDialogState
                           await update(ref: ref);
                           Navigator.pop(context);
                         },
-                        buttonText: 'Update',
+                        buttonText: 'Actualizar',
                       ),
                     ],
                   );

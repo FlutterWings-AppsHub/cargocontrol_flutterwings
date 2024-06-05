@@ -162,7 +162,7 @@ class _EmptyTruckWeightWeightUpdateDialogState
                         onPressed: () async {
                           Navigator.pop(context);
                         },
-                        buttonText: 'Cancel',
+                        buttonText: 'Cancelar',
                       ),
                       SizedBox(
                         width: 12.w,
@@ -174,7 +174,7 @@ class _EmptyTruckWeightWeightUpdateDialogState
                         onPressed: () async {
                           await update(ref: ref);
                         },
-                        buttonText: 'Update',
+                        buttonText: 'Actualizar',
                       ),
                     ],
                   );

@@ -15,6 +15,7 @@ import 'package:numeric_keyboard/numeric_keyboard.dart';
 import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../commons/common_widgets/common_header.dart';
 import '../../../../commons/common_widgets/custom_appbar.dart';
+import '../../../../utils/constants/error_messages.dart';
 
 class CreateIndustryScreen extends ConsumerStatefulWidget {
   const CreateIndustryScreen({Key? key}) : super(key: key);
@@ -131,7 +132,7 @@ class _CreateIndustryScreenState extends ConsumerState<CreateIndustryScreen> {
                                     }
                                 );
                               }else{
-                                showSnackBar(context: context, content: 'You can register maximum ${indsutryNames.length} industries!');
+                                showSnackBar(context: context, content: Messages.maxIndustriesError(indsutryNames.length));
                               }
                             }
                           },

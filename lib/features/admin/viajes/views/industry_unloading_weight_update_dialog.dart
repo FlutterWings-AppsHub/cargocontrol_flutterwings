@@ -204,7 +204,7 @@ class _IndustryUnloadingWeightUpdateDialogState
                         onPressed: () async {
                           Navigator.pop(context);
                         },
-                        buttonText: 'Cancel',
+                        buttonText: 'Cancelar',
                       ),
                       SizedBox(
                         width: 12.w,
@@ -220,7 +220,7 @@ class _IndustryUnloadingWeightUpdateDialogState
                           await update(ref: ref);
                           Navigator.pop(context);
                         },
-                        buttonText: 'Update',
+                        buttonText: 'Actualizar',
                       ),
                     ],
                   );

@@ -13,6 +13,7 @@ import '../../../../commons/common_widgets/custom_button.dart';
 import '../../../../commons/common_widgets/show_toast.dart';
 import '../../../../utils/constants/app_constants.dart';
 import '../../../../utils/constants/assets_manager.dart';
+import '../../../../utils/constants/error_messages.dart';
 import '../../../../utils/constants/font_manager.dart';
 import '../../../coordinator/register_truck_movement/controllers/truck_registration_noti_controller.dart';
 import '../controllers/viajes_controller.dart';
@@ -89,7 +90,7 @@ class _GuideNumberUpdateDialogState extends State<GuideNumberUpdateDialog> {
       }
 
       if(updatedIndustryModel.cargoTotal < updatedIndustryModel.cargoAssigned || updatedIndustryModel.cargoAssigned < updatedIndustryModel.cargoUnloaded){
-        showToast(msg: "Cargo Exceed the assigned limit of Industry",textColor: MyColors.red);
+        showToast(msg: Messages.cargoExceedsIndustryLimitError,textColor: MyColors.red);
         return ;
       }
 
@@ -208,7 +209,7 @@ class _GuideNumberUpdateDialogState extends State<GuideNumberUpdateDialog> {
                         onPressed: () async {
                           Navigator.pop(context);
                         },
-                        buttonText: 'Cancel',
+                        buttonText: 'Cancelar',
                       ),
                       SizedBox(
                         width: 12.w,
@@ -224,7 +225,7 @@ class _GuideNumberUpdateDialogState extends State<GuideNumberUpdateDialog> {
                           await updateGuideNumber(ref: ref);
                           Navigator.pop(context);
                         },
-                        buttonText: 'Update',
+                        buttonText: 'Actualizar',
                       ),
                     ],
                   );

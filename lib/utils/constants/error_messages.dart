@@ -44,9 +44,19 @@ class Messages {
   static const String selectTheProductError = 'Sélectionnez le produit!';
   static const String selectTheBodegaError = 'Sélectionnez la Bodega!';
   static const String pesoNetLessThanBodegaError = "Le poids net est inférieur au produit disponible en bodega";
+
   static const String pesoNetLessThanProductError = "Le poids net est inférieur au produit disponible dans le conteneur";
+  static const String pesoBrutoLessThanPesoTaraError = "El peso bruto no puede ser menor que el peso de la tara!";
+  static const String pesoBrutoLessThanPesoUnloadingError = "El peso bruto no puede ser menor que el peso de descarga!";
+  static const String cargoExceedsIndustryLimitError = "La carga excede el límite asignado de la industria";
+
+  static String maxIndustriesError(int industryCount) {
+    return '¡Puede registrar un máximo de $industryCount industrias!';
+  }
 
 
 
 
 }
+
+
