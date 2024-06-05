@@ -19,6 +19,7 @@ import '../../../core/firebase_messaging/firebase_messaging_class.dart';
 import '../../../core/services/database_service.dart';
 import '../../../models/auth_models/user_model.dart';
 import '../../../routes/route_manager.dart';
+import '../../coordinator/number_plate/data/models/number_plate_model.dart';
 import '../data/auth_apis/auth_apis.dart';
 import '../data/auth_apis/database_apis.dart';
 
@@ -254,26 +255,26 @@ class AuthController extends StateNotifier<bool> {
 
 
   Future<void> updateSearchTags() async {
-    final CollectionReference<Map<String, dynamic>> usersCollection = FirebaseFirestore.instance.collection(FirebaseConstants.choferesCollection);
+    final CollectionReference<Map<String, dynamic>> usersCollection = FirebaseFirestore.instance.collection(FirebaseConstants.numberplateCollection);
 
     QuerySnapshot querySnapshot = await usersCollection
         .get();
-    List<ChoferesModel> models = [];
+    List<NumberPlateModel> models = [];
     querySnapshot.docs.forEach((element) {
       models
-          .add(ChoferesModel.fromMap(element.data() as Map<String, dynamic>));
+          .add(NumberPlateModel.fromMap(element.data() as Map<String, dynamic>));
     });
 
 
 
 
-    for (ChoferesModel user in models) {
+    for (NumberPlateModel user in models) {
       // Modify the searchTag as per your requirement
-      final searchTags = choferesSearchTagsHandler(
-          firstName:user.firstName, lastName:user.lastName,choferNationalId: user.choferNationalId);
-      ChoferesModel updatedUserModel = user.copyWith(searchTags: searchTags);
+      final searchTags = numberPlateSearchTagHandler(plateNo: user.plateNo, model: user.model, color: user.color);
 
-      await usersCollection.doc(updatedUserModel.choferNationalId  ).update(updatedUserModel.toMap());
+      NumberPlateModel updatedUserModel = user.copyWith(searchTags: searchTags);
+
+      await usersCollection.doc(updatedUserModel.plateNo ).update(updatedUserModel.toMap());
     }
   }
   Future<void> updateViajesTags() async {

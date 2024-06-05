@@ -50,22 +50,30 @@ Widget buildViajesTable(List<ViajesModel> viajesList) {
         [
           i + 1, // Incremental index starting from 1
           viajesList[i].guideNumber.toStringAsFixed(0),
-          AppConstants.constantDateTime == viajesList[i].exitTimeToPort
+          viajesList[i].viajesStatusEnum == ViajesStatusEnum.portEntered
               ? "--"
               : formatDateTime(viajesList[i].exitTimeToPort),
           viajesList[i].licensePlate,
           viajesList[i].chofereName,
-          viajesList[i].productName,
+          viajesList[i].viajesStatusEnum == ViajesStatusEnum.portEntered
+              ? "--"
+              :viajesList[i].productName,
           formatWeight(viajesList[i].entryTimeTruckWeightToPort),
-          formatWeight(viajesList[i].exitTimeTruckWeightToPort),
-          formatWeight((viajesList[i].exitTimeTruckWeightToPort -
+          viajesList[i].viajesStatusEnum == ViajesStatusEnum.portEntered
+              ? "--"
+              :formatWeight(viajesList[i].exitTimeTruckWeightToPort),
+          viajesList[i].viajesStatusEnum == ViajesStatusEnum.portEntered
+              ? "--"
+              :formatWeight((viajesList[i].exitTimeTruckWeightToPort -
               viajesList[i].entryTimeTruckWeightToPort)),
           viajesList[i].viajesStatusEnum != ViajesStatusEnum.industryUnloaded
               ? "--"
               : formatWeight((viajesList[i].cargoUnloadWeight -
                   viajesList[i].entryTimeTruckWeightToPort)),
           viajesList[i].cargoDeficitWeight.toStringAsFixed(0),
-          ((viajesList[i].cargoDeficitWeight / viajesList[i].pureCargoWeight) *
+          viajesList[i].viajesStatusEnum == ViajesStatusEnum.portEntered
+              ? "--"
+              :((viajesList[i].cargoDeficitWeight / viajesList[i].pureCargoWeight) *
                   100)
               .toStringAsFixed(2),
           viajesList[i].viajesStatusEnum == ViajesStatusEnum.portEntered ||

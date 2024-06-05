@@ -108,21 +108,21 @@ class _CoTruckLeavingBriefScreenState
                         height: 28.h,
                       ),
                       CoTruckInfoLeavingWidget(
-                        truckWeight:  "${formatWeight(  truckCtr
-                            .matchedViajes!.entryTimeTruckWeightToPort)} ${truckCtr.vesselModel!.weightUnitEnum.type}",
-
+                        truckWeight:
+                            "${formatWeight(truckCtr.matchedViajes!.entryTimeTruckWeightToPort)} ${truckCtr.vesselModel!.weightUnitEnum.type}",
                         chofereName: truckCtr.matchedViajes!.chofereName,
                         plateNumber: truckCtr.matchedViajes!.licensePlate,
                         bogedaId: widget
                                 .vesselCargoModel.multipleProductInBodega
                             ? '${widget.vesselCargoModel.cargoCountNumber}${widget.vesselCargoModel.bogedaCountProductEnum.type}'
                             : '${widget.vesselCargoModel.cargoCountNumber}',
-                        totalWeight: "${formatWeight(widget.fullTruckWeight)} ${truckCtr.vesselModel!.weightUnitEnum.type}",
+                        totalWeight:
+                            "${formatWeight(widget.fullTruckWeight)} ${truckCtr.vesselModel!.weightUnitEnum.type}",
                         productName: widget.productName,
                         marchamo1: widget.marchamo1,
                         marchamo2: widget.marchamo2,
-                        pesoNeto: "${formatWeight(widget.fullTruckWeight-truckCtr
-                            .matchedViajes!.entryTimeTruckWeightToPort)} ${truckCtr.vesselModel!.weightUnitEnum.type}",
+                        pesoNeto:
+                            "${formatWeight(widget.fullTruckWeight - truckCtr.matchedViajes!.entryTimeTruckWeightToPort)} ${truckCtr.vesselModel!.weightUnitEnum.type}",
                       ),
                       SizedBox(
                         height: 20.h,
@@ -137,27 +137,31 @@ class _CoTruckLeavingBriefScreenState
                       CustomButton(
                           buttonWidth: double.infinity,
                           onPressed: () async {
-                            await truckCtr.getCurrentVesselToUpdate(
-                                ref: ref,
-                                cargoId: widget.vesselCargoModel.cargoId);
-                            if (truckCtr.vesselModel != null) {
-                              await ref
-                                  .read(truckRegistrationControllerProvider
-                                      .notifier)
-                                  .registerTruckLeavingFromPort(
+                            if (!ref
+                                .watch(truckRegistrationControllerProvider)) {
+                              await truckCtr.getCurrentVesselToUpdate(
+                                  ref: ref,
+                                  cargoId: widget.vesselCargoModel.cargoId);
+                              if (truckCtr.vesselModel != null) {
+                                await ref
+                                    .read(truckRegistrationControllerProvider
+                                        .notifier)
+                                    .registerTruckLeavingFromPort(
                                       pureCargoWeight: widget.pureCargoWeight,
                                       totalWeight: widget.fullTruckWeight,
                                       viajesModel: truckCtr.matchedViajes!,
                                       vesselModel: truckCtr.vesselModel!,
                                       newCargoModel: truckCtr.vesselCargoModel!,
-                                      industrySubModel: truckCtr.selectedIndustry!,
+                                      industrySubModel:
+                                          truckCtr.selectedIndustry!,
                                       ref: ref,
                                       productId: widget.productId,
                                       productName: widget.productName,
                                       marchamo1: widget.marchamo1,
-                                      marchamo2: widget.marchamo2, context: context,
-
-                              );
+                                      marchamo2: widget.marchamo2,
+                                      context: context,
+                                    );
+                              }
                             }
                           },
                           isLoading:

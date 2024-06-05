@@ -90,12 +90,12 @@ class _CoChoferesListState extends ConsumerState<CoChoferesList> {
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       ChoferesModel model = choferesNotiCtr.choferesModels[index];
-                      return CargoCard(
+                      return ChoferCard(
                           topLeftText: "ID ${model.choferNationalId}",
                           topRightText: "Viajes ${model.numberOfTrips}",
                           titleText: "${model.firstName} ${model.lastName}",
                           bottomLeftText: "Deficit ${model.averageCargoDeficit}",
-                          bottomRightText: "Retraso Promedio : 2:00H");
+                          bottomRightText: "Retraso Promedio : 2:00H", choferesModel: model,);
 
                     }),
               ),

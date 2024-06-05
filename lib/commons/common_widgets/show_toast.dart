@@ -12,7 +12,7 @@ showSnackBar({
 }) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     backgroundColor: backColor?? context.mainColor,
-    duration: duration?? Duration(seconds: 2),
+    duration: duration?? Duration(seconds: 5),
     content: Text(
       content,
       style: getRegularStyle(fontSize: 12.spMin, color: context.scaffoldBackgroundColor),

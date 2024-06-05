@@ -52,7 +52,7 @@ class _CoAddPlateNumberDialogeState extends State<CoAddPlateNumberDialoge> {
         ),
         padding: EdgeInsets.symmetric(horizontal: 10.w),
         height: 500.h,
-        width: double.infinity,
+        width: 300.w,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

@@ -54,7 +54,8 @@ class _NumberOfCargoHoldsWidgetState extends State<NumberOfCargoHoldsWidget> {
                       margin: EdgeInsets.only(right: 10.w),
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: context.scaffoldBackgroundColor,
+                          color: isSelected
+                              ? context.mainColor: context.scaffoldBackgroundColor,
                           border: Border.all(
                               color: isSelected
                                   ? context.mainColor
@@ -69,7 +70,7 @@ class _NumberOfCargoHoldsWidgetState extends State<NumberOfCargoHoldsWidget> {
                               : '${widget.vesselCargoModels[index].cargoCountNumber}',
                           style: getRegularStyle(
                               color: isSelected
-                                  ? context.mainColor
+                                  ? context.scaffoldBackgroundColor
                                   : context.textFieldColor,
                               fontSize: MyFonts.size14),
                         ),

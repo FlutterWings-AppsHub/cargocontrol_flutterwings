@@ -82,24 +82,49 @@ class _InTruckUnlaodingBriefScreenState extends ConsumerState<InTruckUnlaodingBr
                         buttonWidth: double.infinity,
                         isLoading: ref.watch(inTruckRegistrationNotiControllerProvider).isLoading,
                         onPressed: ()async{
-                            await ref.read(inTruckRegistrationNotiControllerProvider).getChoferesModel(
-                              ref: ref,
-                              context: context,
-                              nationalIdNumber: ref.read(inTruckRegistrationNotiControllerProvider).matchedViajes!.chofereId
+                          if(!ref.watch(inTruckRegistrationNotiControllerProvider).isLoading) {
+                            await ref.read(
+                                inTruckRegistrationNotiControllerProvider)
+                                .getChoferesModel(
+                                ref: ref,
+                                context: context,
+                                nationalIdNumber: ref
+                                    .read(
+                                    inTruckRegistrationNotiControllerProvider)
+                                    .matchedViajes!
+                                    .chofereId
                             );
                             //ref.read(fetchCurrentVesselsProvider).
 
-                            if(ref.read(inTruckRegistrationNotiControllerProvider).viajesChoferesModel!= null){
-                              await ref.read(inTruckRegistrationControllerProvider.notifier).registerTruckUnloadingInIndustry(
-                                choferesModel: ref.read(inTruckRegistrationNotiControllerProvider).viajesChoferesModel!,
+                            if (ref
+                                .read(inTruckRegistrationNotiControllerProvider)
+                                .viajesChoferesModel != null) {
+                              await ref.read(
+                                  inTruckRegistrationControllerProvider
+                                      .notifier)
+                                  .registerTruckUnloadingInIndustry(
+                                choferesModel: ref
+                                    .read(
+                                    inTruckRegistrationNotiControllerProvider)
+                                    .viajesChoferesModel!,
                                 cargoUnloadWeight: widget.cargoUnloadWeight,
-                                industrySubModel: ref.read(inTruckRegistrationNotiControllerProvider).currentIndustryModel!,
-                                viajesModel: ref.read(inTruckRegistrationNotiControllerProvider).matchedViajes!,
-                                vesselModel: ref.read(inTruckRegistrationNotiControllerProvider).vesselModel!,
+                                industrySubModel: ref
+                                    .read(
+                                    inTruckRegistrationNotiControllerProvider)
+                                    .currentIndustryModel!,
+                                viajesModel: ref
+                                    .read(
+                                    inTruckRegistrationNotiControllerProvider)
+                                    .matchedViajes!,
+                                vesselModel: ref
+                                    .read(
+                                    inTruckRegistrationNotiControllerProvider)
+                                    .vesselModel!,
                                 context: context,
                                 ref: ref,
                               );
                             }
+                          }
                           },
                           buttonText: "CONFIRMAR"
                       );

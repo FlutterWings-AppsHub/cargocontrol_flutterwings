@@ -17,6 +17,7 @@ abstract class ChoferesApisImplements {
   FutureEitherVoid registerChofere({required ChoferesModel choferesModel});
 
   FutureEitherVoid deleteChofere({required String chofereId});
+  FutureEither<ChoferesModel> getChofere({required String chofereId});
 
   Future<QuerySnapshot> getAllChoferes(
       {int limit = 10, DocumentSnapshot? snapshot});
@@ -68,7 +69,27 @@ class ChoferesApis implements ChoferesApisImplements {
     }
   }
 
+  @override
+  FutureEither<ChoferesModel> getChofere({required String chofereId}) async {
+    try {
+      DocumentSnapshot doc = await _firestore
+          .collection(FirebaseConstants.choferesCollection)
+          .doc(chofereId)
+          .get();
 
+      if (doc.exists) {
+        ChoferesModel chofer =
+            ChoferesModel.fromMap(doc.data() as Map<String, dynamic>);
+        return Right(chofer);
+      } else {
+        return Left(Failure('Chofere not found', StackTrace.current));
+      }
+    } on FirebaseException catch (e, stackTrace) {
+      return Left(Failure(e.message ?? 'Firebase Error Occurred', stackTrace));
+    } catch (e, stackTrace) {
+      return Left(Failure(e.toString(), stackTrace));
+    }
+  }
 
   @override
   Future<QuerySnapshot> getAllChoferes(
@@ -93,12 +114,10 @@ class ChoferesApis implements ChoferesApisImplements {
   }
 
   @override
-  FutureEither<List<ViajesModel>>  getAllCompletedViajesList(
+  FutureEither<List<ViajesModel>> getAllCompletedViajesList(
       {required String realIndustryId}) async {
-
     try {
-      var querySnapshot =
-          await _firestore
+      var querySnapshot = await _firestore
           .collection(FirebaseConstants.viajesCollection)
           .where('viajesTypeEnum', isEqualTo: ViajesTypeEnum.completed.type)
           .where("realIndustryId", isEqualTo: realIndustryId)
@@ -121,10 +140,9 @@ class ChoferesApis implements ChoferesApisImplements {
   @override
   FutureEither<bool> isChoferesExistById(
       {required String chofereNationalId}) async {
-
     try {
-      var querySnapshot =
-      await _firestore.collection(FirebaseConstants.choferesCollection)
+      var querySnapshot = await _firestore
+          .collection(FirebaseConstants.choferesCollection)
           .where("choferNationalId", isEqualTo: chofereNationalId)
           .get();
 
@@ -145,8 +163,9 @@ class ChoferesApis implements ChoferesApisImplements {
   @override
   FutureEither<List<IndustriesModel>> getAllIndustries() async {
     try {
-      var querySnapshot =
-      await _firestore.collection(FirebaseConstants.industriesCollection).get();
+      var querySnapshot = await _firestore
+          .collection(FirebaseConstants.industriesCollection)
+          .get();
 
       List<IndustriesModel> models = [];
       for (var document in querySnapshot.docs) {

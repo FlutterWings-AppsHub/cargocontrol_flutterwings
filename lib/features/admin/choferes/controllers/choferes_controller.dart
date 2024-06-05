@@ -141,6 +141,29 @@ class ChoferesController extends StateNotifier<bool> {
     state = false;
   }
 
+  Future<ChoferesModel?> getChofere({
+    required String choferNationalId,
+    required WidgetRef ref,
+    required BuildContext context,
+  }) async {
+    ChoferesModel? choferesModel ;
+    state = true;
+    final result = await _datasource.getChofere(chofereId: choferNationalId);
+
+    result.fold((l) {
+      state = false;
+      debugPrintStack(stackTrace: l.stackTrace);
+      debugPrint(l.message);
+      showSnackBar(context: context, content: l.message);
+    }, (r) async {
+      state = false;
+      choferesModel= r;
+
+    });
+    state = false;
+    return choferesModel;
+  }
+
   bool hasLastName(String fullName) {
     int num = fullName.split(' ').length;
     return num > 1 ? true : false;

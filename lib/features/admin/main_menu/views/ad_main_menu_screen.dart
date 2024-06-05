@@ -54,8 +54,6 @@ class _AdMainMenuScreenState extends ConsumerState<AdMainMenuScreen> {
                       context: context,
                       ref: ref
                     );
-                    //ref.read(authControllerProvider.notifier).copy10updateViajesTags();
-
                   },
                   child: const Text(
                     'Cerrar Sesión',

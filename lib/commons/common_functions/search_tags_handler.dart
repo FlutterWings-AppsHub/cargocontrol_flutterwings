@@ -183,29 +183,48 @@ Map<String, dynamic> viajesSearchTagsHandler({
   return searchTags;
 }
 
+
 Map<String, dynamic> numberPlateSearchTagHandler({
   required String plateNo,
   required String color,
   required String model,
 }) {
   Map<String, dynamic> searchTags = {};
-  if (plateNo != '') {
+
+  List<String> generatePermutations(String str) {
+    List<String> permutations = [];
+    for (int i = 0; i < str.length; i++) {
+      for (int j = i + 1; j <= str.length; j++) {
+        permutations.add(str.substring(i, j).toLowerCase());
+      }
+    }
+    return permutations;
+  }
+
+  if (plateNo.isNotEmpty) {
     plateNo.trim().split(' ').forEach((val) {
-      searchTags[val.toLowerCase()] = true;
+      generatePermutations(val).forEach((perm) {
+        searchTags[perm] = true;
+      });
     });
   }
 
-  if (color != "") {
+  if (color.isNotEmpty) {
     color.trim().split(' ').forEach((val) {
-      searchTags[val.toLowerCase()] = true;
+      generatePermutations(val).forEach((perm) {
+        searchTags[perm] = true;
+      });
     });
   }
 
-  if (model != "") {
+  if (model.isNotEmpty) {
     model.trim().split(' ').forEach((val) {
-      searchTags[val.toLowerCase()] = true;
+      generatePermutations(val).forEach((perm) {
+        searchTags[perm] = true;
+      });
     });
   }
+
 
   return searchTags;
 }

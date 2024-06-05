@@ -1,4 +1,5 @@
 import 'package:cargocontrol/utils/thems/my_colors.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../common_widgets/title_header.dart';
 import '../../../../commons/common_functions/validator.dart';
@@ -49,8 +50,8 @@ class _AddChoferesModalState extends State<AddChoferesModal> {
           borderRadius: BorderRadius.circular(20.r),
         ),
         padding: EdgeInsets.symmetric(horizontal: 10.w),
-        height: 500.h,
-        width: double.infinity,
+        height: kIsWeb?500.h:400.h,
+        width: 300.w,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

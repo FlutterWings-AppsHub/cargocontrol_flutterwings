@@ -86,7 +86,7 @@ class _ViajesTableState extends State<ViajesTable> {
             ))),
             DataCell(Center(
                 child: Text(
-              formatDateTime(widget.viajesList[index].exitTimeToPort),
+                  widget.viajesList[index].viajesStatusEnum==ViajesStatusEnum.portEntered?"----":formatDateTime(widget.viajesList[index].exitTimeToPort),
               style: getRegularStyle(
                   color: MyColors.black, fontSize: MyFonts.size11),
             ))),
@@ -104,7 +104,7 @@ class _ViajesTableState extends State<ViajesTable> {
             ))),
             DataCell(Center(
                 child: Text(
-              widget.viajesList[index].productName,
+                  widget.viajesList[index].viajesStatusEnum==ViajesStatusEnum.portEntered?"----":widget.viajesList[index].productName,
               style: getRegularStyle(
                   color: MyColors.black, fontSize: MyFonts.size11),
             ))),
@@ -122,7 +122,7 @@ class _ViajesTableState extends State<ViajesTable> {
             ))),
             DataCell(Center(
                 child: Text(
-                    formatWeight((widget.viajesList[index].exitTimeTruckWeightToPort -
+                  widget.viajesList[index].viajesStatusEnum==ViajesStatusEnum.portEntered?"----":formatWeight((widget.viajesList[index].exitTimeTruckWeightToPort -
                       widget.viajesList[index].entryTimeTruckWeightToPort)),
               style: getRegularStyle(
                   color: MyColors.black, fontSize: MyFonts.size11),
@@ -141,7 +141,7 @@ class _ViajesTableState extends State<ViajesTable> {
             ))),
             DataCell(Center(
                 child: Text(
-              ((widget.viajesList[index].cargoDeficitWeight /
+                  widget.viajesList[index].viajesStatusEnum==ViajesStatusEnum.portEntered?"----":((widget.viajesList[index].cargoDeficitWeight /
                           widget.viajesList[index].pureCargoWeight) *
                       100)
                   .toStringAsFixed(2),

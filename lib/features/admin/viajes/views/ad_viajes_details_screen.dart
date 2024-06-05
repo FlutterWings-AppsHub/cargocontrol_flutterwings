@@ -3,10 +3,12 @@ import 'package:cargocontrol/commons/common_widgets/custom_button.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/admin/viajes/views/empty_truck_weight_update_dialog.dart';
 import 'package:cargocontrol/features/admin/viajes/views/guide_number_update_dialog.dart';
+import 'package:cargocontrol/models/choferes_models/choferes_model.dart';
 import 'package:cargocontrol/models/viajes_models/viajes_model.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
 import 'package:cargocontrol/utils/loading.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../common_widgets/carga_widget.dart';
@@ -14,6 +16,7 @@ import '../../../../common_widgets/datos_generales_widget.dart';
 import '../../../../common_widgets/tiempo_widget.dart';
 import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../commons/common_widgets/custom_appbar.dart';
+import '../../choferes/controllers/choferes_controller.dart';
 import '../controllers/viajes_completed_noti_controller.dart';
 import '../controllers/viajes_controller.dart';
 import '../controllers/viajes_inprogess_noti_controller.dart';
@@ -116,11 +119,37 @@ class _AdViajesDetailsScreenState extends State<AdViajesDetailsScreen> {
                         SizedBox(
                           height: 14.h,
                         ),
-                        Text(
-                          "Datos del viaje de ${viajesModel.chofereName}",
-                          style: getRegularStyle(
-                              color: context.textColor,
-                              fontSize: MyFonts.size16),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                "Datos del viaje de ${viajesModel.chofereName}",
+                                style: getRegularStyle(
+                                    color: context.textColor,
+                                    fontSize: MyFonts.size14),
+                              ),
+                            ),
+                            CustomButton(
+                              buttonWidth: 120.w,
+                              buttonHeight: 40.h,
+                              onPressed: () async {
+                                ChoferesModel? chofersModel=await ref
+                                    .read(choferesControllerProvider.notifier)
+                                    .getChofere(
+                                  choferNationalId:
+                                  viajesModel.chofereId,
+                                  ref: ref,
+                                  context: context,
+                                );
+                                if(chofersModel!=null){
+                                  Navigator.pushNamed(context, AppRoutes.choferesDetailsScreen,arguments: {
+                                    "choferesModel":chofersModel!,
+                                  });
+                                }
+
+                            }, buttonText: 'Perfil de chofer',
+                            )
+                          ],
                         ),
                         SizedBox(
                           height: 14.h,

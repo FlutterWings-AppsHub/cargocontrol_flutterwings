@@ -142,12 +142,13 @@ class _AdChoferesListState extends ConsumerState<AdChoferesList> {
                                     "choferesModel":model,
                                   });
                                 },
-                                child: CargoCard(
+                                child: ChoferCard(
                                     topLeftText: "ID ${model.choferNationalId}",
                                     topRightText: "Viajes ${model.numberOfTrips}",
                                     titleText: "${model.firstName} ${model.lastName}",
-                                    bottomLeftText: "Deficit ${formatWeight(model.averageCargoDeficit)}",
-                                    bottomRightText: "Retraso Promedio : 2:00H"),
+                                    bottomLeftText: "Pérdida promedio: ${(model.averageCargoDeficitPercentage * 100)
+                                        .toStringAsFixed(2)}%",
+                                    bottomRightText: "Retraso Promedio : 2:00H", choferesModel: model,),
                               ),
                             );
 

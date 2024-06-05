@@ -124,12 +124,14 @@ class _CoSelectChoferScreenState extends ConsumerState<CoSelectChoferScreen> {
                                 widget.selectChofer('${model.firstName} - ID ${model.choferNationalId}');
                                 Navigator.pop(context);
                               },
-                              child: CargoCard(
+                              child: ChoferCard(
+                                choferesModel: model,
                                   topLeftText: "ID ${model.choferNationalId}",
                                   topRightText: "Viajes ${model.numberOfTrips}",
                                   titleText: "${model.firstName} ${model.lastName}",
-                                bottomLeftText: "Deficit ${formatWeight(model.averageCargoDeficit)}",
-                                  bottomRightText: "Retraso Promedio : 2:00H",
+                                bottomLeftText: "Pérdida promedio: ${(model.averageCargoDeficitPercentage * 100)
+                                    .toStringAsFixed(2)}%",
+                                bottomRightText: "Retraso Promedio : 2:00H",
 
                               ),
                             );

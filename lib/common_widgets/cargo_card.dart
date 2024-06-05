@@ -1,21 +1,24 @@
+import 'package:cargocontrol/models/choferes_models/choferes_model.dart';
 import 'package:flutter/material.dart';
 import 'package:cargocontrol/utils/constants.dart' as constants;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CargoCard extends StatelessWidget {
+class ChoferCard extends StatelessWidget {
   final bool hasTopChip;
   final String topLeftText;
   final String topRightText;
   final String titleText;
   final String bottomLeftText;
   final String bottomRightText;
-  const CargoCard({
+  final ChoferesModel choferesModel;
+  const ChoferCard({
     Key? key,
     required this.topLeftText,
     required this.topRightText,
     required this.titleText,
     required this.bottomLeftText,
     required this.bottomRightText,
-    this.hasTopChip = false,
+    this.hasTopChip = false, required this.choferesModel,
   }) : super(key: key);
 
   @override
@@ -67,9 +70,13 @@ class CargoCard extends StatelessWidget {
                   bottomLeftText,
                   style: const constants.TextStyles().bodyText1,
                 ),
-                Text(
-                  bottomRightText,
-                  style: const constants.TextStyles().bodyText1,
+                Consumer(
+                  builder: (context,ref,child) {
+                    return Text(
+                      bottomRightText,
+                      style: const constants.TextStyles().bodyText1,
+                    );
+                  }
                 )
               ],
             )
