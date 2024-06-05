@@ -36,6 +36,13 @@ final getChoferesTimeDeficitModel =
   return ctr.choferesTimeDeficitModel(choferesModel: choferesModel);
 });
 
+final getChoferModelByNationalId =
+StreamProvider.family((ref, String nationalId) {
+  final truckProvider =
+  ref.watch(choferesControllerProvider.notifier);
+  return truckProvider.getChofersStatusByNationalId(nationalId: nationalId);
+});
+
 class ChoferesController extends StateNotifier<bool> {
   final ChoferesApisImplements _datasource;
 
@@ -167,6 +174,24 @@ class ChoferesController extends StateNotifier<bool> {
   bool hasLastName(String fullName) {
     int num = fullName.split(' ').length;
     return num > 1 ? true : false;
+  }
+  Stream<bool> getChofersStatusByNationalId(
+      {required String nationalId}) {
+    try {
+      return _datasource
+          .getAllActiveViajesByNationalId(nationalId: nationalId)
+          .map((event) {
+        if (event.docs.isNotEmpty) {
+          print(event.docs.length);
+          return true;
+        } else {
+          return false;
+        }
+      });
+    }catch(e){
+      return Stream.value(false);
+    }
+
   }
 
   DocumentSnapshot? _lastSnapshot;

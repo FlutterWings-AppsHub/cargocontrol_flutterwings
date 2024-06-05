@@ -1,7 +1,12 @@
+import 'package:cargocontrol/commons/common_imports/common_libs.dart';
 import 'package:cargocontrol/models/choferes_models/choferes_model.dart';
+import 'package:cargocontrol/utils/constants/font_manager.dart';
+import 'package:cargocontrol/utils/thems/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:cargocontrol/utils/constants.dart' as constants;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../features/admin/choferes/controllers/choferes_controller.dart';
 
 class ChoferCard extends StatelessWidget {
   final bool hasTopChip;
@@ -71,13 +76,27 @@ class ChoferCard extends StatelessWidget {
                   style: const constants.TextStyles().bodyText1,
                 ),
                 Consumer(
-                  builder: (context,ref,child) {
-                    return Text(
-                      bottomRightText,
-                      style: const constants.TextStyles().bodyText1,
+                  builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                    return ref
+                        .watch(getChoferModelByNationalId(choferesModel.choferNationalId))
+                        .when(
+                      data: (status) {
+                        return Text(
+                          status?"Viaje en progreso":"Disponible",
+                          style: getRegularStyle(color: status?MyColors.red:MyColors.kBrandColor,fontSize: MyFonts.size10),
+                        );
+                      },
+                      error: (error, st) {
+                        debugPrintStack(stackTrace: st);
+                        debugPrint(error.toString());
+                        return const SizedBox();
+                      },
+                      loading: () {
+                        return const SizedBox();
+                      },
                     );
-                  }
-                )
+                  },
+                ),
               ],
             )
           ],

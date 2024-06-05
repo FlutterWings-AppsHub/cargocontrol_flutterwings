@@ -30,6 +30,7 @@ abstract class ChoferesApisImplements {
   FutureEither<List<IndustriesModel>> getAllIndustries();
 
   FutureEither<bool> isChoferesExistById({required String chofereNationalId});
+  Stream<QuerySnapshot<Map<String, dynamic>>> getAllActiveViajesByNationalId({required String nationalId});
 }
 
 class ChoferesApis implements ChoferesApisImplements {
@@ -52,7 +53,12 @@ class ChoferesApis implements ChoferesApisImplements {
       return Left(Failure(e.toString(), stackTrace));
     }
   }
-
+  @override
+  Stream<QuerySnapshot<Map<String, dynamic>>> getAllActiveViajesByNationalId({required String nationalId}){
+    return _firestore.collection(FirebaseConstants.viajesCollection).
+    where('chofereId', isEqualTo:nationalId).where('viajesTypeEnum',isEqualTo: ViajesTypeEnum.inProgress.type).
+    snapshots();
+  }
   @override
   FutureEitherVoid deleteChofere({required String chofereId}) async {
     try {
