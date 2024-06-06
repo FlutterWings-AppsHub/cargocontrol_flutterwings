@@ -35,6 +35,10 @@ class ViajesModel {
   final ViajesTypeEnum viajesTypeEnum;
   final ViajesStatusEnum viajesStatusEnum;
   final WeightUnitEnum weightUnitEnum;
+  final String truckInPortRegisteredBy;
+  final String truckInPortLoadedBy;
+  final String truckInIndustryRegisteredBy;
+  final String truckInIndustryUnLoadedBy;
   final Map<String, dynamic> searchTags;
 
 
@@ -44,7 +48,6 @@ class ViajesModel {
     }
     return Duration.zero;
   }
-
 
 //<editor-fold desc="Data Methods">
   const ViajesModel({
@@ -78,6 +81,10 @@ class ViajesModel {
     required this.viajesTypeEnum,
     required this.viajesStatusEnum,
     required this.weightUnitEnum,
+    required this.truckInPortRegisteredBy,
+    required this.truckInPortLoadedBy,
+    required this.truckInIndustryRegisteredBy,
+    required this.truckInIndustryUnLoadedBy,
     required this.searchTags,
   });
 
@@ -116,6 +123,10 @@ class ViajesModel {
           viajesTypeEnum == other.viajesTypeEnum &&
           viajesStatusEnum == other.viajesStatusEnum &&
           weightUnitEnum == other.weightUnitEnum &&
+          truckInPortRegisteredBy == other.truckInPortRegisteredBy &&
+          truckInPortLoadedBy == other.truckInPortLoadedBy &&
+          truckInIndustryRegisteredBy == other.truckInIndustryRegisteredBy &&
+          truckInIndustryUnLoadedBy == other.truckInIndustryUnLoadedBy &&
           searchTags == other.searchTags);
 
   @override
@@ -150,6 +161,10 @@ class ViajesModel {
       viajesTypeEnum.hashCode ^
       viajesStatusEnum.hashCode ^
       weightUnitEnum.hashCode ^
+      truckInPortRegisteredBy.hashCode ^
+      truckInPortLoadedBy.hashCode ^
+      truckInIndustryRegisteredBy.hashCode ^
+      truckInIndustryUnLoadedBy.hashCode ^
       searchTags.hashCode;
 
   @override
@@ -185,6 +200,10 @@ class ViajesModel {
         ' viajesTypeEnum: $viajesTypeEnum,' +
         ' viajesStatusEnum: $viajesStatusEnum,' +
         ' weightUnitEnum: $weightUnitEnum,' +
+        ' truckInPortRegisteredBy: $truckInPortRegisteredBy,' +
+        ' truckInPortLoadedBy: $truckInPortLoadedBy,' +
+        ' truckInIndustryRegisteredBy: $truckInIndustryRegisteredBy,' +
+        ' truckInIndustryUnLoadedBy: $truckInIndustryUnLoadedBy,' +
         ' searchTags: $searchTags,' +
         '}';
   }
@@ -220,6 +239,10 @@ class ViajesModel {
     ViajesTypeEnum? viajesTypeEnum,
     ViajesStatusEnum? viajesStatusEnum,
     WeightUnitEnum? weightUnitEnum,
+    String? truckInPortRegisteredBy,
+    String? truckInPortLoadedBy,
+    String? truckInIndustryRegisteredBy,
+    String? truckInIndustryUnLoadedBy,
     Map<String, dynamic>? searchTags,
   }) {
     return ViajesModel(
@@ -257,9 +280,18 @@ class ViajesModel {
       viajesTypeEnum: viajesTypeEnum ?? this.viajesTypeEnum,
       viajesStatusEnum: viajesStatusEnum ?? this.viajesStatusEnum,
       weightUnitEnum: weightUnitEnum ?? this.weightUnitEnum,
+      truckInPortRegisteredBy:
+          truckInPortRegisteredBy ?? this.truckInPortRegisteredBy,
+      truckInPortLoadedBy: truckInPortLoadedBy ?? this.truckInPortLoadedBy,
+      truckInIndustryRegisteredBy:
+          truckInIndustryRegisteredBy ?? this.truckInIndustryRegisteredBy,
+      truckInIndustryUnLoadedBy:
+          truckInIndustryUnLoadedBy ?? this.truckInIndustryUnLoadedBy,
       searchTags: searchTags ?? this.searchTags,
     );
   }
+
+
 
   Map<String, dynamic> toMap() {
     return {
@@ -295,6 +327,10 @@ class ViajesModel {
       'viajesStatusEnum': this.viajesStatusEnum.type,
       'weightUnitEnum': this.weightUnitEnum.type,
       'searchTags': this.searchTags,
+      'truckInPortRegisteredBy': this.truckInPortRegisteredBy,
+      'truckInPortLoadedBy': this.truckInPortLoadedBy,
+      'truckInIndustryRegisteredBy': this.truckInIndustryRegisteredBy,
+      'truckInIndustryUnLoadedBy': this.truckInIndustryUnLoadedBy,
 
     };
   }
@@ -339,6 +375,22 @@ class ViajesModel {
       marchamo2: map['marchamo2'] as String,
       productId: map['productId'] as String,
       weightUnitEnum: (map['weightUnitEnum'] as String).toWeightUnitEnum(),
+      // truckInPortRegisteredBy: map['truckInPortRegisteredBy'] as String,
+      // truckInPortLoadedBy: map['truckInPortLoadedBy'] as String,
+      // truckInIndustryRegisteredBy: map['truckInIndustryRegisteredBy'] as String,
+      // truckInIndustryUnLoadedBy: map['truckInIndustryUnLoadedBy'] as String,
+      truckInPortRegisteredBy: map['truckInPortRegisteredBy'] == null
+          ? ""
+          : map['truckInPortRegisteredBy'] as String,
+      truckInPortLoadedBy: map['truckInPortLoadedBy'] == null
+          ? ""
+          : map['truckInPortLoadedBy'] as String,
+      truckInIndustryRegisteredBy: map['truckInIndustryRegisteredBy'] == null
+          ? ""
+          : map['truckInIndustryRegisteredBy'] as String,
+      truckInIndustryUnLoadedBy: map['truckInIndustryUnLoadedBy'] == null
+          ? ""
+          : map['truckInIndustryUnLoadedBy'] as String,
       searchTags: map['searchTags'] as Map<String, dynamic>,
     );
   }

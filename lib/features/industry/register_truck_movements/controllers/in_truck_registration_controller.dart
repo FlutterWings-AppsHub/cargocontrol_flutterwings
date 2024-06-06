@@ -17,8 +17,10 @@ import 'package:uuid/uuid.dart';
 
 import '../../../../commons/common_widgets/show_toast.dart';
 import '../../../../core/firebase_messaging/firebase_messaging_class.dart';
+import '../../../../models/auth_models/user_model.dart';
 import '../../../../models/vessel_models/vessel_cargo_model.dart';
 import '../../../../models/vessel_models/vessel_product_model.dart';
+import '../../../auth/controllers/auth_controller.dart';
 import '../../../coordinator/register_truck_movement/data/apis/truck_registration_apis.dart';
 import 'in_truck_registration_noti_controller.dart';
 
@@ -52,11 +54,12 @@ class TruckRegistrationController extends StateNotifier<bool> {
     required BuildContext context,
   }) async {
     state = true;
+    UserModel userModel = await ref.read(authControllerProvider.notifier).getCurrentUserInfo();
 
     DateTime timeToIndustry = DateTime.now();
     ViajesModel model = viajesModel.copyWith(
         timeToIndustry: timeToIndustry,
-        viajesStatusEnum: ViajesStatusEnum.industryEntered);
+        viajesStatusEnum: ViajesStatusEnum.industryEntered,truckInIndustryRegisteredBy: userModel.email);
 
     IndustrySubModel industry = industrySubModel.copyWith(
       viajesIds: industrySubModel.viajesIds..add(viajesModel.viajesId),
@@ -88,7 +91,7 @@ class TruckRegistrationController extends StateNotifier<bool> {
     required BuildContext context,
   }) async {
     state = true;
-
+    UserModel userModel = await ref.read(authControllerProvider.notifier).getCurrentUserInfo();
     DateTime unloadingTimeInIndustry = DateTime.now();
     ViajesModel model = viajesModel.copyWith(
         cargoDeficitWeight: viajesModel.cargoDeficitWeight +
@@ -97,7 +100,7 @@ class TruckRegistrationController extends StateNotifier<bool> {
         cargoUnloadWeight: viajesModel.cargoUnloadWeight + cargoUnloadWeight,
         unloadingTimeInIndustry: unloadingTimeInIndustry,
         viajesTypeEnum: ViajesTypeEnum.completed,
-        viajesStatusEnum: ViajesStatusEnum.industryUnloaded);
+        viajesStatusEnum: ViajesStatusEnum.industryUnloaded,truckInIndustryUnLoadedBy: userModel.email);
 
     IndustrySubModel industry = industrySubModel.copyWith(
       deficit: industrySubModel.deficit +

@@ -2,6 +2,9 @@ import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/utils/constants/assets_manager.dart';
 import 'package:cargocontrol/utils/thems/my_colors.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../utils/constants/font_manager.dart';
@@ -18,8 +21,8 @@ class TiempoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 78.h,
-      width: 328.w,
+      height: kIsWeb?90.h: 78.h,
+      width: double.infinity,
       decoration: BoxDecoration(
         border: Border.all(
           color: isSelected? MyColors.black: context.textFieldColor,
@@ -45,56 +48,60 @@ class TiempoTile extends StatelessWidget {
             ),
           ),
           SizedBox(width: 10.w,),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Camión registrado en la romana",
-                    style: getMediumStyle(
-                      color: isSelected?  context.textColor: context.textFieldColor,
-                      fontSize: MyFonts.size12,
-                    ),
-                  ),
-                  SizedBox(width: 10.w,),
-                  isSelected ?
-                  Text(
-                    time,
-                    textAlign: TextAlign.right,
-                    style: getMediumStyle(
-                      color: isSelected? context.textColor: context.textFieldColor,
-                      fontSize: MyFonts.size10,
-                    ),
-                  ):
-                  Container(
-                    margin: EdgeInsets.only(left: 40.w),
-                    child: Text(
-                      "N/D",
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Camión registrado en la romana",
                       style: getMediumStyle(
-                        color: context.textFieldColor,
-                        fontSize: MyFonts.size10,
+                        color: isSelected?  context.textColor: context.textFieldColor,
+                        fontSize: MyFonts.size12,
                       ),
                     ),
+                    isSelected ?
+                    Container(
+                      margin: EdgeInsets.only(left: 40.w),
+                      child: Text(
+                        time,
+                        textAlign: TextAlign.right,
+                        style: getMediumStyle(
+                          color: isSelected? context.textColor: context.textFieldColor,
+                          fontSize: MyFonts.size10,
+                        ),
+                      ),
+                    ):
+                    Container(
+                      margin: EdgeInsets.only(left: 40.w),
+                      child: Text(
+                        "N/D",
+                        style: getMediumStyle(
+                          color: context.textFieldColor,
+                          fontSize: MyFonts.size10,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  isSelected  ? "$lastKey: $lastValue " : '$lastKey: N/D',
+                  style: getRegularStyle(
+                    color: isSelected ? context.text3Color: context.textFieldColor,
+                    fontSize: MyFonts.size10,
                   ),
-                ],
-              ),
-              Text(
-                isSelected  ? "$lastKey: $lastValue " : '$lastKey: N/D',
-                style: getRegularStyle(
-                  color: isSelected ? context.text3Color: context.textFieldColor,
-                  fontSize: MyFonts.size10,
                 ),
-              ),
-              Text(
-                isSelected ?"registrado por: $email " : 'registrado por: N/D',
-                style: getRegularStyle(
-                  color: isSelected ? context.secondaryTextColor: context.textFieldColor,
-                  fontSize: MyFonts.size10,
+                Text(
+                  isSelected ?"registrado por: $email " : 'registrado por: N/D',
+                  style: getRegularStyle(
+                    color: isSelected ? context.secondaryTextColor: context.textFieldColor,
+                    fontSize: MyFonts.size10,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           )
         ],
       ),

@@ -255,26 +255,26 @@ class AuthController extends StateNotifier<bool> {
 
 
   Future<void> updateSearchTags() async {
-    final CollectionReference<Map<String, dynamic>> usersCollection = FirebaseFirestore.instance.collection(FirebaseConstants.numberplateCollection);
+    final CollectionReference<Map<String, dynamic>> usersCollection = FirebaseFirestore.instance.collection(FirebaseConstants.viajesCollection);
 
     QuerySnapshot querySnapshot = await usersCollection
         .get();
-    List<NumberPlateModel> models = [];
+    List<ViajesModel> models = [];
     querySnapshot.docs.forEach((element) {
       models
-          .add(NumberPlateModel.fromMap(element.data() as Map<String, dynamic>));
+          .add(ViajesModel.fromMap(element.data() as Map<String, dynamic>));
     });
 
 
 
 
-    for (NumberPlateModel user in models) {
+    for (ViajesModel user in models) {
       // Modify the searchTag as per your requirement
-      final searchTags = numberPlateSearchTagHandler(plateNo: user.plateNo, model: user.model, color: user.color);
 
-      NumberPlateModel updatedUserModel = user.copyWith(searchTags: searchTags);
 
-      await usersCollection.doc(updatedUserModel.plateNo ).update(updatedUserModel.toMap());
+      ViajesModel updatedUserModel = user.copyWith(truckInPortLoadedBy: "cordinator@hola.com",truckInPortRegisteredBy: "cordinator@hola.com",truckInIndustryUnLoadedBy: "industria2@hola.com",truckInIndustryRegisteredBy: "industria2@hola.com");
+
+      await usersCollection.doc(updatedUserModel.viajesId ).update(updatedUserModel.toMap());
     }
   }
   Future<void> updateViajesTags() async {

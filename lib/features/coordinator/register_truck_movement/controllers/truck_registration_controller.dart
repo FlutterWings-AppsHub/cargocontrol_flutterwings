@@ -4,6 +4,7 @@ import 'package:cargocontrol/core/enums/viajes_status_enum.dart';
 import 'package:cargocontrol/core/enums/viajes_type.dart';
 import 'package:cargocontrol/core/enums/weight_unit_enum.dart';
 import 'package:cargocontrol/core/firebase_messaging/models/notification_model.dart';
+import 'package:cargocontrol/features/auth/controllers/auth_controller.dart';
 import 'package:cargocontrol/features/coordinator/register_truck_movement/controllers/truck_registration_noti_controller.dart';
 import 'package:cargocontrol/models/choferes_models/choferes_model.dart';
 import 'package:cargocontrol/models/industry_models/industry_sub_model.dart';
@@ -21,6 +22,7 @@ import '../../../../commons/common_functions/search_tags_handler.dart';
 import '../../../../commons/common_widgets/show_toast.dart';
 import '../../../../core/enums/bogeda_count_product_enum.dart';
 import '../../../../core/firebase_messaging/firebase_messaging_class.dart';
+import '../../../../models/auth_models/user_model.dart';
 import '../../../../models/misc_models/industry_vessel_ids_model.dart';
 import '../../../../models/vessel_models/vessel_cargo_model.dart';
 import '../data/apis/truck_registration_apis.dart';
@@ -68,17 +70,11 @@ final getAllViajesForIndustryList = StreamProvider.family(
 });
 
 final getAllViajesForIndustryListforReport = StreamProvider.family(
-        (ref, IndustryAndVesselIdsModel industryAndVesselIdsModel) {
-      final truckProvider = ref.watch(truckRegistrationControllerProvider.notifier);
-      return truckProvider.getAllViajesForIndustryListForReport(
-          industryAndVesselIdsModel: industryAndVesselIdsModel);
-    });
-
-
-
-
-
-
+    (ref, IndustryAndVesselIdsModel industryAndVesselIdsModel) {
+  final truckProvider = ref.watch(truckRegistrationControllerProvider.notifier);
+  return truckProvider.getAllViajesForIndustryListForReport(
+      industryAndVesselIdsModel: industryAndVesselIdsModel);
+});
 
 // Industria Section
 
@@ -122,8 +118,7 @@ class TruckRegistrationController extends StateNotifier<bool> {
     required BuildContext context,
   }) async {
     state = true;
-
-    await Future.delayed(const Duration(seconds: 5));
+    UserModel userModel = await ref.read(authControllerProvider.notifier).getCurrentUserInfo();
     final String viajesId = Uuid().v4();
     DateTime entryTimeToPort = DateTime.now();
     ViajesModel viajesModel = ViajesModel(
@@ -152,8 +147,19 @@ class TruckRegistrationController extends StateNotifier<bool> {
       vesselId: vesselId,
       vesselName: vesselName,
       cargoHoldCount: vesselCargoHoldCount,
-      bogedaCountProductEnum: BogedaCountProductEnum.A, marchamo1: '',
-      marchamo2: '', productId: '', weightUnitEnum: WeightUnitEnum.Kg, searchTags: viajesSearchTagsHandler(choferId: choferesId, choferName: choferesname, guideNumber: guideNumber.toInt().toString()),
+      bogedaCountProductEnum: BogedaCountProductEnum.A,
+      marchamo1: '',
+      marchamo2: '',
+      productId: '',
+      weightUnitEnum: WeightUnitEnum.Kg,
+      searchTags: viajesSearchTagsHandler(
+          choferId: choferesId,
+          choferName: choferesname,
+          guideNumber: guideNumber.toInt().toString()),
+      truckInPortRegisteredBy: userModel.email,
+      truckInPortLoadedBy: '',
+      truckInIndustryRegisteredBy: '',
+      truckInIndustryUnLoadedBy: '',
     );
     ChoferesModel choferes = choferesModel.copyWith(
       choferesStatusEnum: ChoferesStatusEnum.portEntered,
@@ -185,13 +191,16 @@ class TruckRegistrationController extends StateNotifier<bool> {
 
   VesselModel updateCargoModel(
       {required VesselModel originalModel,
-      required String cargoModelId,required String productModelId, required double pureCargoWeight}) {
-    int cargoModelIndex = originalModel.cargoModels.indexWhere(
-        (cargoModel) => cargoModel.cargoId == cargoModelId);
-    int productModelIndex = originalModel.vesselProductModels.indexWhere(
-            (prodModel) => prodModel.productId == productModelId);
+      required String cargoModelId,
+      required String productModelId,
+      required double pureCargoWeight}) {
+    int cargoModelIndex = originalModel.cargoModels
+        .indexWhere((cargoModel) => cargoModel.cargoId == cargoModelId);
+    int productModelIndex = originalModel.vesselProductModels
+        .indexWhere((prodModel) => prodModel.productId == productModelId);
     if (cargoModelIndex != -1) {
-      VesselCargoModel updatedCargoModel= originalModel.cargoModels[cargoModelIndex];
+      VesselCargoModel updatedCargoModel =
+          originalModel.cargoModels[cargoModelIndex];
       List<VesselCargoModel> updatedCargoModels =
           List.from(originalModel.cargoModels);
       updatedCargoModels[cargoModelIndex] = updatedCargoModel.copyWith(
@@ -200,31 +209,34 @@ class TruckRegistrationController extends StateNotifier<bool> {
       originalModel = originalModel.copyWith(cargoModels: updatedCargoModels);
     }
     if (productModelIndex != -1) {
-      VesselProductModel productModel= originalModel.vesselProductModels[productModelIndex];
+      VesselProductModel productModel =
+          originalModel.vesselProductModels[productModelIndex];
       List<VesselProductModel> updatedProdModels =
-      List.from(originalModel.vesselProductModels);
+          List.from(originalModel.vesselProductModels);
       updatedProdModels[productModelIndex] = productModel.copyWith(
           pesoUnloaded: updatedProdModels[productModelIndex].pesoUnloaded +
               pureCargoWeight);
 
-      originalModel = originalModel.copyWith(vesselProductModels: updatedProdModels);
+      originalModel =
+          originalModel.copyWith(vesselProductModels: updatedProdModels);
     }
 
     return originalModel;
   }
+
   IndustrySubModel updateIndustryProductModel(
       {required IndustrySubModel originalModel,
-        required String productModelId,
-        required double pureCargoWeight}) {
+      required String productModelId,
+      required double pureCargoWeight}) {
     int productModelIndex = originalModel.vesselProductModels
         .indexWhere((prodModel) => prodModel.productId == productModelId);
     if (productModelIndex != -1) {
       VesselProductModel productModel =
-      originalModel.vesselProductModels[productModelIndex];
+          originalModel.vesselProductModels[productModelIndex];
       List<VesselProductModel> updatedProdModels =
-      List.from(originalModel.vesselProductModels);
+          List.from(originalModel.vesselProductModels);
       updatedProdModels[productModelIndex] = productModel.copyWith(
-          pesoAssigned: updatedProdModels[productModelIndex].pesoAssigned+
+          pesoAssigned: updatedProdModels[productModelIndex].pesoAssigned +
               pureCargoWeight);
 
       originalModel =
@@ -249,7 +261,7 @@ class TruckRegistrationController extends StateNotifier<bool> {
     required BuildContext context,
   }) async {
     state = true;
-
+    UserModel userModel = await ref.read(authControllerProvider.notifier).getCurrentUserInfo();
     DateTime exitTimeFromPort = DateTime.now();
     ViajesModel model = viajesModel.copyWith(
         exitTimeToPort: exitTimeFromPort,
@@ -261,24 +273,31 @@ class TruckRegistrationController extends StateNotifier<bool> {
         marchamo2: marchamo2,
         productId: productId,
         productName: productName,
-        viajesStatusEnum: ViajesStatusEnum.portLeft,cargoId: newCargoModel.cargoId, weightUnitEnum: vesselModel.weightUnitEnum);
+        viajesStatusEnum: ViajesStatusEnum.portLeft,
+        cargoId: newCargoModel.cargoId,
+        weightUnitEnum: vesselModel.weightUnitEnum,truckInPortLoadedBy: userModel.email);
 
-    IndustrySubModel industryModel= industrySubModel.copyWith(
+    IndustrySubModel industryModel = industrySubModel.copyWith(
       cargoAssigned: industrySubModel.cargoAssigned + pureCargoWeight,
     );
     industryModel = updateIndustryProductModel(
         originalModel: industryModel,
         productModelId: productId,
-        pureCargoWeight:pureCargoWeight);
+        pureCargoWeight: pureCargoWeight);
 
     VesselModel vessel = updateCargoModel(
-        originalModel: vesselModel, cargoModelId: newCargoModel.cargoId,productModelId: productId,pureCargoWeight: pureCargoWeight);
+        originalModel: vesselModel,
+        cargoModelId: newCargoModel.cargoId,
+        productModelId: productId,
+        pureCargoWeight: pureCargoWeight);
 
     VesselModel vesselUpdate = vessel.copyWith(
         cargoUnloadedWeight: vessel.cargoUnloadedWeight + pureCargoWeight);
 
     final result = await _datasource.registerTruckLeavingFromPort(
-        viajesModel: model, vesselModel: vesselUpdate, industrySubModel: industryModel);
+        viajesModel: model,
+        vesselModel: vesselUpdate,
+        industrySubModel: industryModel);
 
     result.fold((l) {
       state = false;
@@ -315,7 +334,6 @@ class TruckRegistrationController extends StateNotifier<bool> {
         industryFCMTokens.add(user.fcmToken);
       });
     });
-
 
     if (industryFCMTokens.isEmpty) {
       return; // No registered devices, no need to send notifications.
@@ -367,7 +385,6 @@ class TruckRegistrationController extends StateNotifier<bool> {
         adminsFCMTokens.add(user.fcmToken);
       });
     });
-
 
     if (adminsFCMTokens.isEmpty) {
       return; // No registered devices, no need to send notifications.
@@ -477,11 +494,12 @@ class TruckRegistrationController extends StateNotifier<bool> {
       return models;
     });
   }
+
   Stream<List<ViajesModel>> getAllViajesForIndustryListForReport(
       {required IndustryAndVesselIdsModel industryAndVesselIdsModel}) {
     return _datasource
         .getAllViajesForIndustryListForReport(
-        industryAndVesselIdsModel: industryAndVesselIdsModel)
+            industryAndVesselIdsModel: industryAndVesselIdsModel)
         .map((event) {
       List<ViajesModel> models = [];
       event.docs.forEach((element) {
@@ -490,8 +508,6 @@ class TruckRegistrationController extends StateNotifier<bool> {
       return models;
     });
   }
-
-
 
   Stream<List<ViajesModel>> getIndustryEnteringViajesList() {
     return _datasource.getIndustryEnteringViajesList().map((event) {

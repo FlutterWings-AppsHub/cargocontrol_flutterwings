@@ -81,7 +81,7 @@ class ViajesCard extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      ' ${formatWeight(model.pureCargoWeight)} ${model.weightUnitEnum.type} - ${model.productName}',
+                        model.productName.isEmpty?' ${formatWeight(model.pureCargoWeight)} ${model.weightUnitEnum.type} ':' ${formatWeight(model.pureCargoWeight)} ${model.weightUnitEnum.type} - ${model.productName}',
                       overflow: TextOverflow.ellipsis,
                       style: getBoldStyle(color: context.textColor, fontSize: MyFonts.size12),
                     ),

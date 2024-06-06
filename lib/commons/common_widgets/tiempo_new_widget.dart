@@ -110,7 +110,7 @@ class TiempoNewWidget extends StatelessWidget {
           ),
           TiempoTile(
             lastValue: viajesModel.chofereName,
-            email: 'elpelon@gmail.com ',
+            email: viajesModel.truckInPortRegisteredBy,
             title: 'Camión registrado en la romana',
             time: DateFormat('dd:HH:mm').format(viajesModel.entryTimeToPort) ,
             isSelected: true, lastKey: 'Chofer asignado',
@@ -171,7 +171,7 @@ class TiempoNewWidget extends StatelessWidget {
           TiempoTile(
             lastValue: "${formatWeight(viajesModel.exitTimeTruckWeightToPort -
             viajesModel.entryTimeTruckWeightToPort)} ${viajesModel.weightUnitEnum.type}",
-            email: 'elpelon@gmail.com ',
+            email: viajesModel.truckInPortLoadedBy,
             title: 'Camión registrado en la romana',
             time: DateFormat('dd:HH:mm').format(viajesModel.exitTimeToPort),
             isSelected: viajesModel.viajesStatusEnum.type !=
@@ -234,7 +234,7 @@ class TiempoNewWidget extends StatelessWidget {
           ),
           TiempoTile(
             lastValue: "${formatWeight(viajesModel.exitTimeTruckWeightToPort)} ${viajesModel.weightUnitEnum.type}",
-            email: 'elpelon@gmail.com ',
+            email: viajesModel.truckInIndustryRegisteredBy,
             title: 'Camión registrado en la romana',
             time: DateFormat('dd:HH:mm')
                 .format(viajesModel.timeToIndustry),
@@ -299,7 +299,7 @@ class TiempoNewWidget extends StatelessWidget {
           TiempoTile(
             lastValue: "${formatWeight(viajesModel.cargoUnloadWeight-
                 viajesModel.entryTimeTruckWeightToPort)} ${viajesModel.weightUnitEnum.type}",
-            email: 'elpelon@gmail.com ',
+            email: viajesModel.truckInIndustryUnLoadedBy,
             title: 'Camión registrado en la romana',
             time: DateFormat('dd:HH:mm')
                 .format(viajesModel.unloadingTimeInIndustry),

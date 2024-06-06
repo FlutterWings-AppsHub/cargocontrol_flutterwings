@@ -42,7 +42,7 @@ class CargaWidget extends StatelessWidget {
           height: 28.h,
         ),
         CustomTile(
-            title: "Producto (Variedad)", subText: viajesModel.productName),
+            title: "Producto", subText: viajesModel.productName),
         // Consumer(
         //   builder: (BuildContext context, WidgetRef ref, Widget? child) {
         //     return ref
