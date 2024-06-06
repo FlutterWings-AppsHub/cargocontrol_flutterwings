@@ -67,6 +67,19 @@ final getAllViajesForIndustryList = StreamProvider.family(
       industryAndVesselIdsModel: industryAndVesselIdsModel);
 });
 
+final getAllViajesForIndustryListforReport = StreamProvider.family(
+        (ref, IndustryAndVesselIdsModel industryAndVesselIdsModel) {
+      final truckProvider = ref.watch(truckRegistrationControllerProvider.notifier);
+      return truckProvider.getAllViajesForIndustryListForReport(
+          industryAndVesselIdsModel: industryAndVesselIdsModel);
+    });
+
+
+
+
+
+
+
 // Industria Section
 
 final getIndustriaIndustry = StreamProvider.family(
@@ -464,6 +477,21 @@ class TruckRegistrationController extends StateNotifier<bool> {
       return models;
     });
   }
+  Stream<List<ViajesModel>> getAllViajesForIndustryListForReport(
+      {required IndustryAndVesselIdsModel industryAndVesselIdsModel}) {
+    return _datasource
+        .getAllViajesForIndustryListForReport(
+        industryAndVesselIdsModel: industryAndVesselIdsModel)
+        .map((event) {
+      List<ViajesModel> models = [];
+      event.docs.forEach((element) {
+        models.add(ViajesModel.fromMap(element.data()));
+      });
+      return models;
+    });
+  }
+
+
 
   Stream<List<ViajesModel>> getIndustryEnteringViajesList() {
     return _datasource.getIndustryEnteringViajesList().map((event) {

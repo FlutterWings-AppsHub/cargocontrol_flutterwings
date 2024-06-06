@@ -7,12 +7,13 @@ import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../utils/constants/font_manager.dart';
 
 class TiempoTile extends StatelessWidget {
-  final String cargoAssignedBy;
+  final String lastValue;
+  final String lastKey;
   final String title;
   final String email;
   final String time;
   final bool isSelected;
-  const TiempoTile({super.key, required this.cargoAssignedBy, required this.title, required this.email, required this.time, required this.isSelected,});
+  const TiempoTile({super.key, required this.lastValue, required this.title, required this.email, required this.time, required this.isSelected, required this.lastKey,});
 
   @override
   Widget build(BuildContext context) {
@@ -59,13 +60,12 @@ class TiempoTile extends StatelessWidget {
                   ),
                   SizedBox(width: 10.w,),
                   isSelected ?
-                  FittedBox(
-                    child: Text(
-                      "12:00:00 pm",
-                      style: getMediumStyle(
-                        color: isSelected? context.textColor: context.textFieldColor,
-                        fontSize: MyFonts.size10,
-                      ),
+                  Text(
+                    time,
+                    textAlign: TextAlign.right,
+                    style: getMediumStyle(
+                      color: isSelected? context.textColor: context.textFieldColor,
+                      fontSize: MyFonts.size10,
                     ),
                   ):
                   Container(
@@ -81,7 +81,7 @@ class TiempoTile extends StatelessWidget {
                 ],
               ),
               Text(
-                isSelected  ? "Chofer asignado: $cargoAssignedBy " : 'Chofer asignado: N/D',
+                isSelected  ? "$lastKey: $lastValue " : '$lastKey: N/D',
                 style: getRegularStyle(
                   color: isSelected ? context.text3Color: context.textFieldColor,
                   fontSize: MyFonts.size10,

@@ -46,6 +46,7 @@ abstract class TruckRegistrationApisImplements {
   Stream<QuerySnapshot<Map<String, dynamic>>> getIndustriaIndustry({required IndustryAndVesselIdsModel industryAndVesselIdsModel});
   Stream<QuerySnapshot<Map<String, dynamic>>> getIndustriaIndustryByIndustryId({required String industryId});
   Stream<QuerySnapshot<Map<String, dynamic>>> getChoferModelByNationalId({required String nationalId});
+  Stream<QuerySnapshot<Map<String, dynamic>>> getAllViajesForIndustryListForReport({required IndustryAndVesselIdsModel industryAndVesselIdsModel});
 
   FutureEither<List<IndustrySubModel>> getAllIndustries({required String vesselId});
   FutureEither<ViajesModel> getMatchedViajes({required String plateNumber,required String vesselId});
@@ -235,7 +236,12 @@ class TruckRegistrationApis implements TruckRegistrationApisImplements{
   }
   @override
   Stream<QuerySnapshot<Map<String, dynamic>>> getAllViajesForIndustryList({required IndustryAndVesselIdsModel industryAndVesselIdsModel}){
-    return _firestore.collection(FirebaseConstants.viajesCollection).where('vesselId',isEqualTo: industryAndVesselIdsModel.vesselId).where('industryId',isEqualTo: industryAndVesselIdsModel.industryId).//where('viajesTypeEnum', isEqualTo: ViajesTypeEnum.completed.type).
+    return _firestore.collection(FirebaseConstants.viajesCollection).where('vesselId',isEqualTo: industryAndVesselIdsModel.vesselId).where('industryId',isEqualTo: industryAndVesselIdsModel.industryId).where('viajesTypeEnum', isEqualTo: ViajesTypeEnum.completed.type).
+    snapshots();
+  }
+  @override
+  Stream<QuerySnapshot<Map<String, dynamic>>> getAllViajesForIndustryListForReport({required IndustryAndVesselIdsModel industryAndVesselIdsModel}){
+    return _firestore.collection(FirebaseConstants.viajesCollection).where('vesselId',isEqualTo: industryAndVesselIdsModel.vesselId).where('industryId',isEqualTo: industryAndVesselIdsModel.industryId).
     snapshots();
   }
 

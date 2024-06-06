@@ -7,10 +7,10 @@ import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../utils/constants/font_manager.dart';
 
 class TiempoTimeTile extends StatelessWidget {
-  final String cargoAssignedBy;
+  final String avgTime;
   final String time;
   final bool isSelected;
-  const TiempoTimeTile({super.key, required this.cargoAssignedBy, required this.time, required this.isSelected});
+  const TiempoTimeTile({super.key, required this.avgTime, required this.time, required this.isSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -31,17 +31,17 @@ class TiempoTimeTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                isSelected ? "Tiempo: $cargoAssignedBy" : 'Tiempo: N/D',
+                isSelected ? "Tiempo: $time" : 'Tiempo: N/D',
                 style: getMediumStyle(
-                  color: isSelected?  context.textFieldColor: context.textFieldColor,
+                  color: isSelected?  context.textColor: context.textFieldColor,
                   fontSize: MyFonts.size12,
                 ),
               ),
               SizedBox(height: 10.h,),
               Text(
-                isSelected ? "Tiempo promedio: $cargoAssignedBy" : 'Tiempo promedio: N/D',
+                isSelected ? "Tiempo promedio: $avgTime" : 'Tiempo promedio: N/D',
                 style: getMediumStyle(
-                  color: isSelected?  context.textFieldColor: context.textFieldColor,
+                  color: isSelected?  context.textColor: context.textFieldColor,
                   fontSize: MyFonts.size12,
                 ),
               ),

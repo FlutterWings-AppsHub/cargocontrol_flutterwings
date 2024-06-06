@@ -7,9 +7,9 @@ import 'package:cargocontrol/models/viajes_models/viajes_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../commons/common_imports/common_libs.dart';
-import '../../../../utils/constants/font_manager.dart';
-import '../features/coordinator/register_truck_movement/controllers/truck_registration_controller.dart';
+import '../../../../../commons/common_imports/common_libs.dart';
+import '../../../../../utils/constants/font_manager.dart';
+import '../../features/coordinator/register_truck_movement/controllers/truck_registration_controller.dart';
 
 class TiempoWidget extends StatelessWidget {
   const TiempoWidget(

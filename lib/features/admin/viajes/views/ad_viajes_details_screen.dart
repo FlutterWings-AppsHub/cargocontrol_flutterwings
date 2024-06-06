@@ -13,7 +13,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../common_widgets/carga_widget.dart';
 import '../../../../common_widgets/datos_generales_widget.dart';
-import '../../../../common_widgets/tiempo_widget.dart';
+import '../../../../commons/common_widgets/tiempo_new_widget.dart';
+import '../../../../commons/common_widgets/tiempo_widget.dart';
 import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../commons/common_widgets/custom_appbar.dart';
 import '../../choferes/controllers/choferes_controller.dart';
@@ -21,7 +22,6 @@ import '../controllers/viajes_completed_noti_controller.dart';
 import '../controllers/viajes_controller.dart';
 import '../controllers/viajes_inprogess_noti_controller.dart';
 import '../controllers/viajes_noti_controller.dart';
-import '../widgets/tiempo_new_widget.dart';
 import 'exit_port_weight_update_dialog.dart';
 import 'industry_unloading_weight_update_dialog.dart';
 

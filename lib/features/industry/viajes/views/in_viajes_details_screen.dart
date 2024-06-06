@@ -6,7 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../common_widgets/carga_widget.dart';
 import '../../../../common_widgets/datos_generales_widget.dart';
-import '../../../../common_widgets/tiempo_widget.dart';
+import '../../../../commons/common_widgets/tiempo_new_widget.dart';
+import '../../../../commons/common_widgets/tiempo_widget.dart';
 import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../commons/common_widgets/custom_appbar.dart';
 import '../../../../models/choferes_models/choferes_model.dart';
@@ -82,7 +83,7 @@ class InViajesDetailsScreen extends StatelessWidget {
                   SizedBox(height: 20.h,),
                   Divider(height: 1.h,color: context.textFieldColor,),
                   SizedBox(height: 28.h,),
-                  TiempoWidget(viajesModel: viajesModel,onEdit: (){},),
+                  TiempoNewWidget(viajesModel: viajesModel,onEdit: (){},),
                   SizedBox(height: 20.h,),
                   Divider(height: 1.h,color: context.textFieldColor,),
                   SizedBox(height: 28.h,),

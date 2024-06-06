@@ -13,7 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../../../common_widgets/carga_widget.dart';
 import '../../../../common_widgets/datos_generales_widget.dart';
-import '../../../../common_widgets/tiempo_widget.dart';
+import '../../../../commons/common_widgets/tiempo_widget.dart';
 import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../commons/common_widgets/common_date_picker.dart';
 import '../../../../commons/common_widgets/custom_appbar.dart';

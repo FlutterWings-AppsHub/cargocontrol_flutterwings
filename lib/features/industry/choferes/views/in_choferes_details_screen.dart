@@ -11,7 +11,7 @@ import '../../../../common_widgets/carga_widget.dart';
 import '../../../../common_widgets/choferes_datos_generales_widget.dart';
 import '../../../../common_widgets/choferes_weight_tiempo_widget.dart';
 import '../../../../common_widgets/datos_generales_widget.dart';
-import '../../../../common_widgets/tiempo_widget.dart';
+import '../../../../commons/common_widgets/tiempo_widget.dart';
 import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../commons/common_widgets/custom_appbar.dart';
 import '../../../auth/controllers/auth_controller.dart';

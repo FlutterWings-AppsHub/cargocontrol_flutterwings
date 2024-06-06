@@ -157,7 +157,7 @@ class InShipsReportsWebVesselModelScreen extends StatelessWidget {
                             builder: (BuildContext context, WidgetRef ref,
                                 Widget? child) {
                               return ref
-                                  .watch(getAllViajesForIndustryList(
+                                  .watch(getAllViajesForIndustryListforReport(
                                       IndustryAndVesselIdsModel(
                                           industryId: industryModel.industryId,
                                           vesselId: vesselModel.vesselId)))
