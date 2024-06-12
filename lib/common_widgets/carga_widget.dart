@@ -183,7 +183,7 @@ class CargaWidget extends StatelessWidget {
                   .when(
                 data: (industryModel) {
                   return CustomTile(
-                    title: "Deficit promedio industria",
+                    title: "Pérdida promedio industria",
                     subText:
                         "${"-" + (industryModel.deficit / (industryModel.cargoUnloaded + industryModel.deficit)).toStringAsFixed(2)}%",
                     isGoodSign: false,
@@ -208,7 +208,7 @@ class CargaWidget extends StatelessWidget {
                   .when(
                 data: (model) {
                   return CustomTile(
-                    title: "Deficit promedio de chofer",
+                    title: "Pérdida promedio de chofer",
                     subText: "${formatWeight(model.averageCargoDeficit)} ${viajesModel.weightUnitEnum.type}",
                     isGoodSign: false,
                     hasWarning: true,

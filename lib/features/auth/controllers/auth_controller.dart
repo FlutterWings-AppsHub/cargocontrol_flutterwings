@@ -156,8 +156,9 @@ class AuthController extends StateNotifier<bool> {
           AccountTypeEnum.industria.name
           ? Navigator.pushNamedAndRemoveUntil(context,
           AppRoutes.inMainMenuScreen, (route) => false)
-          : Navigator.pushNamedAndRemoveUntil(context,
-          AppRoutes.coMainMenuScreen, (route) => false);
+          :       userModel.accountType.name == AccountTypeEnum.coordinator.name?Navigator.pushNamedAndRemoveUntil(context,
+          AppRoutes.coMainMenuScreen, (route) => false):Navigator.pushNamedAndRemoveUntil(
+          context, AppRoutes.adminMainMenuScreen, (route) => false);
     });
   }
 

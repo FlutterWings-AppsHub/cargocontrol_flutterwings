@@ -10,17 +10,17 @@ import '../controllers/choferes_controller.dart';
 import '../controllers/choferes_noti_controller.dart';
 
 
-class AddChoferesModal extends StatefulWidget {
-  const AddChoferesModal({
+class AddChoferesModalDialog extends StatefulWidget {
+  const AddChoferesModalDialog({
     super.key,
   });
 
 
   @override
-  State<AddChoferesModal> createState() => _AddChoferesModalState();
+  State<AddChoferesModalDialog> createState() => _AddChoferesModalDialogState();
 }
 
-class _AddChoferesModalState extends State<AddChoferesModal> {
+class _AddChoferesModalDialogState extends State<AddChoferesModalDialog> {
 
   final nameCtr = TextEditingController();
   final lastCtr = TextEditingController();

@@ -137,6 +137,8 @@ class _MyAppState extends ConsumerState<MyApp> {
                     return const CoMainMenuScreen();
                   case AccountTypeEnum.industria:
                     return const InMainMenuScreen();
+                  case AccountTypeEnum.viewer:
+                    return const AdMainMenuScreen();
                   default:
                     return const LoadingScreen();
                 }

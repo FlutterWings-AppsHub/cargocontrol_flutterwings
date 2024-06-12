@@ -38,16 +38,16 @@ class CoCargaWidget extends StatelessWidget {
             subText: "27,641"
         ),
         const CustomTile(
-            title: "Deficit de chofer",
+            title: "Pérdida de chofer",
             subText: "9",
           isGoodSign: true,
         ),
         const CustomTile(
-          title: "Deficit promedio industria",
+          title: "Pérdida promedio industria",
           subText: "20",
         ),
         const CustomTile(
-          title: "Deficit promedio de chofer",
+          title: "Pérdida promedio de chofer",
           subText: "10",
           isGoodSign: true,
         ),

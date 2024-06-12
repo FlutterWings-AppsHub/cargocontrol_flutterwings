@@ -88,7 +88,7 @@ class _AdChoferesListState extends ConsumerState<InShipsList> {
               shipsNotiCtr.isLoading ?
                 const LoadingWidget():
               shipsNotiCtr.shipsModels.isEmpty ?
-                const Text("No Vessels!"):
+                const Text("Sin Embarcaciones!"):
                 Expanded(
                   child: ListView.builder(
                       controller: _scrollController,

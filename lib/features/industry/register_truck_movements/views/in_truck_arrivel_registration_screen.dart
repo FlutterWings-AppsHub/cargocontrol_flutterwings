@@ -56,7 +56,7 @@ class _InRegisterTruckArrivalScreenState extends State<InRegisterTruckArrivalScr
             const CommonHeader(
               title: "Número de ",
               subtitle: "placa" ,
-              description: "Indique el número de placa del camión saliente",
+              description: "Indique el número de placa del camión entrante",
             ),
             Spacer(flex: 1,),
 

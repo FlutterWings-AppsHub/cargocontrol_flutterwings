@@ -82,7 +82,7 @@ class ReportPDFFormat {
               SizedBox(height: .2.h * PdfPageFormat.cm),
               SizedBox(height: 1 * PdfPageFormat.cm),
               pdfText(
-                  text: "Viajies",
+                  text: "Viajes",
                   color: MyColors.pdfMainColor,
                   fontSize: MyFonts.size15,
                   fontWeight: FontWeight.bold),

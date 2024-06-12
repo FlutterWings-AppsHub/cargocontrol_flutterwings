@@ -130,7 +130,7 @@ class _ReportScreenState extends ConsumerState<ReportScreen> {
                   text: 'Vessel Report',
                 );
               },
-              buttonText: 'Share',
+              buttonText: 'Compartir',
             ),
           )
         ],

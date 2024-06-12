@@ -43,7 +43,7 @@ class CoProgressIndicatorCard extends StatelessWidget {
                 deficit == ''  || deficit == "0"?const SizedBox():
                 Expanded(
                   child: Text(
-                    'Deficit: $deficit',
+                    'Pérdida: $deficit',
                     style: getRegularStyle(color: context.textColor, fontSize: MyFonts.size12),
                   ),
                 ),

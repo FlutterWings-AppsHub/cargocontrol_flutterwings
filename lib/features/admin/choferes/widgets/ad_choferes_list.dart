@@ -12,8 +12,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../commons/common_functions/format_weight.dart';
 import '../../../../commons/common_widgets/CustomTextFields.dart';
+import '../../../../core/enums/account_type.dart';
 import '../../../../models/choferes_models/choferes_model.dart';
 import '../../../../utils/constants/assets_manager.dart';
+import '../../../auth/controllers/auth_notifier_controller.dart';
 import 'confirm_delete_dialog.dart';
 
 @override
@@ -72,6 +74,8 @@ class _AdChoferesListState extends ConsumerState<AdChoferesList> {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final choferesNotiCtr = ref.watch(choferesNotiController);
+        final userModel = ref.read(authNotifierCtr).userModel;
+
         return Expanded(
           child: Center(
             child: SizedBox(
@@ -107,7 +111,7 @@ class _AdChoferesListState extends ConsumerState<AdChoferesList> {
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
                             ChoferesModel model = choferesNotiCtr.choferesModels[index];
-                            return Dismissible(
+                            return (userModel?.accountType==AccountTypeEnum.administrador)?Dismissible(
                               key: UniqueKey(),
                               direction: DismissDirection.endToStart,
                               confirmDismiss: (direction)async {
@@ -150,6 +154,19 @@ class _AdChoferesListState extends ConsumerState<AdChoferesList> {
                                         .toStringAsFixed(2)}%",
                                     bottomRightText: "Retraso Promedio : 2:00H", choferesModel: model,),
                               ),
+                            ):GestureDetector(
+                              onTap: (){
+                                Navigator.pushNamed(context, AppRoutes.choferesDetailsScreen,arguments: {
+                                  "choferesModel":model,
+                                });
+                              },
+                              child: ChoferCard(
+                                topLeftText: "ID ${model.choferNationalId}",
+                                topRightText: "Viajes ${model.numberOfTrips}",
+                                titleText: "${model.firstName} ${model.lastName}",
+                                bottomLeftText: "Pérdida promedio: ${(model.averageCargoDeficitPercentage * 100)
+                                    .toStringAsFixed(2)}%",
+                                bottomRightText: "Retraso Promedio : 2:00H", choferesModel: model,),
                             );
 
                           }),

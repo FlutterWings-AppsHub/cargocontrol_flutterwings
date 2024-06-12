@@ -36,6 +36,16 @@ String? sectionValidator(String? value) {
   }
   return null;
 }
+String? numberPlateValidator(String? value) {
+  if (value!.isEmpty) {
+    return 'No puede estar vacío';
+  }
+  if(value.length!=6){
+    return "El número de placa debe tener 6 caracteres";
+  }
+
+  return null;
+}
 
 String? pesoTaraValidator(String? value) {
   if (value!.isEmpty) {

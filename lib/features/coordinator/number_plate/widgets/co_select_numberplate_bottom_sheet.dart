@@ -5,6 +5,7 @@ import 'package:cargocontrol/features/coordinator/number_plate/data/models/numbe
 import 'package:cargocontrol/features/coordinator/register_truck_movement/controllers/truck_registration_noti_controller.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
 import 'package:cargocontrol/utils/constants/font_manager.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../../../common_widgets/cargo_card.dart';
 import '../../../../commons/common_functions/format_weight.dart';
@@ -13,6 +14,7 @@ import '../../../../commons/common_widgets/CustomTextFields.dart';
 import '../../../../utils/constants/assets_manager.dart';
 import '../../../../utils/loading.dart';
 import '../controllers/numberplate_noti_controller.dart';
+import 'co_add_numberplate_modal.dart';
 import 'co_add_plate_dialoge.dart';
 import 'number_plate_widget.dart';
 
@@ -140,11 +142,24 @@ class _CoSelectNumberPlateBottomSheetState extends ConsumerState<CoSelectNumberP
           CustomButton(
             buttonWidth: double.infinity,
             onPressed: (){
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return const CoAddPlateNumberDialoge();
-                  });
+              if(kIsWeb){
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return CoAddPlateNumberDialoge();
+                    });
+              }else{
+                showModalBottomSheet(
+                    isScrollControlled: true,
+                    backgroundColor: Colors.white,
+                    elevation: 0,
+                    context: context,
+                    builder: (context) => Padding(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom),
+                      child: const CoAddNumberPlateModel(),
+                    ));
+              }
             },
             buttonText: 'Register Number Plate',
           ),

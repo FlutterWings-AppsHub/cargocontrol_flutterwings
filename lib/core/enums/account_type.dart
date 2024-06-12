@@ -1,7 +1,8 @@
 enum AccountTypeEnum{
   administrador('administrador'),
   industria('industria'),
-  coordinator('coordinator');
+  coordinator('coordinator'),
+  viewer('viewer');
 
 
   const AccountTypeEnum(this.type);
@@ -19,6 +20,8 @@ extension ConvertAccountType on String{
         return AccountTypeEnum.industria;
       case 'coordinator':
         return AccountTypeEnum.coordinator;
+      case 'viewer':
+        return AccountTypeEnum.viewer;
       default:
         return AccountTypeEnum.coordinator;
     }

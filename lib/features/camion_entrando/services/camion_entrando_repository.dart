@@ -36,7 +36,7 @@ class CamionEntrandoRepository {
         'PesoTara': pesoTara,
         'PesoBrutoSalida': 0.0,
         'PesoBrutoLlegada': 0.0,
-        'Deficit': 0.0,
+        'Pérdida': 0.0,
         'Estatus': 1,
       });
     } on FirebaseException catch (e) {

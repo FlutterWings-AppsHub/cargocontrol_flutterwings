@@ -110,6 +110,7 @@ class _RegisterUserScreenState extends ConsumerState<RegisterUserScreen> {
                           "administrador",
                           "coordinador",
                           "industria",
+                          'viewer'
                         ],
                         labelText: "Tipo de usuario",
                       onChange: (val){
@@ -194,7 +195,7 @@ class _RegisterUserScreenState extends ConsumerState<RegisterUserScreen> {
                       buttonWidth: double.infinity,
                       isLoading: ref.watch(authControllerProvider),
                       onPressed: ()async{
-                          if(formKey.currentState!.validate()){
+                          if(formKey.currentState!.validate() && accountTypeEnum!=null){
                             await ref.read(authControllerProvider.notifier).registerWithEmailAndPassword(
                                 email: emailCtr.text,
                                 password: passCtr.text ,

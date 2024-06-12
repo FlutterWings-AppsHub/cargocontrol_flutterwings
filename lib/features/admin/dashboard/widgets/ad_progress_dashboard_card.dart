@@ -51,7 +51,7 @@ class AdProgressIndicatorCard extends StatelessWidget {
                       maxWidth: 50.w
                   ),
                   child:Text(
-                    'Deficit: $deficit',
+                    'Pérdida: $deficit',
                     style: getRegularStyle(color: context.textColor, fontSize: MyFonts.size12),
                   ),
                 ),

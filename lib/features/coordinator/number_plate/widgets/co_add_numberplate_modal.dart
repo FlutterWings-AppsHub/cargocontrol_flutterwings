@@ -16,6 +16,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:formz/formz.dart';
 import 'package:cargocontrol/utils/constants.dart' as constants;
 
+import '../../../../commons/common_widgets/text_detector_view.dart';
+import '../../../../utils/constants/assets_manager.dart';
+import '../../../../utils/thems/my_colors.dart';
 import '../controllers/numberplate_controller.dart';
 
 class CoAddNumberPlateModel extends StatefulWidget {
@@ -43,10 +46,12 @@ class _CoAddNumberPlateModelState extends State<CoAddNumberPlateModel> {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: [
+        SizedBox(height: 30.h,),
         const TitleHeader(
-          title: 'Agregar nuevo No Placa',
-          subtitle: 'Registrar a nuevo Placa',
+          title: 'Agregar nuevo camión',
+          subtitle: 'Registrar nuevo camión',
         ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -55,15 +60,39 @@ class _CoAddNumberPlateModelState extends State<CoAddNumberPlateModel> {
             child: Column(
               children: [
                 CustomTextField(
-                    controller: plateNoCtr,
-                    hintText: '',
-                    onChanged: (val) {},
-                    onFieldSubmitted: (val) {},
-                    inputType: TextInputType.number,
-                    maxLength: 6,
-                    obscure: false,
-                    validatorFn: sectionValidator,
-                    label: 'No Placa'),
+                  controller: plateNoCtr,
+                  hintText: '',
+                  onChanged: (val) {},
+                  onFieldSubmitted: (val) {},
+                  inputType: TextInputType.number,
+                  maxLength: 6,
+                  obscure: false,
+                  validatorFn: numberPlateValidator,
+                  label: 'No Placa',
+                  onlyNumber: true,
+                  tailingIcon: InkWell(
+                      onTap: () async {
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                              const TextDetectorScreen()),
+                        );
+                        setState(() {
+                          plateNoCtr.text = result;
+                        });
+                      },
+
+                      splashColor: MyColors.transparentColor,
+                      focusColor: MyColors.transparentColor,
+                      highlightColor: MyColors.transparentColor,
+                      child: Image.asset(
+                        AppAssets.scanIcon,
+                        scale: 2.2,
+                      )),
+
+                ),
+
                 CustomTextField(
                     controller: modelCtr,
                     hintText: '',
@@ -78,7 +107,7 @@ class _CoAddNumberPlateModelState extends State<CoAddNumberPlateModel> {
                   onChanged: (val) {},
                   onFieldSubmitted: (val) {},
                   obscure: false,
-                  label: 'Color:',
+                  label: 'Color',
                   validatorFn: sectionValidator,
                   inputType: TextInputType.name,
                 ),
@@ -108,6 +137,8 @@ class _CoAddNumberPlateModelState extends State<CoAddNumberPlateModel> {
                 SizedBox(
                   height: MediaQuery.of(context).padding.bottom,
                 ),
+                SizedBox(height: 30.h,),
+
               ],
             ),
           ),

@@ -20,7 +20,7 @@ class InFloadtingActionSheet extends ConsumerWidget {
         children: [
           DashboardModalButton(
             title1: 'Registro de',
-            title2: ' camión de llegada',
+            title2: 'camión de llegada',
             subtitle: 'Registro de camión a destino',
             onTap: () {
               Navigator.pop(context);
@@ -29,7 +29,7 @@ class InFloadtingActionSheet extends ConsumerWidget {
           ),
           DashboardModalButton(
             title1: 'Registrar camión',
-            title2: ' camión descargando ',
+            title2: 'descargando ',
             subtitle: 'Registrar camión entrando a la romana con carga',
             onTap: () {
               Navigator.pop(context);
@@ -39,7 +39,7 @@ class InFloadtingActionSheet extends ConsumerWidget {
 
           DashboardModalButton(
             title1: 'Descargar',
-            title2: ' reporte',
+            title2: 'reporte',
             subtitle: 'Descargar reporte de descarga',
             onTap: () {
               Navigator.pop(context);

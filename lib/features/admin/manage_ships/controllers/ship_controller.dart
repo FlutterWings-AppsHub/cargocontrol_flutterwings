@@ -103,15 +103,16 @@ class ShipController extends StateNotifier<bool> {
           allViajesModel: allViajesModels);
       return;
     }
-    if (allViajesModels.isNotEmpty && allIndustryGuideModels.isNotEmpty) {
-      Navigator.pushNamed(context, AppRoutes.reportScreen, arguments: {
-        'vesselModel': vesselModel,
-        'allIndustriesModels': allIndustryGuideModels,
-        'allViajesModel': allViajesModels
-      });
-    } else {
-      showSnackBar(context: context, content: Messages.reportGenerateError);
-    }
+    Navigator.pushNamed(context, AppRoutes.reportScreen, arguments: {
+      'vesselModel': vesselModel,
+      'allIndustriesModels': allIndustryGuideModels,
+      'allViajesModel': allViajesModels
+    });
+    // if (allViajesModels.isNotEmpty && allIndustryGuideModels.isNotEmpty) {
+    //
+    // } else {
+    //   showSnackBar(context: context, content: Messages.reportGenerateError);
+    // }
   }
 
   Future<void> createReportsForIndustry({
@@ -157,14 +158,15 @@ class ShipController extends StateNotifier<bool> {
           allViajesModel: allViajesModels);
       return;
     }
-    if (allViajesModels.isNotEmpty && allIndustryGuideModels.isNotEmpty) {
-      Navigator.pushNamed(context, AppRoutes.reportScreen, arguments: {
-        'vesselModel': vesselModel,
-        'allIndustriesModels': allIndustryGuideModels,
-        'allViajesModel': allViajesModels
-      });
-    } else {
-      showSnackBar(context: context, content: Messages.reportGenerateError);
-    }
+    Navigator.pushNamed(context, AppRoutes.reportScreen, arguments: {
+      'vesselModel': vesselModel,
+      'allIndustriesModels': allIndustryGuideModels,
+      'allViajesModel': allViajesModels
+    });
+    // if (allViajesModels.isNotEmpty && allIndustryGuideModels.isNotEmpty) {
+    //
+    // } else {
+    //   showSnackBar(context: context, content: Messages.reportGenerateError);
+    // }
   }
 }

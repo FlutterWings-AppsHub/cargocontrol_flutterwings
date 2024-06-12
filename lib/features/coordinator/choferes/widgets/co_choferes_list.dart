@@ -94,7 +94,7 @@ class _CoChoferesListState extends ConsumerState<CoChoferesList> {
                           topLeftText: "ID ${model.choferNationalId}",
                           topRightText: "Viajes ${model.numberOfTrips}",
                           titleText: "${model.firstName} ${model.lastName}",
-                          bottomLeftText: "Deficit ${model.averageCargoDeficit}",
+                          bottomLeftText: "Pérdida ${model.averageCargoDeficit}",
                           bottomRightText: "Retraso Promedio : 2:00H", choferesModel: model,);
 
                     }),

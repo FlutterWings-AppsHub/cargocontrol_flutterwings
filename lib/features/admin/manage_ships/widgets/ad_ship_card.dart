@@ -12,7 +12,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-class AdShipCard extends StatelessWidget {
+import '../../../../core/enums/account_type.dart';
+import '../../../auth/controllers/auth_notifier_controller.dart';
+
+class AdShipCard extends ConsumerWidget {
   const AdShipCard({
     super.key,
     required this.vesselModel,
@@ -20,20 +23,23 @@ class AdShipCard extends StatelessWidget {
   final VesselModel vesselModel;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
       child: GestureDetector(
         onTap: () {
-          if (!vesselModel.isFinishedUnloading) {
-            showModalBottomSheet(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                context: context,
-                isDismissible: true,
-                builder: (context) => ShipsBottomSheet(
-                      vesselModel: vesselModel,
-                    ));
+          final userModel = ref.read(authNotifierCtr).userModel;
+          if(userModel?.accountType==AccountTypeEnum.administrador){
+            if (!vesselModel.isFinishedUnloading) {
+              showModalBottomSheet(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  context: context,
+                  isDismissible: true,
+                  builder: (context) => ShipsBottomSheet(
+                    vesselModel: vesselModel,
+                  ));
+          }
           }
         },
         child: Container(

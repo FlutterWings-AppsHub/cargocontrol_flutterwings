@@ -40,8 +40,8 @@ class _AddNumberPlateModelSheetState extends State<AddNumberPlateModelSheet> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const TitleHeader(
-          title: 'Agregar nuevo No Placa',
-          subtitle: 'Registrar a nuevo Placa',
+          title: 'Agregar nuevo camión',
+          subtitle: 'Registrar nuevo camión',
         ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),

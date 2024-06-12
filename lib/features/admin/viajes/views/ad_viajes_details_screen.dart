@@ -17,6 +17,8 @@ import '../../../../commons/common_widgets/tiempo_new_widget.dart';
 import '../../../../commons/common_widgets/tiempo_widget.dart';
 import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../commons/common_widgets/custom_appbar.dart';
+import '../../../../core/enums/account_type.dart';
+import '../../../auth/controllers/auth_notifier_controller.dart';
 import '../../choferes/controllers/choferes_controller.dart';
 import '../controllers/viajes_completed_noti_controller.dart';
 import '../controllers/viajes_controller.dart';
@@ -25,16 +27,16 @@ import '../controllers/viajes_noti_controller.dart';
 import 'exit_port_weight_update_dialog.dart';
 import 'industry_unloading_weight_update_dialog.dart';
 
-class AdViajesDetailsScreen extends StatefulWidget {
+class AdViajesDetailsScreen extends ConsumerStatefulWidget {
   final ViajesModel viajesModel;
   const AdViajesDetailsScreen({Key? key, required this.viajesModel})
       : super(key: key);
 
   @override
-  State<AdViajesDetailsScreen> createState() => _AdViajesDetailsScreenState();
+  ConsumerState<AdViajesDetailsScreen> createState() => _AdViajesDetailsScreenState();
 }
 
-class _AdViajesDetailsScreenState extends State<AdViajesDetailsScreen> {
+class _AdViajesDetailsScreenState extends ConsumerState<AdViajesDetailsScreen> {
   Future<void> guideNoUpdateDialog(
       BuildContext context, ViajesModel viajesModel, WidgetRef ref) async {
     return showDialog<void>(
@@ -95,6 +97,7 @@ class _AdViajesDetailsScreenState extends State<AdViajesDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userModel = ref.read(authNotifierCtr).userModel;
     return Scaffold(
       appBar: CustomAppBar(),
       body: SingleChildScrollView(
@@ -165,7 +168,7 @@ class _AdViajesDetailsScreenState extends State<AdViajesDetailsScreen> {
                           viajesModel: viajesModel,
                           onGuideNumberEdit: () =>
                               guideNoUpdateDialog(context, viajesModel, ref),
-                          isEditable: true,
+                          isEditable:(userModel?.accountType==AccountTypeEnum.administrador),
                         ),
                         SizedBox(
                           height: 20.h,
@@ -184,7 +187,7 @@ class _AdViajesDetailsScreenState extends State<AdViajesDetailsScreen> {
                                 context, AppRoutes.adViajesTimeEditScreen,
                                 arguments: {'viajesModel': viajesModel});
                           },
-                          isEditable: true,
+                          isEditable:(userModel?.accountType==AccountTypeEnum.administrador),
                         ),
                         SizedBox(
                           height: 20.h,
@@ -198,7 +201,7 @@ class _AdViajesDetailsScreenState extends State<AdViajesDetailsScreen> {
                         ),
                         CargaWidget(
                           viajesModel: viajesModel,
-                          isEditable: true,
+                          isEditable:(userModel?.accountType==AccountTypeEnum.administrador),
                           onExitPortWeightEdit: () {
                             exitPortWeightEditDialog(context,viajesModel,ref);
                           },
@@ -233,11 +236,7 @@ class _AdViajesDetailsScreenState extends State<AdViajesDetailsScreen> {
               return SizedBox(
                 height: 0.5.sh,
                 child: Center(
-                  child: Text(
-                    "Error while loading data",
-                    style: getRegularStyle(
-                        color: context.textColor, fontSize: MyFonts.size16),
-                  ),
+                  child: SizedBox(),
                 ),
               );
             }, loading: () {

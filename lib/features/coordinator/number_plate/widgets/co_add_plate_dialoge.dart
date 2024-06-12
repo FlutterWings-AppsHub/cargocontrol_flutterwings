@@ -57,8 +57,8 @@ class _CoAddPlateNumberDialogeState extends State<CoAddPlateNumberDialoge> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const TitleHeader(
-              title: 'Agregar nuevo No Placa',
-              subtitle: 'Registrar a nuevo Placa',
+              title: 'Agregar nuevo camión',
+              subtitle: 'Registrar nuevo camión',
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -74,8 +74,9 @@ class _CoAddPlateNumberDialogeState extends State<CoAddPlateNumberDialoge> {
                         inputType: TextInputType.number,
                         maxLength: 6,
                         obscure: false,
-                        validatorFn: sectionValidator,
+                        validatorFn: numberPlateValidator,
                         label: 'No Placa',
+                      onlyNumber: true,
                       tailingIcon: InkWell(
                           onTap: () async {
                             final result = await Navigator.push(
@@ -112,7 +113,7 @@ class _CoAddPlateNumberDialogeState extends State<CoAddPlateNumberDialoge> {
                       onChanged: (val) {},
                       onFieldSubmitted: (val) {},
                       obscure: false,
-                      label: 'Color:',
+                      label: 'Color',
                       validatorFn: sectionValidator,
                       inputType: TextInputType.name,
                     ),

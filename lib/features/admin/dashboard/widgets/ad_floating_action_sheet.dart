@@ -2,10 +2,13 @@ import 'package:cargocontrol/commons/common_imports/common_libs.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
 import 'package:cargocontrol/features/dashboard/components/dashboard_modal_button.dart';
 import 'package:cargocontrol/utils/constants/error_messages.dart';
+import 'package:cargocontrol/utils/form_validators/user_type.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/enums/account_type.dart';
+import '../../../auth/controllers/auth_notifier_controller.dart';
 import '../../create_industry/controllers/ad_industry_noti_controller.dart';
 import '../../create_vessel/controllers/ad_vessel_controller.dart';
 import '../../create_vessel/controllers/ad_vessel_noti_controller.dart';
@@ -17,11 +20,13 @@ class AdFloadtingActionSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userModel = ref.read(authNotifierCtr).userModel;
     return Padding(
       padding:kIsWeb?EdgeInsets.only(left: 0.65.sw):EdgeInsets.all(0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          if(userModel?.accountType==AccountTypeEnum.administrador)
           Consumer(
             builder: (BuildContext context, WidgetRef ref, Widget? child) {
               return ref.watch(fetchCurrentVesselsProvider).
@@ -58,7 +63,8 @@ class AdFloadtingActionSheet extends ConsumerWidget {
               );
             },
           ),
-          Consumer(
+          if(userModel?.accountType==AccountTypeEnum.administrador)
+            Consumer(
             builder: (BuildContext context, WidgetRef ref, Widget? child) {
               return ref.watch(fetchCurrentVesselsProvider).
               when(
@@ -97,7 +103,8 @@ class AdFloadtingActionSheet extends ConsumerWidget {
               );
             },
           ),
-          DashboardModalButton(
+          if(userModel?.accountType==AccountTypeEnum.administrador)
+            DashboardModalButton(
             title1: 'Registro de',
             title2: 'nuevo usuario',
             subtitle: 'Registro de buque a puerto',
@@ -108,7 +115,7 @@ class AdFloadtingActionSheet extends ConsumerWidget {
           ),
           DashboardModalButton(
             title1: 'Administrar',
-            title2: ' buques',
+            title2: 'buques',
             subtitle: 'Descargar reporte de descarga',
             onTap: () {
               Navigator.pushNamed(context, AppRoutes.adManageShipsScreen);
