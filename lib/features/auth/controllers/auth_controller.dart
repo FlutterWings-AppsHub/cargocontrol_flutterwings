@@ -215,10 +215,10 @@ class AuthController extends StateNotifier<bool> {
   }
 
   Future<UserModel> getUserInfoByUidFuture(String uid) async {
-    final result = await _databaseApis.getCurrentUserInfo(uid: uid);
-    UserModel userModel =
-        UserModel.fromMap(result.data() as Map<String, dynamic>);
-    return userModel;
+      final result = await _databaseApis.getCurrentUserInfo(uid: uid);
+      UserModel userModel =
+      UserModel.fromMap(result.data() as Map<String, dynamic>);
+      return userModel;
   }
 
   Stream<UserModel> getUserInfoByUid(String userId) {

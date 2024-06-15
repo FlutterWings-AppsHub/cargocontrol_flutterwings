@@ -36,14 +36,14 @@ class _AdNumberplatesListState extends ConsumerState<CoNumberplatesList> {
 
   initiallization(){
     WidgetsBinding.instance.addPostFrameCallback((timeStamp)async{
-      await ref.read(numberPlateNotiController).firstTime();
+      await ref.read(numberPlateNotiController).firstTime(ref: ref);
     });
   }
 
   void _onScroll() {
     if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
       final numberPlateNotiCtr = ref.read(numberPlateNotiController);
-      numberPlateNotiCtr.getAllNumberplate(searchWord: searchCtr.text);
+      numberPlateNotiCtr.getAllNumberplate(searchWord: searchCtr.text,ref: ref);
     }
   }
 
@@ -80,12 +80,11 @@ class _AdNumberplatesListState extends ConsumerState<CoNumberplatesList> {
                     controller: searchCtr,
                     hintText: "",
                     onChanged: (val){
-                      numberPlateNotiCtr.getAllNumberplate(searchWord: searchCtr.text);
+                      numberPlateNotiCtr.getAllNumberplate(searchWord: searchCtr.text,ref: ref);
                       if(searchCtr.text.isEmpty){
-                        numberPlateNotiCtr.firstTime();
+                        numberPlateNotiCtr.firstTime(ref:ref);
                       }
-                      setState(() {
-                      });
+                      setState(() {});
                     },
                     onFieldSubmitted: (val){},
                     obscure: false,

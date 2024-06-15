@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:cargocontrol/commons/common_functions/search_tags_handler.dart';
+import 'package:cargocontrol/models/viajes_models/viajes_model.dart';
 import 'package:cargocontrol/utils/constants/error_messages.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -72,7 +73,7 @@ class NumberPlateController extends StateNotifier<bool> {
         showSnackBar(context: context, content: l.message);
       }, (r) async{
         state = false;
-        await ref.read(numberPlateNotiController).firstTime();
+        await ref.read(numberPlateNotiController).firstTime(ref: ref);
         Navigator.pop(context);
         showSnackBar(context: context, content: Messages.numberplateRegisterSuccess);
       });
@@ -80,6 +81,7 @@ class NumberPlateController extends StateNotifier<bool> {
 
     state = false;
   }
+
 
   Future<void> deleteChofere({
     required String numberPlateId,
@@ -95,11 +97,27 @@ class NumberPlateController extends StateNotifier<bool> {
       debugPrint(l.message);
       showSnackBar(context: context, content: l.message);
     }, (r) async {
-      await ref.read(numberPlateNotiController).firstTime();
+      await ref.read(numberPlateNotiController).firstTime(ref: ref);
       state = false;
       showSnackBar(context: context, content: Messages.numberplateDeleteSuccess);
     });
     state = false;
+  }
+
+  Future<List<ViajesModel>> getAllUnCompletedViajesList({
+    required String vesselId,
+    required WidgetRef ref,
+  }) async {
+    List<ViajesModel> viajesModels= [];
+    final result = await _datasource.getAllUnCompletedViajesList(vesselId: vesselId);
+
+    result.fold((l) {
+      debugPrintStack(stackTrace: l.stackTrace);
+      debugPrint(l.message);
+    }, (r) async {
+      viajesModels = r;
+    });
+    return viajesModels;
   }
 
   bool hasLastName(String fullName) {
@@ -127,4 +145,6 @@ class NumberPlateController extends StateNotifier<bool> {
 
     return models;
   }
+
+
 }

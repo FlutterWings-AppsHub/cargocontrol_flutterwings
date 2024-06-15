@@ -234,11 +234,13 @@ class TruckRegistrationApis implements TruckRegistrationApisImplements{
     return _firestore.collection(FirebaseConstants.viajesCollection).where('vesselId',isEqualTo: vesselId).orderBy('entryTimeToPort',descending: true).
     snapshots();
   }
+
   @override
   Stream<QuerySnapshot<Map<String, dynamic>>> getAllViajesForIndustryList({required IndustryAndVesselIdsModel industryAndVesselIdsModel}){
     return _firestore.collection(FirebaseConstants.viajesCollection).where('vesselId',isEqualTo: industryAndVesselIdsModel.vesselId).where('industryId',isEqualTo: industryAndVesselIdsModel.industryId).where('viajesTypeEnum', isEqualTo: ViajesTypeEnum.completed.type).
     snapshots();
   }
+
   @override
   Stream<QuerySnapshot<Map<String, dynamic>>> getAllViajesForIndustryListForReport({required IndustryAndVesselIdsModel industryAndVesselIdsModel}){
     return _firestore.collection(FirebaseConstants.viajesCollection).where('vesselId',isEqualTo: industryAndVesselIdsModel.vesselId).where('industryId',isEqualTo: industryAndVesselIdsModel.industryId).

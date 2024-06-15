@@ -1,10 +1,14 @@
 import 'dart:async';
+import 'package:cargocontrol/commons/common_imports/apis_commons.dart';
+import 'package:cargocontrol/models/viajes_models/viajes_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../admin/create_vessel/controllers/ad_vessel_controller.dart';
 import '../data/apis/number_plate_apis.dart';
 import '../data/models/number_plate_model.dart';
+import 'numberplate_controller.dart';
 
 final numberPlateNotiController = ChangeNotifierProvider((ref){
   final api = ref.watch(numberplateApisProvider);
@@ -58,12 +62,16 @@ class NumberplateNotiController extends ChangeNotifier {
   }
 
 
-  Future getAllNumberplate({String? searchWord})async{
+  Future getAllNumberplate({String? searchWord,required WidgetRef ref})async{
     if(searchWord!= null && searchWord!= '')
     {
       setSecondaryLoading(true);
       setNumberPlateModels([]);
       setLastSnapShot(null);
+      String vesselId =
+      await ref.read(adVesselProvider.notifier).getCurrentVesselId();
+
+      List<ViajesModel> allUncompletedViajes= await ref.read(numberPlateControllerProvider.notifier).getAllUnCompletedViajesList(vesselId: vesselId,ref: ref);
       QuerySnapshot querySnapshot = await _datasource.getAllNumberPlate(
         limit: limit,
         snapshot: _lastSnapshot,
@@ -78,7 +86,10 @@ class NumberplateNotiController extends ChangeNotifier {
           models.add(model);
         }
       }
-      setNumberPlateModels(models);
+
+
+      List<NumberPlateModel> filterModels = filterNumberPlates(allUncompletedViajes,models);
+      setNumberPlateModels(filterModels);
 
       if (querySnapshot.docs.isNotEmpty) {
         _lastSnapshot = querySnapshot.docs.last;
@@ -91,6 +102,10 @@ class NumberplateNotiController extends ChangeNotifier {
     else if(searchWord == ''){
 
       setSecondaryLoading(true);
+      String vesselId =
+      await ref.read(adVesselProvider.notifier).getCurrentVesselId();
+      List<ViajesModel> allUncompletedViajes= await ref.read(numberPlateControllerProvider.notifier).getAllUnCompletedViajesList(vesselId: vesselId,ref: ref);
+
       QuerySnapshot querySnapshot = await _datasource.getAllNumberPlate(
         limit: limit,
         snapshot: _lastSnapshot,
@@ -99,28 +114,40 @@ class NumberplateNotiController extends ChangeNotifier {
       List<NumberPlateModel> models = [];
       for (var document in querySnapshot.docs) {
         var model = NumberPlateModel.fromMap(document.data() as Map<String, dynamic>);
-        _numberPlateModels.add(model);
+        models.add(model);
       }
 
       if (querySnapshot.docs.isNotEmpty) {
         _lastSnapshot = querySnapshot.docs.last;
         _limit = _limit+10;
       }
+
+      List<NumberPlateModel> filterModels = filterNumberPlates(allUncompletedViajes,models);
+      setNumberPlateModels(filterModels);
+
       setSecondaryLoading(false);
       return models;
     }
     setSecondaryLoading(false);
   }
 
+  List<NumberPlateModel> filterNumberPlates(
+      List<ViajesModel> allUncompletedViajes, List<NumberPlateModel> models) {
+    Set<String> uncompletedPlates = allUncompletedViajes.map((viaje) => viaje.licensePlate).toSet();
+    List<NumberPlateModel> filteredModels = models.where((model) => !uncompletedPlates.contains(model.plateNo)).toList();
+    return filteredModels;
+  }
 
-  Future firstTime()async{
+  Future firstTime({required WidgetRef ref})async{
     // if(lastSnapshot == null){
     _limit = 10;
     _lastSnapshot= null;
     _numberPlateModels = [];
+    String vesselId = await ref.read(adVesselProvider.notifier).getCurrentVesselId();
+    List<ViajesModel> allUncompletedViajes= await ref.read(numberPlateControllerProvider.notifier).getAllUnCompletedViajesList(vesselId: vesselId,ref: ref);
 
 
-      _isLoading = true;
+    _isLoading = true;
       QuerySnapshot querySnapshot = await _datasource.getAllNumberPlate(limit: limit, snapshot: _lastSnapshot);
 
       List<NumberPlateModel> models = [];
@@ -128,7 +155,9 @@ class NumberplateNotiController extends ChangeNotifier {
         var model = NumberPlateModel.fromMap(document.data() as Map<String, dynamic>);
         models.add(model);
       }
-      _numberPlateModels = models;
+
+    List<NumberPlateModel> filterModels = filterNumberPlates(allUncompletedViajes,models);
+    setNumberPlateModels(filterModels);
       if (querySnapshot.docs.isNotEmpty) {
         _lastSnapshot = querySnapshot.docs.last;
         _limit = _limit+10;

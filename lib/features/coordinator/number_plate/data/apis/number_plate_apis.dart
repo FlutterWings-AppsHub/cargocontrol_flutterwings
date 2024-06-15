@@ -29,6 +29,7 @@ abstract class NumberPlateApisImplements {
   FutureEither<List<IndustriesModel>> getAllIndustries();
 
   FutureEither<bool> isNumberPlateExistById({required String numberPlate});
+  FutureEither<List<ViajesModel>>  getAllUnCompletedViajesList({required String vesselId});
 }
 
 class NumberPlateApis implements NumberPlateApisImplements {
@@ -116,6 +117,30 @@ class NumberPlateApis implements NumberPlateApisImplements {
       return Left(Failure(e.toString(), stackTrace));
     }
   }
+
+  @override
+  FutureEither<List<ViajesModel>>  getAllUnCompletedViajesList({required String vesselId}) async
+  {
+    try {
+      var querySnapshot = await _firestore
+          .collection(FirebaseConstants.viajesCollection)
+          .where('vesselId',isEqualTo: vesselId)
+          .where('viajesTypeEnum', isNotEqualTo: ViajesTypeEnum.completed.type)
+          .get();
+      List<ViajesModel> models = [];
+      for (var document in querySnapshot.docs) {
+        var model = ViajesModel.fromMap(document.data());
+        models.add(model);
+      }
+      return Right(models);
+
+    } on FirebaseAuthException catch (e, stackTrace) {
+      return Left(Failure(e.message ?? 'Firebase Error Occurred', stackTrace));
+    } catch (e, stackTrace) {
+      return Left(Failure(e.toString(), stackTrace));
+    }
+  }
+
 
   @override
   FutureEither<bool> isNumberPlateExistById(
