@@ -112,11 +112,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         const SizedBox(
                           height: 70,
-                        )
+                        ),
+                        if(kIsWeb)
+                        Text(
+                          'Versión: 0.0.1',
+                          style: getBoldStyle(color: context.mainColor, fontSize: MyFonts.size12),
+                        ),
                       ]),
                 ),
               ),
             ),
+
             Consumer(
               builder: (BuildContext context, WidgetRef ref, Widget? child) {
                 return CustomButton(
