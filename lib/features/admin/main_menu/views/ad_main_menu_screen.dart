@@ -10,24 +10,26 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../models/auth_models/user_model.dart';
 import '../../../auth/controllers/auth_controller.dart';
 import '../../../auth/controllers/auth_notifier_controller.dart';
+import '../../choferes/controllers/choferes_controller.dart';
 import '../controllers/ad_main_menu_controller.dart';
 
 class AdMainMenuScreen extends ConsumerStatefulWidget {
   const AdMainMenuScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _AdMainMenuScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _AdMainMenuScreenState();
 }
 
 class _AdMainMenuScreenState extends ConsumerState<AdMainMenuScreen> {
-
   @override
   void initState() {
     super.initState();
     updateUserModel();
     // initiallization();
   }
-  initiallization()async{
+
+  initiallization() async {
     // await ref.read(adVesselProvider.notifier).uploadAllData();
     // await ref.read(adIndustryProvider.notifier).industriesUpload();
   }
@@ -42,67 +44,66 @@ class _AdMainMenuScreenState extends ConsumerState<AdMainMenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          Consumer(
-            builder: (BuildContext context, WidgetRef ref, Widget? child) {
-              return TextButton(
-                  onPressed: () async {
-                    ref.read(authControllerProvider.notifier).logout(
-                      context: context,
-                      ref: ref
-                    );
-                  },
-                  child: const Text(
-                    'Cerrar Sesión',
-                    style: TextStyle(
-                      color: constants.kMainColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ));
-            },
+        appBar: AppBar(
+          actions: <Widget>[
+            Consumer(
+              builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                return TextButton(
+                    onPressed: () async {
+                      ref
+                          .read(authControllerProvider.notifier)
+                          .logout(context: context, ref: ref);
 
-          )
-        ],
-      ),
-      body: ref.read(adMainMenuProvider).screens[ref.watch(adMainMenuProvider).index],
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (value) {
-          ref.read(adMainMenuProvider).setIndex(value);
-        },
-        type: BottomNavigationBarType.fixed,
-        iconSize: 22,
-        currentIndex:  ref.read(adMainMenuProvider).index,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: FaIcon(
-              FontAwesomeIcons.house,
+                    },
+                    child: const Text(
+                      'Cerrar Sesión',
+                      style: TextStyle(
+                        color: constants.kMainColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ));
+              },
+            )
+          ],
+        ),
+        body: ref
+            .read(adMainMenuProvider)
+            .screens[ref.watch(adMainMenuProvider).index],
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: (value) {
+            ref.read(adMainMenuProvider).setIndex(value);
+          },
+          type: BottomNavigationBarType.fixed,
+          iconSize: 22,
+          currentIndex: ref.read(adMainMenuProvider).index,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: FaIcon(
+                FontAwesomeIcons.house,
+              ),
+              label: 'Dashboard',
             ),
-            label: 'Dashboard',
-          ),
-          BottomNavigationBarItem(
-            icon: FaIcon(
-              FontAwesomeIcons.truck,
+            BottomNavigationBarItem(
+              icon: FaIcon(
+                FontAwesomeIcons.truck,
+              ),
+              label: 'Viajes',
             ),
-            label: 'Viajes',
-          ),
-          BottomNavigationBarItem(
-            icon: FaIcon(
-              FontAwesomeIcons.person,
+            BottomNavigationBarItem(
+              icon: FaIcon(
+                FontAwesomeIcons.person,
+              ),
+              label: 'Choferes',
             ),
-            label: 'Choferes',
-          ),
-          if(kIsWeb)
-          BottomNavigationBarItem(
-            icon: FaIcon(
-              FontAwesomeIcons.list,
-            ),
-            label: 'Reporte',
-          ),
-        ],
-      )
-    );
+            if (kIsWeb)
+              BottomNavigationBarItem(
+                icon: FaIcon(
+                  FontAwesomeIcons.list,
+                ),
+                label: 'Reporte',
+              ),
+          ],
+        ));
   }
 }

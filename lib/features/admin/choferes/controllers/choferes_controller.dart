@@ -14,6 +14,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../../commons/common_widgets/show_toast.dart';
 import '../../../../models/viajes_models/viajes_model.dart';
+import '../../../../utils/constants/Chofer_data.dart';
 import '../data/apis/choferes_apis.dart';
 
 final choferesControllerProvider =
@@ -51,7 +52,28 @@ class ChoferesController extends StateNotifier<bool> {
   })  : _datasource = datasource,
         super(false);
 
-  Future<void> registerChofere({
+  Future<void> registerAllChofere({
+    required WidgetRef ref,
+    required BuildContext context,
+  }) async {
+    state = true;
+    int count=0;
+    for(int index=0;index<choferList.length;index++){
+      bool status = await registerChofere(choferNationalId: choferList[index].choferNationalId, firstName: choferList[index].firstName, lastName: choferList[index].lastName, ref: ref, context: context);
+      if(status){
+        count ++;
+      }else{
+        print('error while adding: '+index.toString());
+      }
+    }
+    print("Suceesfull: "+count.toString());
+    state = false;
+
+
+  }
+
+
+  Future<bool> registerChofere({
     required String choferNationalId,
     required String firstName,
     required String lastName,
@@ -59,9 +81,11 @@ class ChoferesController extends StateNotifier<bool> {
     required BuildContext context,
   }) async {
     state = true;
+    bool success= false;
     bool chofersAlreadyExist= false;
-    final String choferId = const Uuid().v4();
     bool hasSecondName = hasLastName(firstName);
+
+    final String choferId = const Uuid().v4();
     ChoferesModel choferesModel = ChoferesModel(
         choferId: choferId,
         choferesStatusEnum: ChoferesStatusEnum.available,
@@ -99,8 +123,9 @@ class ChoferesController extends StateNotifier<bool> {
 
     result.fold((l) {
       state = false;
+      print(l.message);
       showSnackBar(context: context, content: l.message);
-      return;
+      return success;
     }, (r) {
       if(r==true){
         chofersAlreadyExist = true;
@@ -110,21 +135,28 @@ class ChoferesController extends StateNotifier<bool> {
     if(chofersAlreadyExist){
       state = false;
       Navigator.pop(context);
+      print(Messages.choferesAlreadyRegisteredError);
       showSnackBar(context: context, content: Messages.choferesAlreadyRegisteredError);
-      return;
+      return success;
     }
     final result2 =
         await _datasource.registerChofere(choferesModel: choferesModel);
 
     result2.fold((l) {
       state = false;
+      print(l.message);
       showSnackBar(context: context, content: l.message);
+      return success;
     }, (r) {
       state = false;
+      success= true;
       Navigator.pop(context);
       showSnackBar(context: context, content: Messages.choferesRegisteredSuccess);
+      return success;
     });
     state = false;
+    return success;
+
   }
 
   Future<void> deleteChofere({

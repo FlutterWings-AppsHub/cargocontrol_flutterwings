@@ -10,6 +10,8 @@ import 'package:cargocontrol/utils/constants/font_manager.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../admin/choferes/controllers/choferes_controller.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -127,7 +129,15 @@ class _LoginScreenState extends State<LoginScreen> {
               builder: (BuildContext context, WidgetRef ref, Widget? child) {
                 return CustomButton(
                   buttonWidth: 360.w,
+                    //isLoading: ref.watch(choferesControllerProvider),
                     onPressed: ()async{
+                      // await ref
+                      //     .read(choferesControllerProvider.notifier)
+                      //     .registerAllChofere(
+                      //   context: context,
+                      //   ref: ref,
+                      // );
+                      // return;
                       if(formKey.currentState!.validate()){
                         await ref.read(authControllerProvider.notifier).loginWithEmailAndPassword(
                             email: emailCtr.text,
