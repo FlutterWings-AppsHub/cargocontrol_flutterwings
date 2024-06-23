@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:cargocontrol/commons/common_functions/search_tags_handler.dart';
 import 'package:cargocontrol/models/viajes_models/viajes_model.dart';
 import 'package:cargocontrol/utils/constants/error_messages.dart';
+import 'package:cargocontrol/utils/constants/truck_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,7 +22,6 @@ final numberPlateControllerProvider =
   );
 });
 
-
 class NumberPlateController extends StateNotifier<bool> {
   final NumberPlateApisImplements _datasource;
 
@@ -30,7 +30,38 @@ class NumberPlateController extends StateNotifier<bool> {
   })  : _datasource = datasource,
         super(false);
 
-  Future<void> registerNumberPlate({
+  Future<void> registerAllNumberPlate({
+    required WidgetRef ref,
+    required BuildContext context,
+  }) async {
+    state = true;
+    int count = 0;
+    for (int index = 0; index < trucks.length; index++) {
+      debugPrint(index.toString());
+      bool status = false;
+      if (trucks[index].color.isNotEmpty &&
+          trucks[index].marca.isNotEmpty &&
+          trucks[index].placa.isNotEmpty) {
+        status = await registerNumberPlate(
+            color: trucks[index].color,
+            model: trucks[index].marca,
+            plateNo: trucks[index].placa,
+            ref: ref,
+            context: context);
+      } else {
+        debugPrint('Incomplete Data on Row: ${index + 1}');
+      }
+      if (status) {
+        count++;
+      } else {
+        print('error while adding: ' + index.toString());
+      }
+    }
+    print("Suceesfull: " + count.toString());
+    state = false;
+  }
+
+  Future<bool> registerNumberPlate({
     required String color,
     required String model,
     required String plateNo,
@@ -38,50 +69,58 @@ class NumberPlateController extends StateNotifier<bool> {
     required BuildContext context,
   }) async {
     state = true;
-    bool numberPlateAlreadyExist= false;
+    bool success = false;
+    bool numberPlateAlreadyExist = false;
     NumberPlateModel numberPlateModel = NumberPlateModel(
-      color: color,
-      model: model,
-      plateNo: plateNo,
-      searchTags: numberPlateSearchTagHandler(plateNo: plateNo, model: model, color: color)
-    );
+        color: color,
+        model: model,
+        plateNo: plateNo,
+        searchTags: numberPlateSearchTagHandler(
+            plateNo: plateNo, model: model, color: color));
 
-    final result = await _datasource.isNumberPlateExistById(numberPlate: plateNo);
+    final result =
+        await _datasource.isNumberPlateExistById(numberPlate: plateNo);
 
     result.fold((l) {
       state = false;
       showSnackBar(context: context, content: l.message);
-      return;
+      return success;
     }, (r) {
-      if(r==true){
+      if (r == true) {
         numberPlateAlreadyExist = true;
       }
     });
 
-    if(numberPlateAlreadyExist){
+    if (numberPlateAlreadyExist) {
       state = false;
       Navigator.pop(context);
       Navigator.pop(context);
       showSnackBar(context: context, content: Messages.enterPlateNumberError);
-      return;
-    }else{
-      final result2 =
-      await _datasource.registerNumberPlate(numberplateModel: numberPlateModel);
-
-      result2.fold((l) {
-        state = false;
-        showSnackBar(context: context, content: l.message);
-      }, (r) async{
-        state = false;
-        await ref.read(numberPlateNotiController).firstTime(ref: ref);
-        Navigator.pop(context);
-        showSnackBar(context: context, content: Messages.numberplateRegisterSuccess);
-      });
+      debugPrint(Messages.enterPlateNumberError);
+      return success;
     }
 
-    state = false;
-  }
+    final result2 = await _datasource.registerNumberPlate(
+        numberplateModel: numberPlateModel);
 
+    result2.fold((l) {
+      state = false;
+      showSnackBar(context: context, content: l.message);
+      debugPrint(l.message);
+      return success;
+    }, (r) async {
+      state = false;
+      await ref.read(numberPlateNotiController).firstTime(ref: ref);
+      success = true;
+      Navigator.pop(context);
+      showSnackBar(
+           context: context, content: Messages.numberplateRegisterSuccess);
+      return success;
+    });
+
+    state = false;
+    return success;
+  }
 
   Future<void> deleteChofere({
     required String numberPlateId,
@@ -89,7 +128,8 @@ class NumberPlateController extends StateNotifier<bool> {
     required BuildContext context,
   }) async {
     state = true;
-    final result = await _datasource.deleteNumberPlate(numberPlateId: numberPlateId);
+    final result =
+        await _datasource.deleteNumberPlate(numberPlateId: numberPlateId);
 
     result.fold((l) {
       state = false;
@@ -99,7 +139,8 @@ class NumberPlateController extends StateNotifier<bool> {
     }, (r) async {
       await ref.read(numberPlateNotiController).firstTime(ref: ref);
       state = false;
-      showSnackBar(context: context, content: Messages.numberplateDeleteSuccess);
+      showSnackBar(
+          context: context, content: Messages.numberplateDeleteSuccess);
     });
     state = false;
   }
@@ -108,8 +149,9 @@ class NumberPlateController extends StateNotifier<bool> {
     required String vesselId,
     required WidgetRef ref,
   }) async {
-    List<ViajesModel> viajesModels= [];
-    final result = await _datasource.getAllUnCompletedViajesList(vesselId: vesselId);
+    List<ViajesModel> viajesModels = [];
+    final result =
+        await _datasource.getAllUnCompletedViajesList(vesselId: vesselId);
 
     result.fold((l) {
       debugPrintStack(stackTrace: l.stackTrace);
@@ -129,8 +171,8 @@ class NumberPlateController extends StateNotifier<bool> {
   DocumentSnapshot? get lastSnapshot => _lastSnapshot;
 
   Future<List<NumberPlateModel>> getAllNumberPlate({int limit = 10}) async {
-    QuerySnapshot querySnapshot =
-        await _datasource.getAllNumberPlate(limit: limit, snapshot: _lastSnapshot);
+    QuerySnapshot querySnapshot = await _datasource.getAllNumberPlate(
+        limit: limit, snapshot: _lastSnapshot);
 
     List<NumberPlateModel> models = [];
     for (var document in querySnapshot.docs) {
@@ -145,6 +187,4 @@ class NumberPlateController extends StateNotifier<bool> {
 
     return models;
   }
-
-
 }

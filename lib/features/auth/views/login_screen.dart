@@ -11,6 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../admin/choferes/controllers/choferes_controller.dart';
+import '../../coordinator/number_plate/controllers/numberplate_controller.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -129,11 +130,18 @@ class _LoginScreenState extends State<LoginScreen> {
               builder: (BuildContext context, WidgetRef ref, Widget? child) {
                 return CustomButton(
                   buttonWidth: 360.w,
-                    //isLoading: ref.watch(choferesControllerProvider),
+                    isLoading: ref.watch(numberPlateControllerProvider),
                     onPressed: ()async{
                       // await ref
                       //     .read(choferesControllerProvider.notifier)
                       //     .registerAllChofere(
+                      //   context: context,
+                      //   ref: ref,
+                      // );
+                      // return;
+                      // await ref
+                      //     .read(numberPlateControllerProvider.notifier)
+                      //     .registerAllNumberPlate(
                       //   context: context,
                       //   ref: ref,
                       // );
@@ -145,9 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ref: ref,
                             context: context
                         );
-                      }else{
-
-                      }
+                      }else{}
                     },
                     buttonText: 'INICIAR SESIÓN'
                 );

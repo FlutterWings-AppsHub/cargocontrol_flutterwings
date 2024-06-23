@@ -54,12 +54,14 @@ class TruckRegistrationController extends StateNotifier<bool> {
     required BuildContext context,
   }) async {
     state = true;
-    UserModel userModel = await ref.read(authControllerProvider.notifier).getCurrentUserInfo();
+    UserModel userModel =
+        await ref.read(authControllerProvider.notifier).getCurrentUserInfo();
 
     DateTime timeToIndustry = DateTime.now();
     ViajesModel model = viajesModel.copyWith(
         timeToIndustry: timeToIndustry,
-        viajesStatusEnum: ViajesStatusEnum.industryEntered,truckInIndustryRegisteredBy: userModel.email);
+        viajesStatusEnum: ViajesStatusEnum.industryEntered,
+        truckInIndustryRegisteredBy: userModel.email);
 
     IndustrySubModel industry = industrySubModel.copyWith(
       viajesIds: industrySubModel.viajesIds..add(viajesModel.viajesId),
@@ -91,7 +93,8 @@ class TruckRegistrationController extends StateNotifier<bool> {
     required BuildContext context,
   }) async {
     state = true;
-    UserModel userModel = await ref.read(authControllerProvider.notifier).getCurrentUserInfo();
+    UserModel userModel =
+        await ref.read(authControllerProvider.notifier).getCurrentUserInfo();
     DateTime unloadingTimeInIndustry = DateTime.now();
     ViajesModel model = viajesModel.copyWith(
         cargoDeficitWeight: viajesModel.cargoDeficitWeight +
@@ -100,7 +103,8 @@ class TruckRegistrationController extends StateNotifier<bool> {
         cargoUnloadWeight: viajesModel.cargoUnloadWeight + cargoUnloadWeight,
         unloadingTimeInIndustry: unloadingTimeInIndustry,
         viajesTypeEnum: ViajesTypeEnum.completed,
-        viajesStatusEnum: ViajesStatusEnum.industryUnloaded,truckInIndustryUnLoadedBy: userModel.email);
+        viajesStatusEnum: ViajesStatusEnum.industryUnloaded,
+        truckInIndustryUnLoadedBy: userModel.email);
 
     IndustrySubModel industry = industrySubModel.copyWith(
       deficit: industrySubModel.deficit +
@@ -221,7 +225,6 @@ class TruckRegistrationController extends StateNotifier<bool> {
       });
     });
 
-
     if (industryFCMTokens.isEmpty) {
       return; // No registered devices, no need to send notifications.
     }
@@ -276,7 +279,6 @@ class TruckRegistrationController extends StateNotifier<bool> {
       });
     });
 
-
     if (industryFCMTokens.isEmpty) {
       return; // No registered devices, no need to send notifications.
     }
@@ -330,7 +332,6 @@ class TruckRegistrationController extends StateNotifier<bool> {
       });
     });
 
-
     if (adminsFCMTokens.isEmpty) {
       return; // No registered devices, no need to send notifications.
     }
@@ -362,6 +363,42 @@ class TruckRegistrationController extends StateNotifier<bool> {
 
       if (!status) {
         debugPrint("Error in admin  push notification");
+      }
+    }
+
+    double loss = (((viajesModel.cargoUnloadWeight -
+                    viajesModel.entryTimeTruckWeightToPort) -
+                (viajesModel.exitTimeTruckWeightToPort -
+                    viajesModel.entryTimeTruckWeightToPort)) /
+            (viajesModel.exitTimeTruckWeightToPort -
+                viajesModel.entryTimeTruckWeightToPort))
+        .abs();
+    if (loss >= 0.2) {
+      for (int i = 0; i < totalDevices; i += batchSize) {
+        final int endIndex =
+            (i + batchSize <= totalDevices) ? (i + batchSize) : totalDevices;
+        final List<String> batchIds = adminsFCMTokens.sublist(i, endIndex);
+        String lossPercent =
+            "${(((viajesModel.cargoUnloadWeight - viajesModel.entryTimeTruckWeightToPort) - (viajesModel.exitTimeTruckWeightToPort - viajesModel.entryTimeTruckWeightToPort)) / (viajesModel.exitTimeTruckWeightToPort - viajesModel.entryTimeTruckWeightToPort)).abs().toStringAsFixed(2)}%";
+
+        NotificationModel notificationModel = NotificationModel(
+            title: "Pérdida de carga excedente",
+            notificationId: "",
+            description:
+                "Alerta: El viaje con No Guia ${viajesModel.guideNumber} ha reportado una pérdida de ${lossPercent} de su carga",
+            createdAt: AppConstants.constantDateTime,
+            screenName: "");
+
+        bool status = await messagingFirebase.pushNotificationsGroupDevice(
+          model: notificationModel,
+          registerIds: batchIds,
+          ref: ref,
+          context: context,
+        );
+
+        if (!status) {
+          debugPrint("Error in admin  push notification");
+        }
       }
     }
   }

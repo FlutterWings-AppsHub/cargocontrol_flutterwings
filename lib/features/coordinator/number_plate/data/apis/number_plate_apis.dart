@@ -158,7 +158,6 @@ class NumberPlateApis implements NumberPlateApisImplements {
         models.add(model);
       }
 
-      print('Models Length: ${models.isNotEmpty}');
       return Right(models.isNotEmpty);
     } on FirebaseAuthException catch (e, stackTrace) {
       return Left(Failure(e.message ?? 'Firebase Error Occurred', stackTrace));
