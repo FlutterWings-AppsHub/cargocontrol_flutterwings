@@ -12,14 +12,15 @@ import '../../../../commons/common_functions/format_weight.dart';
 import '../../../../utils/constants/font_manager.dart';
 
 Widget buildSingleIndustryInfo(
-        {required IndustrySubModel industrySubModel,
-        required VesselModel vesselModel}) =>
-    Column(
+    {required IndustrySubModel industrySubModel,
+    required VesselModel vesselModel}) {
+  if (industrySubModel.vesselProductModels.length != 1) {
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           width: 0.9.sw,
-          padding: EdgeInsets.symmetric(vertical: 4.h,horizontal: 16.w),
+          padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 16.w),
           decoration: BoxDecoration(
             color: PdfColors.white,
           ),
@@ -38,22 +39,25 @@ Widget buildSingleIndustryInfo(
                 ),
                 buildPdfRow(
                   title: "Cantidad total asignada",
-                  subText: "${formatWeight( industrySubModel.cargoTotal)} ${vesselModel.weightUnitEnum.type}",
+                  subText:
+                      "${formatWeight(industrySubModel.cargoTotal)} ${vesselModel.weightUnitEnum.type}",
                 ),
                 buildPdfRow(
                   title: "Cantidad total despachada",
-                  subText: "${formatWeight( industrySubModel.cargoAssigned)} ${vesselModel.weightUnitEnum.type}",
+                  subText:
+                      "${formatWeight(industrySubModel.cargoAssigned)} ${vesselModel.weightUnitEnum.type}",
                 ),
                 buildPdfRow(
                     title: "Porcentaje descargado",
                     subText: ((industrySubModel.cargoAssigned /
-                        industrySubModel.cargoTotal) *
-                        100)
-                        .toStringAsFixed(0) +
+                                    industrySubModel.cargoTotal) *
+                                100)
+                            .toStringAsFixed(0) +
                         "%"),
                 buildPdfRow(
                   title: "Cantitad total descargada",
-                  subText: "${formatWeight( industrySubModel.cargoUnloaded)} ${vesselModel.weightUnitEnum.type}",
+                  subText:
+                      "${formatWeight(industrySubModel.cargoUnloaded)} ${vesselModel.weightUnitEnum.type}",
                 ),
                 buildPdfRow(
                   title: 'Comienzo de guia',
@@ -67,7 +71,7 @@ Widget buildSingleIndustryInfo(
                   title: "Perdida total (kg)",
                   subText: industrySubModel.deficit.toStringAsFixed(0),
                 ),
-                if (industrySubModel.cargoAssigned.toInt()!=0)
+                if (industrySubModel.cargoAssigned.toInt() != 0)
                   buildPdfRow(
                       title: "Perdida total (%)",
                       subText: ((industrySubModel.deficit /
@@ -85,17 +89,46 @@ Widget buildSingleIndustryInfo(
         ),
       ],
     );
-
+  }
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Container(
+        width: 0.9.sw,
+        padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 16.w),
+        decoration: BoxDecoration(
+          color: PdfColors.white,
+        ),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              buildPdfRow(
+                title: 'Comienzo de guia',
+                subText: industrySubModel.initialGuide.toStringAsFixed(0),
+              ),
+              buildPdfRow(
+                title: 'Final de guia',
+                subText: industrySubModel.lastGuide.toStringAsFixed(0),
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+            ]),
+      ),
+    ],
+  );
+}
 
 Widget buildSingleIndustryName(
-    {required IndustrySubModel industrySubModel,
-      required VesselModel vesselModel}) =>
+        {required IndustrySubModel industrySubModel,
+        required VesselModel vesselModel}) =>
     Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           width: 0.9.sw,
-          padding: EdgeInsets.symmetric(vertical: 4.h,horizontal: 16.w),
+          padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 16.w),
           decoration: BoxDecoration(
             color: PdfColors.white,
           ),
@@ -116,7 +149,6 @@ Widget buildSingleIndustryName(
                 SizedBox(
                   height: 10.h,
                 ),
-
               ]),
         ),
       ],

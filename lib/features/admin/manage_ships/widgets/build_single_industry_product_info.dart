@@ -28,6 +28,9 @@ Widget buildSingleProductIndustryInfo(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                SizedBox(
+                  height: 10.h,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children:[
@@ -83,9 +86,6 @@ Widget buildSingleProductIndustryInfo(
                 buildPdfRow(
                     title: "Viajes",
                     subText: vesselProductModel.viajesIds.length.toString()),
-                SizedBox(
-                  height: 10.h,
-                ),
               ]),
         ),
       ],
