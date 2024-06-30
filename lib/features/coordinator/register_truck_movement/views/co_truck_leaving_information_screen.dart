@@ -42,17 +42,22 @@ class _CoTruckLeavingInformationScreenState
   VesselCargoModel? vesselCargoModel;
   final List<String> productsNames = [];
   final formKey = GlobalKey<FormState>();
+  bool hasSingleProduct = false;
 
   @override
   void initState() {
-    final truckCtr = ref.read(truckRegistrationNotiControllerProvider);
+    final truckCtr = ref.read(truckRegistrationNotiControllerProvider.notifier);
     final matchedIndustry = truckCtr.selectedIndustry;
     matchedIndustry?.vesselProductModels.forEach((productModel) {
       productsNames.add(productModel.productName);
     });
-    setState(() {
-
-    });
+    setState(() {});
+    if (matchedIndustry?.vesselProductModels.length == 1) {
+      hasSingleProduct=true;
+      productModelName.text= matchedIndustry!.vesselProductModels.first.productName;
+      productModelId = matchedIndustry!.vesselProductModels.first.productId;
+    }
+    setState(() {});
     super.initState();
   }
 
@@ -98,8 +103,8 @@ class _CoTruckLeavingInformationScreenState
                         plateNumber:
                             truckCtr.matchedViajes!.licensePlate.toString(),
                         chofereName: truckCtr.matchedViajes!.chofereName,
-                        truckWeight: "${formatWeight(truckCtr
-                            .matchedViajes!.entryTimeTruckWeightToPort)} ${truckCtr.vesselModel!.weightUnitEnum.type}",
+                        truckWeight:
+                            "${formatWeight(truckCtr.matchedViajes!.entryTimeTruckWeightToPort)} ${truckCtr.vesselModel!.weightUnitEnum.type}", productName: productModelName.text,isSingleProduct:hasSingleProduct,
                       ),
                       SizedBox(
                         height: 20.h,
@@ -111,6 +116,7 @@ class _CoTruckLeavingInformationScreenState
                       SizedBox(
                         height: 20.h,
                       ),
+                      if(!hasSingleProduct)
                       CustomDropDown(
                         ctr: productModelName,
                         list: productsNames,
@@ -251,8 +257,7 @@ class _CoTruckLeavingInformationScreenState
                                 }
                               });
                               if (pureCargoWeight <=
-                                      (truckCtr
-                                              .selectedIndustry!.cargoTotal -
+                                      (truckCtr.selectedIndustry!.cargoTotal -
                                           truckCtr.selectedIndustry!
                                               .cargoAssigned) &&
                                   pureCargoWeight <=

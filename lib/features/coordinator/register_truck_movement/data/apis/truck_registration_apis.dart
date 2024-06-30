@@ -302,7 +302,7 @@ class TruckRegistrationApis implements TruckRegistrationApisImplements{
         ViajesModel model = ViajesModel.fromMap(querySnapshot.docs.first.data());
         return Right(model);
       }else{
-        return Left(Failure('No Truck Found!', StackTrace.fromString('getMatchedViajes')));
+        return Left(Failure('El camión no se encuentra registrado en patio', StackTrace.fromString('getMatchedViajes')));
       }
     }on FirebaseException catch(e, stackTrace){
       return Left(Failure(e.message ?? 'Firebase Error Occurred', stackTrace));
@@ -328,7 +328,7 @@ class TruckRegistrationApis implements TruckRegistrationApisImplements{
         ViajesModel model = ViajesModel.fromMap(querySnapshot.docs.first.data());
         return Right(model);
       }else{
-        return Left(Failure('No Truck Found!', StackTrace.fromString('getMatchedViajesLinkedWithIndustry')));
+        return Left(Failure('El camión no se encuentra registrado en patio', StackTrace.fromString('getMatchedViajesLinkedWithIndustry')));
       }
     }on FirebaseException catch(e, stackTrace){
       return Left(Failure(e.message ?? 'Firebase Error Occurred', stackTrace));

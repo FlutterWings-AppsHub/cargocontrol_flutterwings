@@ -180,6 +180,12 @@ class _CreateIndustryInformationScreenState
               _isMultipleProductInIndustry[i] = true;
             });
           },
+          vesselHasMoreThan1Product: ref
+                  .read(adVesselNotiController)
+                  .vesselModel!
+                  .vesselProductModels
+                  .length >
+              1,
         )
     ];
     return SingleChildScrollView(
@@ -470,7 +476,7 @@ class _CreateIndustryInformationScreenState
                         createIndustrySection();
                         reCalculateAll();
                       },
-                      buttonText: "Agregas Industria",
+                      buttonText: "Agregar Industria",
                       backColor: context.scaffoldBackgroundColor,
                       textColor: context.mainColor,
                     ),
@@ -791,7 +797,8 @@ class _CreateIndustryInformationScreenState
                                     double.parse(section.endOfGuideCtr.text),
                                 deficit: 0,
                                 vesselProductIds: vesselProductIds,
-                                vesselProductModels: vesselProductModels, cargoAssigned: 0.0,
+                                vesselProductModels: vesselProductModels,
+                                cargoAssigned: 0.0,
                               );
                               industrySubModels.add(model);
                               i++;

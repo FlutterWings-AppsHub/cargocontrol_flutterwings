@@ -311,7 +311,7 @@ class _CreateVesselBodegaInfoScreenState
                   CustomButton(
                     buttonWidth: double.infinity,
                     onPressed: createBodegaSection,
-                    buttonText: "Generate New Section",
+                    buttonText: "Agregar Bodega",
                     backColor: context.scaffoldBackgroundColor,
                     textColor: context.mainColor,
                   ),

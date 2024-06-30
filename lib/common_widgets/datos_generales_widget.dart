@@ -52,7 +52,7 @@ class DatosGeneralesWidget extends StatelessWidget {
                 ),
                 child: Center(
                     child: Text(
-                  'Pérdida de ${(((viajesModel.cargoUnloadWeight - viajesModel.entryTimeTruckWeightToPort) - (viajesModel.exitTimeTruckWeightToPort - viajesModel.entryTimeTruckWeightToPort)) / (viajesModel.exitTimeTruckWeightToPort - viajesModel.entryTimeTruckWeightToPort)).abs()}% de carga',
+                  'Pérdida de ${((((viajesModel.cargoUnloadWeight - viajesModel.entryTimeTruckWeightToPort) - (viajesModel.exitTimeTruckWeightToPort - viajesModel.entryTimeTruckWeightToPort)) / (viajesModel.exitTimeTruckWeightToPort - viajesModel.entryTimeTruckWeightToPort))*100).abs().toStringAsFixed(2)}% de carga',
                   style: getSemiBoldStyle(
                       color: MyColors.black, fontSize: MyFonts.size12),
                 )),

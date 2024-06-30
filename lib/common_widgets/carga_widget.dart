@@ -172,7 +172,7 @@ class CargaWidget extends StatelessWidget {
           CustomTile(
             title: "Pérdida de viaje (%)",
             subText:
-                "${(((viajesModel.cargoUnloadWeight - viajesModel.entryTimeTruckWeightToPort) - (viajesModel.exitTimeTruckWeightToPort - viajesModel.entryTimeTruckWeightToPort)) / (viajesModel.exitTimeTruckWeightToPort - viajesModel.entryTimeTruckWeightToPort)).toStringAsFixed(2)}%",
+                "${((((viajesModel.cargoUnloadWeight - viajesModel.entryTimeTruckWeightToPort) - (viajesModel.exitTimeTruckWeightToPort - viajesModel.entryTimeTruckWeightToPort)) / (viajesModel.exitTimeTruckWeightToPort - viajesModel.entryTimeTruckWeightToPort))*100).toStringAsFixed(2)}%",
           hasWarning: true,
           ),
           Consumer(
@@ -185,7 +185,7 @@ class CargaWidget extends StatelessWidget {
                   return CustomTile(
                     title: "Pérdida promedio industria",
                     subText:
-                        "${"-" + (industryModel.deficit / (industryModel.cargoUnloaded + industryModel.deficit)).toStringAsFixed(2)}%",
+                        "${"-" + ((industryModel.deficit / (industryModel.cargoUnloaded + industryModel.deficit))*100).toStringAsFixed(2)}%",
                     isGoodSign: false,
                     hasWarning: true,
                   );

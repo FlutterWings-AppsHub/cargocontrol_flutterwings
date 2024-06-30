@@ -172,7 +172,7 @@ class TiempoNewWidget extends StatelessWidget {
             lastValue: "${formatWeight(viajesModel.exitTimeTruckWeightToPort -
             viajesModel.entryTimeTruckWeightToPort)} ${viajesModel.weightUnitEnum.type}",
             email: viajesModel.truckInPortLoadedBy,
-            title: 'Camión registrado en la romana',
+            title: 'Camión despachado de la romana',
             time: DateFormat('dd:HH:mm').format(viajesModel.exitTimeToPort),
             isSelected: viajesModel.viajesStatusEnum.type !=
                 ViajesStatusEnum.portEntered.type, lastKey: 'Carga asignada',
@@ -235,7 +235,7 @@ class TiempoNewWidget extends StatelessWidget {
           TiempoTile(
             lastValue: "${formatWeight(viajesModel.exitTimeTruckWeightToPort)} ${viajesModel.weightUnitEnum.type}",
             email: viajesModel.truckInIndustryRegisteredBy,
-            title: 'Camión registrado en la romana',
+            title: 'Camión registrado en la industria',
             time: DateFormat('dd:HH:mm')
                 .format(viajesModel.timeToIndustry),
             isSelected: viajesModel.viajesStatusEnum.type !=
@@ -300,7 +300,7 @@ class TiempoNewWidget extends StatelessWidget {
             lastValue: "${formatWeight(viajesModel.cargoUnloadWeight-
                 viajesModel.entryTimeTruckWeightToPort)} ${viajesModel.weightUnitEnum.type}",
             email: viajesModel.truckInIndustryUnLoadedBy,
-            title: 'Camión registrado en la romana',
+            title: 'Camión descargado en la industria',
             time: DateFormat('dd:HH:mm')
                 .format(viajesModel.unloadingTimeInIndustry),
             isSelected: viajesModel.viajesStatusEnum.type ==

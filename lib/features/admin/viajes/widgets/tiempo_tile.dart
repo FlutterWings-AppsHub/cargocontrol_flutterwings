@@ -55,16 +55,18 @@ class TiempoTile extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Camión registrado en la romana",
-                      style: getMediumStyle(
-                        color: isSelected?  context.textColor: context.textFieldColor,
-                        fontSize: MyFonts.size12,
+                    Expanded(
+                      child: Text(
+                        title,
+                        style: getMediumStyle(
+                          color: isSelected?  context.textColor: context.textFieldColor,
+                          fontSize: MyFonts.size12,
+                        ),
                       ),
                     ),
                     isSelected ?
                     Container(
-                      margin: EdgeInsets.only(left: 40.w),
+                      margin: EdgeInsets.only(left: 10.w),
                       child: Text(
                         time,
                         textAlign: TextAlign.right,

@@ -14,6 +14,7 @@ import '../../../../commons/common_widgets/text_detector_view.dart';
 import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../commons/common_widgets/common_header.dart';
 import '../../../../commons/common_widgets/custom_appbar.dart';
+import '../../../../utils/thems/my_colors.dart';
 
 class RegisterTruckLeavingScreen extends StatefulWidget {
   const RegisterTruckLeavingScreen({Key? key}) : super(key: key);
@@ -123,6 +124,10 @@ class _RegisterTruckLeavingScreenState extends State<RegisterTruckLeavingScreen>
                     isLoading: ref.watch(truckRegistrationNotiControllerProvider).isLoading,
                     onPressed: ()async{
                       if(keyPadTextFieldController.text.isNotEmpty){
+                        if(keyPadTextFieldController.text.length!=6){
+                          showSnackBar(context: context, content: Messages.enterPlateNumberLengthError,backColor: MyColors.red);
+                          return;
+                        }
                         await ref.read(truckRegistrationNotiControllerProvider).getCurrentVessel(ref: ref);
                         await ref.read(truckRegistrationNotiControllerProvider).
                         getMatchedViajes(
@@ -131,8 +136,15 @@ class _RegisterTruckLeavingScreenState extends State<RegisterTruckLeavingScreen>
                           context: context,
                           ref: ref,
                         );
+                        final truckCtr = ref.read(truckRegistrationNotiControllerProvider.notifier);
+                        final matchedIndustry = truckCtr.selectedIndustry;
+                        if (matchedIndustry?.vesselProductModels.length == 1) {
+                          truckCtr.setSelectedVesselCargoModels(
+                              productName: matchedIndustry!.vesselProductModels.first.productName,
+                              ref: ref);
+                        }
                       }else{
-                        showSnackBar(context: context, content: Messages.enterPlateNumberError);
+                        showSnackBar(context: context, content: Messages.enterPlateNumberError,backColor: MyColors.red);
                       }
                     },
                   );

@@ -75,7 +75,7 @@ class _CoSelectNumberPlateBottomSheetState extends ConsumerState<CoSelectNumberP
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 20.h,),
-          Text('No Placa', style: getBoldStyle(color: context.textColor, fontSize: MyFonts.size28),),
+          Text('Asignar Camion', style: getBoldStyle(color: context.textColor, fontSize: MyFonts.size28),),
           SizedBox(height: 20.h,),
 
           Consumer(
@@ -102,7 +102,7 @@ class _CoSelectNumberPlateBottomSheetState extends ConsumerState<CoSelectNumberP
 
                       onFieldSubmitted: (val){},
                       obscure: false,
-                      label: 'Buscar numberPlate',
+                      label: 'Buscar No Placa',
                       tailingIcon: Image.asset(AppAssets.searchIcon, scale: 2.2.sp,),
                     ),
                     SizedBox(height: 13.h,),
@@ -126,8 +126,8 @@ class _CoSelectNumberPlateBottomSheetState extends ConsumerState<CoSelectNumberP
                               },
                               child: NumberPlateCardWidget(
                                   titleText: "No Placa: ${model.plateNo}",
-                                  bottomLeftText: "Modelo: ${model.model}",
-                                  bottomRightText: "Color: ${model.color}"
+                                  bottomLeftText: "Modelo: ${model.model.toUpperCase()}",
+                                  bottomRightText: "Color: ${model.color.toUpperCase()}"
                               ),
                             );
 
@@ -161,7 +161,7 @@ class _CoSelectNumberPlateBottomSheetState extends ConsumerState<CoSelectNumberP
                     ));
               }
             },
-            buttonText: 'Register Number Plate',
+            buttonText: 'Registrar Camion',
           ),
           CustomButton(
             buttonWidth: double.infinity,

@@ -1,5 +1,6 @@
 import 'package:cargocontrol/commons/common_widgets/cargo_bar_chart.dart';
 import 'package:cargocontrol/commons/common_imports/common_libs.dart';
+import 'package:cargocontrol/core/enums/account_type.dart';
 import 'package:cargocontrol/core/extensions/color_extension.dart';
 import 'package:cargocontrol/features/admin/dashboard/widgets/ad_dashboard_mini_card.dart';
 import 'package:cargocontrol/features/auth/controllers/auth_notifier_controller.dart';
@@ -48,15 +49,10 @@ class AdDashboardScreen extends ConsumerWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 15),
-              child: Consumer(
-                builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                  final userModel = ref.read(authNotifierCtr).userModel;
-                  return Text(
-                    userModel!.accountType.type,
-                    style: getBoldStyle(
-                        color: context.textColor, fontSize: MyFonts.size36),
-                  );
-                },
+              child: Text(
+                AccountTypeEnum.administrador.type,
+                style: getBoldStyle(
+                    color: context.textColor, fontSize: MyFonts.size36),
               ),
             ),
             DashBoardTopWidget(),

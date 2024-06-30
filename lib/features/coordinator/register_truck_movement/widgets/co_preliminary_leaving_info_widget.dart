@@ -9,7 +9,9 @@ class CoPreliminarLeavingInfoWidget extends StatelessWidget {
   final String plateNumber;
   final String chofereName;
   final String truckWeight;
-  const CoPreliminarLeavingInfoWidget({Key? key, required this.guideNumber, required this.plateNumber, required this.chofereName, required this.truckWeight}) : super(key: key);
+  final String productName;
+  final bool isSingleProduct;
+  const CoPreliminarLeavingInfoWidget({Key? key, required this.guideNumber, required this.plateNumber, required this.chofereName, required this.truckWeight, required this.productName, required this.isSingleProduct}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,9 @@ class CoPreliminarLeavingInfoWidget extends StatelessWidget {
             title: "Peso tara",
             subText: truckWeight
         ),
+        if(isSingleProduct)
+        CustomTile(
+            title: "Producto", subText: productName),
 
       ],
     );

@@ -36,11 +36,11 @@ class IndustriesForAllData extends StatelessWidget {
             ),
             CustomTile(
               title: 'Comienzo de guia',
-              subText: model.initialGuide.toString(),
+              subText: model.initialGuide.toStringAsFixed(0),
             ),
             CustomTile(
               title: 'Final de guia',
-              subText: model.lastGuide.toString(),
+              subText: model.lastGuide.toStringAsFixed(0),
             ),
             ListView.builder(
               physics: NeverScrollableScrollPhysics(),

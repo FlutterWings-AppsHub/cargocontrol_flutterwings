@@ -7,6 +7,7 @@ import 'package:cargocontrol/models/vessel_models/vessel_cargo_model.dart';
 import 'package:cargocontrol/models/vessel_models/vessel_model.dart';
 import 'package:cargocontrol/models/vessel_models/vessel_model.dart';
 import 'package:cargocontrol/models/viajes_models/viajes_model.dart';
+import 'package:cargocontrol/utils/thems/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -133,7 +134,7 @@ class TruckRegistrationNotiController extends ChangeNotifier {
     result.fold((l) {
       debugPrintStack(stackTrace: l.stackTrace);
       debugPrint(l.message);
-      showSnackBar(context: context, content: l.message);
+      showSnackBar(context: context, content: l.message,backColor: MyColors.red);
       setLoading(false);
     }, (r) {
       setMatchedViajes(r);

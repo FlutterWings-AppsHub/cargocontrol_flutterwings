@@ -24,7 +24,8 @@ class IndustrySectionWidget extends ConsumerStatefulWidget {
   final Widget loadBWidget;
   final TextEditingController productBIdCtr;
   final TextEditingController productBNameCtr;
-  const IndustrySectionWidget({required this.loadBWidget, required this.productBIdCtr, required this.productBNameCtr, required this.onSecondProductTap, required this.onSecondProductCancel,
+  final bool vesselHasMoreThan1Product;
+  const IndustrySectionWidget({required this.vesselHasMoreThan1Product, required this.loadBWidget, required this.productBIdCtr, required this.productBNameCtr, required this.onSecondProductTap, required this.onSecondProductCancel,
       Key? key,
       required this.index,
       required this.industryIdCtr,
@@ -114,6 +115,7 @@ class _IndustrySectionWidgetState extends ConsumerState<IndustrySectionWidget> {
           height: 16.h,
         ),
         widget.loadWidget,
+        if(widget.vesselHasMoreThan1Product)...[
         Text('La Industria tiene más de un producto?',style: getRegularStyle(color: context.textColor,fontSize: MyFonts.size14),),
         SizedBox(height: 10.h,),
         Row(
@@ -149,6 +151,7 @@ class _IndustrySectionWidgetState extends ConsumerState<IndustrySectionWidget> {
 
           ],
         ),
+        ],
         SizedBox(height: 15.h,),
         if(isSecondProduct)...[
           CustomDropDown(

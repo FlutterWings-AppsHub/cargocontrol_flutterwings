@@ -16,6 +16,8 @@ import '../../../../commons/common_widgets/text_detector_view.dart';
 import '../../../../commons/common_imports/common_libs.dart';
 import '../../../../commons/common_widgets/common_header.dart';
 import '../../../../commons/common_widgets/custom_appbar.dart';
+import '../../../../utils/constants/error_messages.dart';
+import '../../../../utils/thems/my_colors.dart';
 import '../controllers/in_truck_registration_noti_controller.dart';
 
 class InRegisterTruckArrivalScreen extends StatefulWidget {
@@ -125,23 +127,33 @@ class _InRegisterTruckArrivalScreenState extends State<InRegisterTruckArrivalScr
                     buttonWidth: double.infinity,
                     buttonText:  'CONTINUAR',
                     onPressed: ()async{
-                      await industryNotiCtr.getCurrentIndustry(
-                        realIndustryId: ref.read(authNotifierCtr).userModel?.industryId?? '',
-                          vesselId: industryNotiCtr.vesselModel!.vesselId,
-                          ref: ref,
-                        context: context
-                      );
-                      if(ref.read(inTruckRegistrationNotiControllerProvider).currentIndustryModel!= null){
-                        await industryNotiCtr.
-                        getMatchedViajesLinkedWithIndustry(
-                            plateNumber: keyPadTextFieldController.text,
-                            viajesStatusEnum: ViajesStatusEnum.portLeft,
-                            pageName: AppRoutes.inTruckArrivalInfoScreen,
-                            context: context,
+                      if(keyPadTextFieldController.text.isNotEmpty){
+                        if(keyPadTextFieldController.text.length!=6){
+                          showSnackBar(context: context, content: Messages.enterPlateNumberLengthError,backColor: MyColors.red);
+                          return;
+                        }
+                        await industryNotiCtr.getCurrentIndustry(
+                            realIndustryId: ref.read(authNotifierCtr).userModel?.industryId?? '',
+                            vesselId: industryNotiCtr.vesselModel!.vesselId,
                             ref: ref,
-                            industryId: ref.read(inTruckRegistrationNotiControllerProvider).currentIndustryModel?.industryId ?? ''
+                            context: context
                         );
+                        if(ref.read(inTruckRegistrationNotiControllerProvider).currentIndustryModel!= null){
+                          await industryNotiCtr.
+                          getMatchedViajesLinkedWithIndustry(
+                              plateNumber: keyPadTextFieldController.text,
+                              viajesStatusEnum: ViajesStatusEnum.portLeft,
+                              pageName: AppRoutes.inTruckArrivalInfoScreen,
+                              context: context,
+                              ref: ref,
+                              industryId: ref.read(inTruckRegistrationNotiControllerProvider).currentIndustryModel?.industryId ?? ''
+                          );
+                        }
+
+                      }else{
+                        showSnackBar(context: context, content: Messages.enterPlateNumberError,backColor: MyColors.red);
                       }
+
                     },
                   );
                 },
