@@ -111,7 +111,8 @@ class _AdChoferesListState extends ConsumerState<AdChoferesList> {
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
                             ChoferesModel model = choferesNotiCtr.choferesModels[index];
-                            return (userModel?.accountType==AccountTypeEnum.administrador)?Dismissible(
+                            return (userModel?.accountType==AccountTypeEnum.administrador)?
+                            Dismissible(
                               key: UniqueKey(),
                               direction: DismissDirection.endToStart,
                               confirmDismiss: (direction)async {

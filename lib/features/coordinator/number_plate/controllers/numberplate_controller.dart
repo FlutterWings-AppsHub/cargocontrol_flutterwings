@@ -122,7 +122,7 @@ class NumberPlateController extends StateNotifier<bool> {
     return success;
   }
 
-  Future<void> deleteChofere({
+  Future<void> deleteNumberPlate({
     required String numberPlateId,
     required WidgetRef ref,
     required BuildContext context,
