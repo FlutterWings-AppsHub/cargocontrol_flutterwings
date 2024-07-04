@@ -118,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         if(kIsWeb)
                         Text(
-                          'Versión: 0.0.1',
+                          'Versión: 1.0.0',
                           style: getBoldStyle(color: context.mainColor, fontSize: MyFonts.size12),
                         ),
                       ]),

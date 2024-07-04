@@ -1,4 +1,5 @@
 import 'package:cargocontrol/commons/common_imports/common_libs.dart';
+import 'package:cargocontrol/features/admin/dashboard/controllers/delete_account_option_controller.dart';
 import 'package:cargocontrol/routes/route_manager.dart';
 import 'package:cargocontrol/features/dashboard/components/dashboard_modal_button.dart';
 import 'package:cargocontrol/utils/constants/error_messages.dart';
@@ -12,6 +13,7 @@ import '../../../auth/controllers/auth_notifier_controller.dart';
 import '../../create_industry/controllers/ad_industry_noti_controller.dart';
 import '../../create_vessel/controllers/ad_vessel_controller.dart';
 import '../../create_vessel/controllers/ad_vessel_noti_controller.dart';
+import 'confirm_delete_account_dialog.dart';
 
 class AdFloadtingActionSheet extends ConsumerWidget {
   const AdFloadtingActionSheet({
@@ -113,6 +115,60 @@ class AdFloadtingActionSheet extends ConsumerWidget {
               Navigator.pushNamed(context, AppRoutes.adminRegisterUserScreen);
             },
           ),
+          if(userModel?.accountType==AccountTypeEnum.viewer)
+            Consumer(
+              builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                return ref.watch(fetchDeleteOptionProvider).
+                when(
+                    data: (deleteAccountModel){
+                      if(deleteAccountModel.showDeleteOption){
+                        return DashboardModalButton(
+                          isDelete: true,
+                          title1: 'Eliminar',
+                          title2: 'Cuenta',
+                          subtitle: 'Eliminar permanentemente tu cuenta de usuario',
+                          onTap: ()async {
+                            showGeneralDialog(
+                              barrierLabel: 'Label',
+                              barrierDismissible: true,
+                              barrierColor: Colors.black.withOpacity(0.6),
+                              transitionDuration: const Duration(milliseconds: 700),
+                              context: context,
+                              pageBuilder: (context, anim1, anim2) {
+                                return Consumer(
+                                  builder: (context, ref, child) {
+                                    return const Align(
+                                        alignment: Alignment.center,
+                                        child: ConfirmDeleteAccountDialog());
+                                  },
+                                );
+                              },
+                              transitionBuilder: (context, anim1, anim2, child) {
+                                return SlideTransition(
+                                  position: Tween(
+                                      begin: const Offset(1, 0),
+                                      end: const Offset(0, 0))
+                                      .animate(anim1),
+                                  child: child,
+                                );
+                              },
+                            );
+
+                          },
+                        );
+                      }
+                      return SizedBox();
+
+                    },
+                    error: (error, st){
+                       return SizedBox();
+                    },
+                    loading: (){
+                      return SizedBox();
+                    }
+                );
+              },
+            ),
           DashboardModalButton(
             title1: 'Administrar',
             title2: 'buques',

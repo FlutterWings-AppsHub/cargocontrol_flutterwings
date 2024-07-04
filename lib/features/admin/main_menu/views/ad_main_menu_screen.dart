@@ -1,6 +1,8 @@
 import 'package:cargocontrol/authentication/controller/authentication_controller.dart';
 import 'package:cargocontrol/features/admin/create_industry/controllers/ad_industry_controller.dart';
 import 'package:cargocontrol/features/admin/create_vessel/controllers/ad_vessel_controller.dart';
+import 'package:cargocontrol/features/admin/dashboard/controllers/delete_account_option_controller.dart';
+import 'package:cargocontrol/features/admin/dashboard/data/apis/delete_account_option_api.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -54,6 +56,9 @@ class _AdMainMenuScreenState extends ConsumerState<AdMainMenuScreen> {
                       ref
                           .read(authControllerProvider.notifier)
                           .logout(context: context, ref: ref);
+
+                      // ref
+                      //     .read(deleteAccountOptionProvider.notifier).createDeleteOption(ref: ref, context: context);
 
                     },
                     child: const Text(
