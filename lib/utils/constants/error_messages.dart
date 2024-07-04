@@ -51,7 +51,7 @@ class Messages {
   static const String pesoBrutoLessThanPesoTaraError = "El peso bruto no puede ser menor que el peso de la tara!";
   static const String pesoBrutoLessThanPesoUnloadingError = "El peso bruto no puede ser menor que el peso de descarga!";
   static const String cargoExceedsIndustryLimitError = "La carga excede el límite asignado de la industria";
-
+  static const String accountDeleteSuccess = 'Compte supprimé avec succès!';
   static String maxIndustriesError(int industryCount) {
     return '¡Puede registrar un máximo de $industryCount industrias!';
   }

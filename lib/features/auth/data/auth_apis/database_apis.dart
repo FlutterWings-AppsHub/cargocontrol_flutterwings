@@ -79,4 +79,32 @@ class DatabaseApis extends IDatabaseApis {
       ),
     );
   }
+
+  Future<Either<Failure, void>> deleteAccount(
+      {required String password, required String uid}) async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        AuthCredential credential = EmailAuthProvider.credential(
+          email: user.email!,
+          password: password,
+        );
+        await user.reauthenticateWithCredential(credential);
+        await _firestore
+            .collection(FirebaseConstants.userCollection)
+            .doc(uid)
+            .delete();
+        await user.delete();
+        return const Right(null);
+      } else {
+        return Left(Failure('No user signed in.', StackTrace.current));
+      }
+    } on FirebaseAuthException catch (e, stackTrace) {
+      return Left(Failure(e.message ?? 'Firebase Error Occurred', stackTrace));
+    } catch (e, stackTrace) {
+      return Left(Failure(e.toString(), stackTrace));
+    }
+  }
+
+
 }

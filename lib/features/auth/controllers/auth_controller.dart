@@ -253,6 +253,30 @@ class AuthController extends StateNotifier<bool> {
     return _authApis.getSigninStatusOfUser();
   }
 
+  Future<void> deleteAccount({
+    required BuildContext context,
+    required String password,
+  }) async {
+    state = true;
+    final user = _authApis.getCurrentUser();
+    if (user == null) {
+      state = false;
+      return;
+    }
+    final uid = user.uid;
+    final result2 =
+    await _databaseApis.deleteAccount(uid: uid, password: password);
+    result2.fold((l) {
+      state = false;
+      showSnackBar(context: context, content: l.message);
+      return;
+    }, (r) {
+      state = false;
+      showSnackBar(context: context,content:  Messages.accountDeleteSuccess);
+      Navigator.pushNamedAndRemoveUntil(
+          context, AppRoutes.loginScreen, (route) => false);
+    });
+  }
 
 
   Future<void> updateSearchTags() async {

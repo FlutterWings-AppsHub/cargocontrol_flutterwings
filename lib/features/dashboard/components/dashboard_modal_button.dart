@@ -9,6 +9,7 @@ class DashboardModalButton extends StatelessWidget {
   final String subtitle;
   final bool isDisable;
   final String msgOnTap;
+  final bool isDelete;
   final void Function() onTap;
   const DashboardModalButton(
       {super.key,
@@ -16,7 +17,7 @@ class DashboardModalButton extends StatelessWidget {
       required this.title2,
       required this.subtitle,
       this.isDisable = false,
-      required this.onTap, this.msgOnTap=''});
+      required this.onTap, this.msgOnTap='', this.isDelete=false});
 
   void error(){
     showToast(msg: msgOnTap,backgroundColor: Colors.red,textColor: Colors.white);
@@ -28,13 +29,13 @@ class DashboardModalButton extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
       child: OutlinedButton(
         onPressed: isDisable ?error: onTap,
-        style: constants.ButtonStyles.buttonStyle3,
+        style: isDelete? constants.ButtonStyles.deleteButtonStyle: constants.ButtonStyles.buttonStyle3,
 
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           RichText(
             text: TextSpan(
               text: '$title1 ',
-              style:
+              style:isDelete? const constants.TextStyles().buttonText2:
                   const constants.TextStyles(color: Colors.black).buttonText2,
               children: [
                 TextSpan(
@@ -49,7 +50,7 @@ class DashboardModalButton extends StatelessWidget {
           ),
           Text(
             subtitle,
-            style: const constants.TextStyles().bodyText1,
+            style: isDelete? const constants.TextStyles(color: Colors.white).bodyText1 :const constants.TextStyles().bodyText1,
           ),
         ]),
       ),

@@ -1,4 +1,5 @@
 import 'package:cargocontrol/commons/common_imports/common_libs.dart';
+import 'package:cargocontrol/utils/thems/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -187,6 +188,20 @@ class ButtonStyles {
         const EdgeInsets.only(left: 30)),
     minimumSize: MaterialStateProperty.all<Size>(const Size.fromHeight(83)),
     backgroundColor: MaterialStateProperty.all<Color>(kMainBackroundColor),
+  );
+
+  static ButtonStyle deleteButtonStyle = ButtonStyle(
+    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+      RoundedRectangleBorder(
+        side: const BorderSide(),
+        borderRadius: BorderRadius.circular(25.0),
+      ),
+    ),
+    alignment: Alignment.centerLeft,
+    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+        const EdgeInsets.only(left: 30)),
+    minimumSize: MaterialStateProperty.all<Size>(const Size.fromHeight(83)),
+    backgroundColor: MaterialStateProperty.all<Color>(MyColors.red),
   );
 
   static ButtonStyle buttonStyle4 = ButtonStyle(
